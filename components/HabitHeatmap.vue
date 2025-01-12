@@ -24,9 +24,9 @@ defineProps<{ habit: Habit }>();
 const tooltip = ref<HTMLDivElement | null>(null);
 
 const generateWeeks = (habit: Habit): Week[] => {
-  const days: Day[] = Array.from({ length: 365 }, (_, i) => {
+  const days: Day[] = Array.from({ length: habit.targetDays }, (_, i) => {
     const date = new Date();
-    date.setDate(date.getDate() - (364 - i));
+    date.setDate(date.getDate() - (habit.targetDays - 1 - i));
     return { date: date.toISOString().split('T')[0] };
   });
 

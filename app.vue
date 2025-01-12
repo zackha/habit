@@ -9,7 +9,10 @@
       <div v-for="habit in habits" :key="habit.id" class="habit">
         <div class="habit-header">
           <h2>{{ habit.name }}</h2>
-          <span class="streak">{{ habit.streak }} DAY STREAK</span>
+          <div class="actions">
+            <span class="streak">{{ habit.streak }} DAY STREAK</span>
+            <button class="delete-button" @click="deleteHabit(habit.id)">Delete</button>
+          </div>
         </div>
         <div class="calendar">
           <div v-for="day in daysOfYear" :key="day" :class="{ active: habit.days[day] }" @click="toggleDay(habit.id, day)"></div>
@@ -24,7 +27,7 @@
 <script setup lang="ts">
 import { format, startOfYear, addDays } from 'date-fns';
 
-const { habits, fetchHabits, createHabit, toggleHabitDay } = useHabitStore();
+const { habits, fetchHabits, createHabit, toggleHabitDay, deleteHabit } = useHabitStore();
 
 onMounted(() => {
   fetchHabits();
@@ -75,11 +78,30 @@ header {
   margin-bottom: 10px;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .streak {
   background-color: #4caf50;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.9rem;
+}
+
+.delete-button {
+  background-color: #e53935;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
 }
 
 .calendar {

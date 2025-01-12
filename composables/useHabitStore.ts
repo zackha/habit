@@ -42,5 +42,15 @@ export const useHabitStore = () => {
     }
   };
 
-  return { habits, fetchHabits, createHabit, toggleHabitDay };
+  const deleteHabit = async (id: string) => {
+    const { error } = await supabase.from('habits').delete().eq('id', id);
+
+    if (error) {
+      console.error(error.message);
+    } else {
+      habits.value = habits.value.filter(habit => habit.id !== id);
+    }
+  };
+
+  return { habits, fetchHabits, createHabit, toggleHabitDay, deleteHabit };
 };

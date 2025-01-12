@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import HabitCard from './components/HabitCard.vue';
+const supabase = useSupabaseClient();
 
 interface Day {
   date: string;
@@ -31,6 +30,33 @@ interface Habit {
 const habits = ref<Habit[]>([]);
 const tooltip = ref<HTMLDivElement | null>(null);
 
+const fetchHabits = async (): Promise<void> => {
+  const { data, error } = await supabase.from('habits').select('*');
+  if (error) {
+    console.error('Error fetching habits:', error);
+  } else if (data) {
+    habits.value = data.map((habit: any) => ({
+      id: habit.id,
+      name: habit.name,
+      weeks: habit.weeks,
+    }));
+  }
+};
+
+const saveHabit = async (habit: Habit): Promise<void> => {
+  const { error } = await supabase.from('habits').insert([{ id: habit.id, name: habit.name, weeks: habit.weeks }]);
+  if (error) {
+    console.error('Error saving habit:', error);
+  }
+};
+
+const deleteHabitFromDb = async (habitId: number): Promise<void> => {
+  const { error } = await supabase.from('habits').delete().eq('id', habitId);
+  if (error) {
+    console.error('Error deleting habit:', error);
+  }
+};
+
 const generateWeeks = (): Week[] => {
   const today = new Date();
   return Array.from({ length: 365 }, (_, i) => {
@@ -44,25 +70,29 @@ const generateWeeks = (): Week[] => {
   }, []);
 };
 
-const addHabit = (): void => {
+const addHabit = async (): Promise<void> => {
   const habitName = prompt('Enter habit name:');
   if (habitName?.trim()) {
-    habits.value.push({
+    const newHabit: Habit = {
       id: Date.now(),
       name: habitName.trim(),
       weeks: generateWeeks(),
-    });
+    };
+    habits.value.push(newHabit);
+    await saveHabit(newHabit);
   }
 };
 
-const deleteHabit = (habitId: number): void => {
+const deleteHabit = async (habitId: number): Promise<void> => {
   habits.value = habits.value.filter(habit => habit.id !== habitId);
+  await deleteHabitFromDb(habitId);
 };
 
-const toggleDay = (habitId: number, weekIndex: number, dayIndex: number): void => {
+const toggleDay = async (habitId: number, weekIndex: number, dayIndex: number): Promise<void> => {
   const habit = habits.value.find(h => h.id === habitId);
   if (habit) {
     habit.weeks[weekIndex][dayIndex].active = !habit.weeks[weekIndex][dayIndex].active;
+    await supabase.from('habits').update({ weeks: habit.weeks }).eq('id', habitId);
   }
 };
 
@@ -74,6 +104,10 @@ const updateTooltip = (date: string, event: MouseEvent, visible: boolean): void 
     tooltip.value.style.visibility = visible ? 'visible' : 'hidden';
   }
 };
+
+onMounted(() => {
+  fetchHabits();
+});
 </script>
 
 <style scoped>

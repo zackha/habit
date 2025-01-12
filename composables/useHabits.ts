@@ -71,11 +71,10 @@ const resetIfStreakBroken = (habit: Habit): void => {
   if (habit.complete_days.length === 0) return;
 
   const sortedDays = [...habit.complete_days].sort((a, b) => compareAsc(parseISO(a), parseISO(b)));
+
   const hasGap = sortedDays.some((day, index) => {
     if (index === 0) return false;
-    const prevDate = parseISO(sortedDays[index - 1]);
-    const currentDate = parseISO(day);
-    return differenceInDays(currentDate, prevDate) > 1;
+    return differenceInDays(parseISO(day), parseISO(sortedDays[index - 1])) > 1;
   });
 
   const lastCompletedDate = parseISO(sortedDays[sortedDays.length - 1]);
@@ -91,15 +90,15 @@ const checkAllHabitsForStreak = (): void => {
 };
 
 const addHabit = (title: string, description: string): void => {
-  if (title && description) {
-    habits.value.push({
-      id: Date.now(),
-      title,
-      description,
-      complete_days: [],
-      target_days: 40,
-    });
-  }
+  if (!title || !description) return;
+
+  habits.value.push({
+    id: Date.now(),
+    title,
+    description,
+    complete_days: [],
+    target_days: 40,
+  });
 };
 
 const deleteHabit = (id: number): void => {

@@ -2,20 +2,33 @@
   <div class="calendar">
     <div class="habits">
       <div v-for="habit in habits" :key="habit.id" class="habit">
-        <h3>{{ habit.title }}</h3>
-        <p>{{ habit.description }}</p>
-        <div class="heatmap">
-          <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
-            <div
-              v-for="(day, dayIndex) in week"
-              :key="dayIndex"
-              :class="['day', { active: isDayCompleted(habit, day.date) }]"
-              @click="toggleDay(habit, day.date)"
-              @mouseenter="showTooltip(habit.title, day.date, $event)"
-              @mouseleave="hideTooltip"></div>
+        <div>
+          <div v-if="editingHabit === habit.id">
+            <input v-model="editBuffer.title" placeholder="Title" />
+            <textarea v-model="editBuffer.description" placeholder="Description"></textarea>
           </div>
+          <div v-else>
+            <h3>{{ habit.title }}</h3>
+            <p>{{ habit.description }}</p>
+          </div>
+          <div class="heatmap">
+            <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
+              <div
+                v-for="(day, dayIndex) in week"
+                :key="dayIndex"
+                :class="['day', { active: isDayCompleted(habit, day.date) }]"
+                @click="toggleDay(habit, day.date)"
+                @mouseenter="showTooltip(habit.title, day.date, $event)"
+                @mouseleave="hideTooltip"></div>
+            </div>
+          </div>
+          <div>
+            <button v-if="editingHabit === habit.id" @click="saveEdit(habit.id)">Save</button>
+            <button v-if="editingHabit === habit.id" @click="cancelEdit">Cancel</button>
+            <button v-else @click="editHabit(habit.id, habit)" class="edit-button">Edit</button>
+          </div>
+          <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
         </div>
-        <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
       </div>
     </div>
     <div ref="tooltip" class="tooltip"></div>
@@ -62,6 +75,12 @@ const newHabit = ref<Habit>({
   title: '',
   description: '',
   completeDays: [],
+});
+
+const editingHabit = ref<number | null>(null);
+const editBuffer = ref<{ title: string; description: string }>({
+  title: '',
+  description: '',
 });
 
 const generateWeeks = (habit: Habit): Week[] => {
@@ -119,6 +138,24 @@ const addHabit = (): void => {
 
 const deleteHabit = (id: number): void => {
   habits.value = habits.value.filter(habit => habit.id !== id);
+};
+
+const editHabit = (id: number, habit: Habit): void => {
+  editingHabit.value = id;
+  editBuffer.value = { title: habit.title, description: habit.description };
+};
+
+const saveEdit = (id: number): void => {
+  const habit = habits.value.find(h => h.id === id);
+  if (habit) {
+    habit.title = editBuffer.value.title;
+    habit.description = editBuffer.value.description;
+  }
+  editingHabit.value = null;
+};
+
+const cancelEdit = (): void => {
+  editingHabit.value = null;
 };
 </script>
 <style scoped>
@@ -213,11 +250,25 @@ const deleteHabit = (id: number): void => {
   background-color: #45a049;
 }
 
-.delete-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.edit-button {
   padding: 4px 8px;
+  margin-top: 8px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #1976d2;
+}
+
+.delete-button {
+  padding: 4px 8px;
+  margin-top: 8px;
   background-color: #f44336;
   color: white;
   border: none;

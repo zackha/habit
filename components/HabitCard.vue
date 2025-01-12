@@ -1,31 +1,23 @@
 <template>
   <div class="habit">
     <div>
-      <!-- Düzenleme Alanı -->
       <div v-if="editingHabit === habit.id">
         <input v-model="editBuffer.title" placeholder="Title" />
         <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
         <button @click="saveEdit(habit.id)">Save</button>
         <button @click="cancelEdit">Cancel</button>
       </div>
-      <!-- Görüntüleme Alanı -->
       <div v-else>
         <h3>{{ habit.title }}</h3>
         <div v-html="renderMarkdown(habit.description)"></div>
       </div>
-
-      <!-- Bugünün Durumu -->
       <div class="habit-status">
         Today:
         <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
           {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
         </strong>
       </div>
-
-      <!-- Isı Haritası -->
       <HabitHeatmap :habit="habit" />
-
-      <!-- İşlev Butonları -->
       <div>
         <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
         <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
@@ -33,8 +25,6 @@
         </button>
         <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
       </div>
-
-      <!-- Tamamlanma Oranı -->
       <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
     </div>
   </div>

@@ -13,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+import { format, subDays } from 'date-fns';
+
 interface Day {
   date: string;
 }
@@ -25,9 +27,8 @@ const tooltip = ref<HTMLDivElement | null>(null);
 
 const generateWeeks = (habit: Habit): Week[] => {
   const days: Day[] = Array.from({ length: habit.target_days }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - (habit.target_days - 1 - i));
-    return { date: date.toISOString().split('T')[0] };
+    const date = subDays(new Date(), habit.target_days - 1 - i);
+    return { date: format(date, 'yyyy-MM-dd') };
   });
 
   return days.reduce<Week[]>((weeks, day, index) => {

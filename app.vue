@@ -1,8 +1,6 @@
 <template>
   <div class="calendar">
-    <!-- Yeni alışkanlık ekleme formu -->
     <HabitForm />
-    <!-- Alışkanlık kartları -->
     <div class="habits">
       <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </div>

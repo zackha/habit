@@ -1,3 +1,5 @@
+import { isSameDay, parseISO, differenceInDays, format, compareAsc } from 'date-fns';
+
 export interface Habit {
   id: number;
   title: string;
@@ -6,14 +8,14 @@ export interface Habit {
   target_days: number;
 }
 
-const today = new Date().toISOString().split('T')[0];
+const today = format(new Date(), 'yyyy-MM-dd');
 
 const habits = ref<Habit[]>([
   {
     id: 1,
     title: 'Morning Exercise',
     description: '**Daily** 30 minutes of exercise to stay fit.',
-    complete_days: ['2025-01-11', '2025-01-10'],
+    complete_days: ['2025-01-12'],
     target_days: 40,
   },
   {
@@ -21,6 +23,7 @@ const habits = ref<Habit[]>([
     title: 'Reading',
     description: 'Read *at least* 20 pages every day.',
     complete_days: [
+      '2025-01-12',
       '2025-01-11',
       '2025-01-10',
       '2025-01-09',
@@ -59,7 +62,6 @@ const habits = ref<Habit[]>([
       '2024-12-07',
       '2024-12-06',
       '2024-12-05',
-      '2024-12-04',
     ],
     target_days: 40,
   },
@@ -68,18 +70,16 @@ const habits = ref<Habit[]>([
 const resetIfStreakBroken = (habit: Habit): void => {
   if (habit.complete_days.length === 0) return;
 
-  const sortedDays = [...habit.complete_days].sort();
-  const todayDate = new Date(today);
-
+  const sortedDays = [...habit.complete_days].sort((a, b) => compareAsc(parseISO(a), parseISO(b)));
   const hasGap = sortedDays.some((day, index) => {
     if (index === 0) return false;
-    const prevDate = new Date(sortedDays[index - 1]);
-    const currentDate = new Date(day);
-    return currentDate.getTime() - prevDate.getTime() > 24 * 60 * 60 * 1000;
+    const prevDate = parseISO(sortedDays[index - 1]);
+    const currentDate = parseISO(day);
+    return differenceInDays(currentDate, prevDate) > 1;
   });
 
-  const lastCompletedDate = new Date(sortedDays[sortedDays.length - 1]);
-  const diffToToday = Math.ceil((todayDate.getTime() - lastCompletedDate.getTime()) / (1000 * 60 * 60 * 24));
+  const lastCompletedDate = parseISO(sortedDays[sortedDays.length - 1]);
+  const diffToToday = differenceInDays(parseISO(today), lastCompletedDate);
 
   if (hasGap || diffToToday > 1) {
     habit.complete_days = [];
@@ -107,7 +107,7 @@ const deleteHabit = (id: number): void => {
 };
 
 const toggleTodayCompletion = (habit: Habit): void => {
-  const todayIndex = habit.complete_days.indexOf(today);
+  const todayIndex = habit.complete_days.findIndex(day => isSameDay(parseISO(day), parseISO(today)));
 
   if (todayIndex === -1) {
     habit.complete_days.push(today);
@@ -125,7 +125,7 @@ const toggleTodayCompletion = (habit: Habit): void => {
 };
 
 const isTodayCompleted = (habit: Habit): boolean => {
-  return habit.complete_days.includes(today);
+  return habit.complete_days.some(day => isSameDay(parseISO(day), parseISO(today)));
 };
 
 const getCompletionRate = (habit: Habit): number => {

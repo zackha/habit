@@ -2,8 +2,8 @@ export interface Habit {
   id: number;
   title: string;
   description: string;
-  completeDays: string[];
-  targetDays: number;
+  complete_days: string[];
+  target_days: number;
 }
 
 const today = new Date().toISOString().split('T')[0];
@@ -13,14 +13,14 @@ const habits = ref<Habit[]>([
     id: 1,
     title: 'Morning Exercise',
     description: '**Daily** 30 minutes of exercise to stay fit.',
-    completeDays: ['2025-01-11', '2025-01-10'],
-    targetDays: 40,
+    complete_days: ['2025-01-11', '2025-01-10'],
+    target_days: 40,
   },
   {
     id: 2,
     title: 'Reading',
     description: 'Read *at least* 20 pages every day.',
-    completeDays: [
+    complete_days: [
       '2025-01-11',
       '2025-01-10',
       '2025-01-09',
@@ -61,14 +61,14 @@ const habits = ref<Habit[]>([
       '2024-12-05',
       '2024-12-04',
     ],
-    targetDays: 40,
+    target_days: 40,
   },
 ]);
 
 const resetIfStreakBroken = (habit: Habit): void => {
-  if (habit.completeDays.length === 0) return;
+  if (habit.complete_days.length === 0) return;
 
-  const sortedDays = [...habit.completeDays].sort();
+  const sortedDays = [...habit.complete_days].sort();
   const todayDate = new Date(today);
 
   const hasGap = sortedDays.some((day, index) => {
@@ -82,7 +82,7 @@ const resetIfStreakBroken = (habit: Habit): void => {
   const diffToToday = Math.ceil((todayDate.getTime() - lastCompletedDate.getTime()) / (1000 * 60 * 60 * 24));
 
   if (hasGap || diffToToday > 1) {
-    habit.completeDays = [];
+    habit.complete_days = [];
   }
 };
 
@@ -96,8 +96,8 @@ const addHabit = (title: string, description: string): void => {
       id: Date.now(),
       title,
       description,
-      completeDays: [],
-      targetDays: 40,
+      complete_days: [],
+      target_days: 40,
     });
   }
 };
@@ -107,29 +107,29 @@ const deleteHabit = (id: number): void => {
 };
 
 const toggleTodayCompletion = (habit: Habit): void => {
-  const todayIndex = habit.completeDays.indexOf(today);
+  const todayIndex = habit.complete_days.indexOf(today);
 
   if (todayIndex === -1) {
-    habit.completeDays.push(today);
+    habit.complete_days.push(today);
 
-    if (habit.completeDays.length === habit.targetDays && habit.targetDays === 40) {
-      habit.targetDays = 90;
+    if (habit.complete_days.length === habit.target_days && habit.target_days === 40) {
+      habit.target_days = 90;
     }
   } else {
-    habit.completeDays.splice(todayIndex, 1);
+    habit.complete_days.splice(todayIndex, 1);
 
-    if (habit.targetDays === 90 && habit.completeDays.length < 40) {
-      habit.targetDays = 40;
+    if (habit.target_days === 90 && habit.complete_days.length < 40) {
+      habit.target_days = 40;
     }
   }
 };
 
 const isTodayCompleted = (habit: Habit): boolean => {
-  return habit.completeDays.includes(today);
+  return habit.complete_days.includes(today);
 };
 
 const getCompletionRate = (habit: Habit): number => {
-  return Math.round((habit.completeDays.length / habit.targetDays) * 100);
+  return Math.round((habit.complete_days.length / habit.target_days) * 100);
 };
 
 checkAllHabitsForStreak();

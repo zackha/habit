@@ -10,10 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { useHabits } from '@/composables/useHabits';
-import HabitCard from '@/components/HabitCard.vue';
-import HabitForm from '@/components/HabitForm.vue';
-
 const { habits } = useHabits();
 </script>
 

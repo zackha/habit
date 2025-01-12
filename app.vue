@@ -1,23 +1,19 @@
 <template>
-  <div class="calendar">
-    <h1>Activity Heatmap</h1>
-    <div class="heatmap">
-      <div v-for="(week, weekIndex) in weeks" :key="weekIndex" class="week">
-        <div
-          v-for="(day, dayIndex) in week"
-          :key="dayIndex"
-          :class="['day', { active: day.active }]"
-          @click="toggleDay(weekIndex, dayIndex)"
-          @mouseenter="showTooltip(day.date, $event)"
-          @mouseleave="hideTooltip"></div>
-      </div>
+  <div class="habit-tracker">
+    <h1>Habit Tracker</h1>
+
+    <div class="habits">
+      <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" @delete="deleteHabit" @toggle-day="toggleDay" @update-tooltip="updateTooltip" />
     </div>
+
+    <button @click="addHabit" class="create-button">Create Habit</button>
     <div ref="tooltip" class="tooltip"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import HabitCard from './components/HabitCard.vue';
 
 interface Day {
   date: string;
@@ -26,78 +22,89 @@ interface Day {
 
 type Week = Day[];
 
-// Son 365 günü haftalara bölerek oluştur
-const generateWeeks = (): Week[] => {
-  const days: Day[] = Array.from({ length: 365 }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - (364 - i));
-    return { date: date.toISOString().split('T')[0], active: false };
-  });
+interface Habit {
+  id: number;
+  name: string;
+  weeks: Week[];
+}
 
-  return days.reduce<Week[]>((weeks, day, index) => {
+const habits = ref<Habit[]>([]);
+const tooltip = ref<HTMLDivElement | null>(null);
+
+const generateWeeks = (): Week[] => {
+  const today = new Date();
+  return Array.from({ length: 365 }, (_, i) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - (364 - i));
+    return { date: date.toISOString().split('T')[0], active: false };
+  }).reduce<Week[]>((weeks, day, index) => {
     if (index % 7 === 0) weeks.push([]);
     weeks[weeks.length - 1].push(day);
     return weeks;
   }, []);
 };
 
-const weeks = ref<Week[]>(generateWeeks());
-const tooltip = ref<HTMLDivElement | null>(null);
-
-const toggleDay = (weekIndex: number, dayIndex: number): void => {
-  weeks.value[weekIndex][dayIndex].active = !weeks.value[weekIndex][dayIndex].active;
-};
-
-const showTooltip = (date: string, event: MouseEvent): void => {
-  if (tooltip.value) {
-    tooltip.value.textContent = `Date: ${date}`;
-    tooltip.value.style.top = `${event.clientY + 10}px`;
-    tooltip.value.style.left = `${event.clientX + 10}px`;
-    tooltip.value.style.visibility = 'visible';
+const addHabit = (): void => {
+  const habitName = prompt('Enter habit name:');
+  if (habitName?.trim()) {
+    habits.value.push({
+      id: Date.now(),
+      name: habitName.trim(),
+      weeks: generateWeeks(),
+    });
   }
 };
 
-const hideTooltip = (): void => {
-  if (tooltip.value) tooltip.value.style.visibility = 'hidden';
+const deleteHabit = (habitId: number): void => {
+  habits.value = habits.value.filter(habit => habit.id !== habitId);
+};
+
+const toggleDay = (habitId: number, weekIndex: number, dayIndex: number): void => {
+  const habit = habits.value.find(h => h.id === habitId);
+  if (habit) {
+    habit.weeks[weekIndex][dayIndex].active = !habit.weeks[weekIndex][dayIndex].active;
+  }
+};
+
+const updateTooltip = (date: string, event: MouseEvent, visible: boolean): void => {
+  if (tooltip.value) {
+    tooltip.value.textContent = visible ? `Date: ${date}` : '';
+    tooltip.value.style.top = `${event.clientY + 10}px`;
+    tooltip.value.style.left = `${event.clientX + 10}px`;
+    tooltip.value.style.visibility = visible ? 'visible' : 'hidden';
+  }
 };
 </script>
 
 <style scoped>
-.calendar {
+.habit-tracker {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
   font-family: Arial, sans-serif;
+  margin-top: 20px;
 }
 
-.heatmap {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-}
-
-.week {
+.habits {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 20px;
+  width: 100%;
 }
 
-.day {
-  width: 12px;
-  height: 12px;
-  background-color: #e0e0e0;
-  border-radius: 2px;
-  transition: background-color 0.3s ease-in-out;
+.create-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.day.active {
-  background-color: #4caf50;
-}
-
-.day:hover {
-  opacity: 0.8;
+.create-button:hover {
+  background-color: #45a049;
 }
 
 .tooltip {

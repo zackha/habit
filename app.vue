@@ -17,7 +17,6 @@
                 v-for="(day, dayIndex) in week"
                 :key="dayIndex"
                 :class="['day', { active: isDayCompleted(habit, day.date) }]"
-                @click="toggleDay(habit, day.date)"
                 @mouseenter="showTooltip(habit.title, day.date, $event)"
                 @mouseleave="hideTooltip"></div>
             </div>
@@ -28,6 +27,9 @@
             <button v-else @click="editHabit(habit.id, habit)" class="edit-button">Edit</button>
           </div>
           <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
+          <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+            {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
+          </button>
         </div>
       </div>
     </div>
@@ -40,7 +42,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { marked } from 'marked';
 
@@ -72,6 +73,8 @@ const habits = ref<Habit[]>([
   },
 ]);
 
+const today = new Date().toISOString().split('T')[0]; // Bugünün tarihi
+
 const newHabit = ref<Habit>({
   id: Date.now(),
   title: '',
@@ -97,15 +100,6 @@ const generateWeeks = (habit: Habit): Week[] => {
     weeks[weeks.length - 1].push(day);
     return weeks;
   }, []);
-};
-
-const toggleDay = (habit: Habit, date: string): void => {
-  const index = habit.completeDays.indexOf(date);
-  if (index === -1) {
-    habit.completeDays.push(date);
-  } else {
-    habit.completeDays.splice(index, 1);
-  }
 };
 
 const isDayCompleted = (habit: Habit, date: string): boolean => {
@@ -144,14 +138,14 @@ const deleteHabit = (id: number): void => {
 
 const editHabit = (id: number, habit: Habit): void => {
   editingHabit.value = id;
-  editBuffer.value = { title: habit.title, description: habit.description };
+  habit.value = { title: habit.title, description: habit.description };
 };
 
 const saveEdit = (id: number): void => {
   const habit = habits.value.find(h => h.id === id);
   if (habit) {
-    habit.title = editBuffer.value.title;
-    habit.description = editBuffer.value.description;
+    habit.title = habit.value.title;
+    habit.description = habit.value.description;
   }
   editingHabit.value = null;
 };
@@ -160,8 +154,20 @@ const cancelEdit = (): void => {
   editingHabit.value = null;
 };
 
+const isTodayCompleted = (habit: Habit): boolean => {
+  return isDayCompleted(habit, today);
+};
+
+const toggleTodayCompletion = (habit: Habit): void => {
+  if (isTodayCompleted(habit)) {
+    habit.completeDays = habit.completeDays.filter(day => day !== today);
+  } else {
+    habit.completeDays.push(today);
+  }
+};
+
 const renderMarkdown = (text: string): string => {
-  return marked(text); // Markdown'u HTML'e çevir
+  return marked(text);
 };
 </script>
 <style scoped>
@@ -205,7 +211,7 @@ const renderMarkdown = (text: string): string => {
   height: 12px;
   background-color: #e0e0e0;
   border-radius: 2px;
-  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .day.active {
@@ -285,5 +291,20 @@ const renderMarkdown = (text: string): string => {
 
 .delete-button:hover {
   background-color: #e53935;
+}
+
+.complete-today-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.complete-today-button:hover {
+  background-color: #45a049;
 }
 </style>

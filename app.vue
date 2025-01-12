@@ -4,8 +4,8 @@
       <div v-for="habit in habits" :key="habit.id" class="habit">
         <div>
           <div v-if="editingHabit === habit.id">
-            <input v-model="habit.title" placeholder="Title" />
-            <textarea v-model="habit.description" placeholder="Description (Markdown supported)"></textarea>
+            <input v-model="editBuffer.title" placeholder="Title" />
+            <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
           </div>
           <div v-else>
             <h3>{{ habit.title }}</h3>
@@ -138,14 +138,14 @@ const deleteHabit = (id: number): void => {
 
 const editHabit = (id: number, habit: Habit): void => {
   editingHabit.value = id;
-  habit.value = { title: habit.title, description: habit.description };
+  editBuffer.value = { title: habit.title, description: habit.description };
 };
 
 const saveEdit = (id: number): void => {
   const habit = habits.value.find(h => h.id === id);
   if (habit) {
-    habit.title = habit.value.title;
-    habit.description = habit.value.description;
+    habit.title = editBuffer.value.title;
+    habit.description = editBuffer.value.description;
   }
   editingHabit.value = null;
 };

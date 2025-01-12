@@ -4,12 +4,12 @@
       <div v-for="habit in habits" :key="habit.id" class="habit">
         <div>
           <div v-if="editingHabit === habit.id">
-            <input v-model="editBuffer.title" placeholder="Title" />
-            <textarea v-model="editBuffer.description" placeholder="Description"></textarea>
+            <input v-model="habit.title" placeholder="Title" />
+            <textarea v-model="habit.description" placeholder="Description (Markdown supported)"></textarea>
           </div>
           <div v-else>
             <h3>{{ habit.title }}</h3>
-            <p>{{ habit.description }}</p>
+            <div v-html="renderMarkdown(habit.description)"></div>
           </div>
           <div class="heatmap">
             <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
@@ -35,13 +35,15 @@
     <div class="new-habit-form">
       <h3>Add New Habit</h3>
       <input v-model="newHabit.title" placeholder="Title" />
-      <textarea v-model="newHabit.description" placeholder="Description"></textarea>
+      <textarea v-model="newHabit.description" placeholder="Description (Markdown supported)"></textarea>
       <button @click="addHabit">Add Habit</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { marked } from 'marked';
+
 interface Habit {
   id: number;
   title: string;
@@ -59,13 +61,13 @@ const habits = ref<Habit[]>([
   {
     id: 1,
     title: 'Morning Exercise',
-    description: 'Daily 30 minutes of exercise to stay fit.',
+    description: '**Daily** 30 minutes of exercise to stay fit.',
     completeDays: ['2025-01-01', '2025-01-03', '2025-01-05'],
   },
   {
     id: 2,
     title: 'Reading',
-    description: 'Read at least 20 pages every day.',
+    description: 'Read *at least* 20 pages every day.',
     completeDays: ['2025-01-02', '2025-01-04', '2025-01-06'],
   },
 ]);
@@ -156,6 +158,10 @@ const saveEdit = (id: number): void => {
 
 const cancelEdit = (): void => {
   editingHabit.value = null;
+};
+
+const renderMarkdown = (text: string): string => {
+  return marked(text); // Markdown'u HTML'e çevir
 };
 </script>
 <style scoped>

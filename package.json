@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxtjs/supabase": "1.4.5",
     "date-fns": "^4.1.0",
+    "marked": "^15.0.6",
     "nuxt": "^3.15.1",
     "vue": "latest",
     "vue-router": "latest"

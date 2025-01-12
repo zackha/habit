@@ -1,9 +1,18 @@
 <template>
   <div class="habit">
     <div>
-      <!-- Başlık ve Açıklama -->
-      <h3>{{ habit.title }}</h3>
-      <div v-html="renderMarkdown(habit.description)"></div>
+      <!-- Düzenleme Alanı -->
+      <div v-if="editingHabit === habit.id">
+        <input v-model="editBuffer.title" placeholder="Title" />
+        <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
+        <button @click="saveEdit(habit.id)">Save</button>
+        <button @click="cancelEdit">Cancel</button>
+      </div>
+      <!-- Görüntüleme Alanı -->
+      <div v-else>
+        <h3>{{ habit.title }}</h3>
+        <div v-html="renderMarkdown(habit.description)"></div>
+      </div>
 
       <!-- Bugünün Durumu -->
       <div class="habit-status">
@@ -18,6 +27,7 @@
 
       <!-- İşlev Butonları -->
       <div>
+        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
         <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
           {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
         </button>
@@ -32,12 +42,36 @@
 
 <script setup lang="ts">
 import { marked } from 'marked';
+const { habits, toggleTodayCompletion, isTodayCompleted, getCompletionRate, deleteHabit } = useHabits();
 
-const { toggleTodayCompletion, isTodayCompleted, getCompletionRate, deleteHabit } = useHabits();
 defineProps<{ habit: Habit }>();
 
 const renderMarkdown = (text: string): string => {
   return marked(text);
+};
+
+const editingHabit = ref<number | null>(null);
+const editBuffer = ref<{ title: string; description: string }>({
+  title: '',
+  description: '',
+});
+
+const editHabit = (habit: Habit): void => {
+  editingHabit.value = habit.id;
+  editBuffer.value = { title: habit.title, description: habit.description };
+};
+
+const saveEdit = (id: number): void => {
+  const habit = habits.value.find(h => h.id === id);
+  if (habit) {
+    habit.title = editBuffer.value.title;
+    habit.description = editBuffer.value.description;
+  }
+  editingHabit.value = null;
+};
+
+const cancelEdit = (): void => {
+  editingHabit.value = null;
 };
 </script>
 
@@ -91,6 +125,21 @@ const renderMarkdown = (text: string): string => {
 
 .delete-button:hover {
   background-color: #e53935;
+}
+
+.edit-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #1976d2;
 }
 
 .completion-rate {

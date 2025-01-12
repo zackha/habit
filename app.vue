@@ -1,6 +1,5 @@
 <template>
   <div class="calendar">
-    <h1>Activity Heatmap</h1>
     <div class="heatmap">
       <div v-for="(week, weekIndex) in weeks" :key="weekIndex" class="week">
         <div
@@ -17,8 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 interface Day {
   date: string;
   active: boolean;
@@ -26,7 +23,6 @@ interface Day {
 
 type Week = Day[];
 
-// Son 365 günü haftalara bölerek oluştur
 const generateWeeks = (): Week[] => {
   const days: Day[] = Array.from({ length: 365 }, (_, i) => {
     const date = new Date();

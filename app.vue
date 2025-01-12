@@ -15,6 +15,7 @@
               @mouseleave="hideTooltip"></div>
           </div>
         </div>
+        <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
       </div>
     </div>
     <div ref="tooltip" class="tooltip"></div>
@@ -26,7 +27,8 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+
+<script setup lang="ts">
 interface Habit {
   id: number;
   title: string;
@@ -114,6 +116,10 @@ const addHabit = (): void => {
     newHabit.value = { id: Date.now(), title: '', description: '', completeDays: [] };
   }
 };
+
+const deleteHabit = (id: number): void => {
+  habits.value = habits.value.filter(habit => habit.id !== id);
+};
 </script>
 <style scoped>
 .calendar {
@@ -136,6 +142,7 @@ const addHabit = (): void => {
   padding: 10px;
   border-radius: 8px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
 .heatmap {
@@ -155,7 +162,6 @@ const addHabit = (): void => {
   height: 12px;
   background-color: #e0e0e0;
   border-radius: 2px;
-  transition: background-color 0.3s ease-in-out;
   cursor: pointer;
 }
 
@@ -201,10 +207,26 @@ const addHabit = (): void => {
   color: white;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .new-habit-form button:hover {
   background-color: #45a049;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
 }
 </style>

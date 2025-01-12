@@ -3,6 +3,16 @@
     <div class="habits">
       <div v-for="habit in habits" :key="habit.id" class="habit">
         <div>
+          <!-- Bugünün Durumu -->
+          <div class="habit-status">
+            <span>
+              Today:
+              <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
+                {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
+              </strong>
+            </span>
+          </div>
+          <!-- Başlık ve Açıklama -->
           <div v-if="editingHabit === habit.id">
             <input v-model="editBuffer.title" placeholder="Title" />
             <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
@@ -11,6 +21,7 @@
             <h3>{{ habit.title }}</h3>
             <div v-html="renderMarkdown(habit.description)"></div>
           </div>
+          <!-- Isı Haritası -->
           <div class="heatmap">
             <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
               <div
@@ -21,6 +32,7 @@
                 @mouseleave="hideTooltip"></div>
             </div>
           </div>
+          <!-- İşlev Butonları -->
           <div>
             <button v-if="editingHabit === habit.id" @click="saveEdit(habit.id)">Save</button>
             <button v-if="editingHabit === habit.id" @click="cancelEdit">Cancel</button>
@@ -30,6 +42,10 @@
           <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
             {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
           </button>
+          <!-- Tamamlanma Oranı -->
+          <div class="completion-rate">
+            <span>Completion Rate: {{ getCompletionRate(habit) }}%</span>
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +58,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { marked } from 'marked';
 
@@ -166,10 +183,15 @@ const toggleTodayCompletion = (habit: Habit): void => {
   }
 };
 
+const getCompletionRate = (habit: Habit): number => {
+  return Math.round((habit.completeDays.length / 365) * 100);
+};
+
 const renderMarkdown = (text: string): string => {
   return marked(text);
 };
 </script>
+
 <style scoped>
 .calendar {
   display: flex;
@@ -306,5 +328,23 @@ const renderMarkdown = (text: string): string => {
 
 .complete-today-button:hover {
   background-color: #45a049;
+}
+
+.habit-status {
+  margin-bottom: 10px;
+}
+
+.status-completed {
+  color: green;
+}
+
+.status-pending {
+  color: red;
+}
+
+.completion-rate {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 14px;
 }
 </style>

@@ -1,8 +1,8 @@
 export const useHabitStore = () => {
-  const supabase = useSupabaseClient();
-  const habits = useState('habits', () => []);
+  const supabase = useSupabaseClient<Habit>();
+  const habits = useState<Habit[]>('habits', () => []);
 
-  const fetchHabits = async () => {
+  const fetchHabits = async (): Promise<void> => {
     const { data, error } = await supabase.from('habits').select('*').order('created_at', { ascending: true });
 
     if (error) {
@@ -12,7 +12,7 @@ export const useHabitStore = () => {
     }
   };
 
-  const createHabit = async (name: string) => {
+  const createHabit = async (name: string): Promise<void> => {
     const { data, error } = await supabase
       .from('habits')
       .insert([{ name, days: {}, streak: 0 }])
@@ -20,29 +20,29 @@ export const useHabitStore = () => {
 
     if (error) {
       console.error(error.message);
-    } else {
+    } else if (data) {
       habits.value.push(data[0]);
     }
   };
 
-  const toggleHabitDay = async (habitId: string, date: string) => {
+  const toggleHabitDay = async (habitId: string, date: string): Promise<void> => {
     const habit = habits.value.find(h => h.id === habitId);
     if (!habit) return;
 
-    const days = { ...habit.days, [date]: !habit.days[date] };
-    const streak = Object.values(days).filter(Boolean).length;
+    const updatedDays = { ...habit.days, [date]: !habit.days[date] };
+    const updatedStreak = Object.values(updatedDays).filter(Boolean).length;
 
-    const { error } = await supabase.from('habits').update({ days, streak }).eq('id', habitId);
+    const { error } = await supabase.from('habits').update({ days: updatedDays, streak: updatedStreak }).eq('id', habitId);
 
     if (error) {
       console.error(error.message);
     } else {
-      habit.days = days;
-      habit.streak = streak;
+      habit.days = updatedDays;
+      habit.streak = updatedStreak;
     }
   };
 
-  const deleteHabit = async (id: string) => {
+  const deleteHabit = async (id: string): Promise<void> => {
     const { error } = await supabase.from('habits').delete().eq('id', id);
 
     if (error) {
@@ -52,5 +52,11 @@ export const useHabitStore = () => {
     }
   };
 
-  return { habits, fetchHabits, createHabit, toggleHabitDay, deleteHabit };
+  return {
+    habits,
+    fetchHabits,
+    createHabit,
+    toggleHabitDay,
+    deleteHabit,
+  };
 };

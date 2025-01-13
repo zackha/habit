@@ -1,38 +1,44 @@
-CREATE TABLE public.habits (
-    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    title text NOT NULL,
-    description text NOT NULL,
-    complete_days text[] DEFAULT '{}',
-    target_days int DEFAULT 40,
-    created_at timestamp with time zone DEFAULT now()
+-- Gerekli uzantıyı etkinleştir
+create extension if not exists pgcrypto;
+
+-- Kullanıcılar tablosu
+create table users (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text not null unique,
+  created_at timestamp default current_timestamp
 );
 
--- ALTER TABLE public.habits ENABLE ROW LEVEL SECURITY;
+-- Alışkanlıklar tablosu
+create table habits (
+  id serial primary key,
+  user_id uuid references users(id) on delete cascade,
+  title text not null,
+  description text,
+  complete_days text[] default '{}',
+  target_days integer default 40,
+  created_at timestamp default current_timestamp
+);
 
--- CREATE POLICY "Allow insert for all users"
---     ON public.habits
---     FOR INSERT
---     TO public
---     USING (true);
+-- İndeksler
+-- Kullanıcı bazında hızlı alışkanlık sorguları için
+create index idx_user_id on habits (user_id);
 
--- CREATE POLICY "Allow select for all users"
---     ON public.habits
---     FOR SELECT
---     TO public
---     USING (true);
+-- Kullanıcı oluşturma tetikleyicisi
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = 'public'
+as $$
+begin
+  if not exists (select 1 from public.users where id = new.id) then
+    insert into public.users (id, email, created_at)
+    values (new.id, new.email, current_timestamp);
+  end if;
+  return new;
+end;
+$$;
 
--- CREATE POLICY "Allow update for all users"
---     ON public.habits
---     FOR UPDATE
---     TO public
---     USING (true);
-
--- CREATE POLICY "Allow delete for all users"
---     ON public.habits
---     FOR DELETE
---     TO public
---     USING (true);
-
--- INSERT INTO public.habits (title, description, complete_days, target_days) VALUES
--- ('Morning Exercise', '**Daily** 30 minutes of exercise to stay fit.', '{}', 40),
--- ('Reading', 'Read *at least* 20 pages every day.', '{"2025-01-11", "2025-01-10"}', 40);
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row
+  execute function public.handle_new_user();

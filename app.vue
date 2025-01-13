@@ -16,10 +16,8 @@ const { habits, loadHabits } = useHabits();
 const { auth } = useSupabaseClient();
 const session = useSupabaseSession();
 
-watch(session, async newSession => {
-  if (newSession) {
-    await loadHabits();
-  }
+onMounted(() => {
+  loadHabits();
 });
 </script>
 

@@ -12,7 +12,7 @@ const today = format(new Date(), 'yyyy-MM-dd');
 const habits = ref<Habit[]>([]);
 
 export const useHabits = () => {
-  const supabase = useSupabaseClient();
+  const supabase = useSupabaseClient<Habit[]>();
   const user = useSupabaseUser();
 
   const resetIfStreakBroken = (habit: Habit): void => {
@@ -51,16 +51,33 @@ export const useHabits = () => {
     checkAllHabitsForStreak();
   };
 
-  const addHabit = (title: string, description: string): void => {
-    if (!title || !description) return;
+  const saveHabit = async (habit: Habit): Promise<void> => {
+    if (!user.value) return;
 
-    habits.value.push({
-      id: Date.now(),
-      title,
-      description,
-      complete_days: [],
-      target_days: 40,
-    });
+    const { error } = await supabase
+      .from('habits')
+      .insert([{ user_id: user.value.id, title: habit.title, description: habit.description, target_days: habit.target_days }])
+      .single();
+
+    if (error) {
+      console.error('Error saving habit:', error.message);
+    }
+  };
+
+  const addHabit = async (title: string, description: string): Promise<void> => {
+    if (!title.trim() || !description.trim()) return;
+
+    if (user.value) {
+      const newHabit: Habit = {
+        id: Date.now(),
+        title,
+        description,
+        complete_days: [],
+        target_days: 40,
+      };
+      habits.value.push(newHabit);
+      await saveHabit(newHabit);
+    }
   };
 
   const deleteHabit = (id: number): void => {

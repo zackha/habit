@@ -51,19 +51,6 @@ export const useHabits = () => {
     checkAllHabitsForStreak();
   };
 
-  const saveHabit = async (habit: Habit): Promise<void> => {
-    if (!user.value) return;
-
-    const { error } = await supabase
-      .from('habits')
-      .insert([{ user_id: user.value.id, title: habit.title, description: habit.description, target_days: habit.target_days }])
-      .single();
-
-    if (error) {
-      console.error('Error saving habit:', error.message);
-    }
-  };
-
   const addHabit = async (title: string, description: string): Promise<void> => {
     if (!title.trim() || !description.trim()) return;
 
@@ -76,7 +63,10 @@ export const useHabits = () => {
         target_days: 40,
       };
       habits.value.push(newHabit);
-      await saveHabit(newHabit);
+      await supabase
+        .from('habits')
+        .insert([{ user_id: user.value.id, title, description }])
+        .single();
     }
   };
 

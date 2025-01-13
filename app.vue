@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <button v-if="!session" @click="auth.signInWithOAuth({ provider: 'github' })">Sign in with Github</button>
+    <button v-else @click="auth.signOut()">Sign Out</button>
+  </div>
   <div class="calendar">
     <HabitForm />
     <div class="habits">
@@ -9,6 +13,8 @@
 
 <script setup lang="ts">
 const { habits } = useHabits();
+const { auth } = useSupabaseClient();
+const session = useSupabaseSession();
 </script>
 
 <style scoped>

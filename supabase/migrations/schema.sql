@@ -1,38 +1,24 @@
-CREATE TABLE public.habits (
-    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    title text NOT NULL,
-    description text NOT NULL,
-    complete_days text[] DEFAULT '{}',
-    target_days int DEFAULT 40,
-    created_at timestamp with time zone DEFAULT now()
+create table users (
+  id serial primary key,
+  email text not null unique,
+  created_at timestamp default current_timestamp
 );
 
--- ALTER TABLE public.habits ENABLE ROW LEVEL SECURITY;
+create table habits (
+  id serial primary key,
+  user_id integer references users(id) on delete cascade,
+  title text not null,
+  description text,
+  target_days integer default 40,
+  created_at timestamp default current_timestamp
+);
 
--- CREATE POLICY "Allow insert for all users"
---     ON public.habits
---     FOR INSERT
---     TO public
---     USING (true);
+create table habit_records (
+  id serial primary key,
+  habit_id integer references habits(id) on delete cascade,
+  completed_at date not null,
+  created_at timestamp default current_timestamp
+);
 
--- CREATE POLICY "Allow select for all users"
---     ON public.habits
---     FOR SELECT
---     TO public
---     USING (true);
-
--- CREATE POLICY "Allow update for all users"
---     ON public.habits
---     FOR UPDATE
---     TO public
---     USING (true);
-
--- CREATE POLICY "Allow delete for all users"
---     ON public.habits
---     FOR DELETE
---     TO public
---     USING (true);
-
--- INSERT INTO public.habits (title, description, complete_days, target_days) VALUES
--- ('Morning Exercise', '**Daily** 30 minutes of exercise to stay fit.', '{}', 40),
--- ('Reading', 'Read *at least* 20 pages every day.', '{"2025-01-11", "2025-01-10"}', 40);
+create index idx_completed_at on habit_records (completed_at);
+create index idx_habit_id on habit_records (habit_id);

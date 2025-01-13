@@ -12,9 +12,15 @@
 </template>
 
 <script setup lang="ts">
-const { habits } = useHabits();
+const { habits, loadHabits } = useHabits();
 const { auth } = useSupabaseClient();
 const session = useSupabaseSession();
+
+watch(session, async newSession => {
+  if (newSession) {
+    await loadHabits();
+  }
+});
 </script>
 
 <style scoped>

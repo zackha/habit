@@ -12,9 +12,11 @@
 </template>
 
 <script setup lang="ts">
-const { habits } = useHabits();
+const { habits, fetchHabits } = useHabits();
 const { auth } = useSupabaseClient();
 const session = useSupabaseSession();
+
+onMounted(fetchHabits);
 </script>
 
 <style scoped>

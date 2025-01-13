@@ -10,66 +10,19 @@ export interface Habit {
 
 const today = format(new Date(), 'yyyy-MM-dd');
 
-const habits = ref<Habit[]>([
-  {
-    id: 1,
-    title: 'Morning Exercise',
-    description: '**Daily** 30 minutes of exercise to stay fit.',
-    complete_days: ['2025-01-12'],
-    target_days: 40,
-  },
-  {
-    id: 2,
-    title: 'Reading',
-    description: 'Read *at least* 20 pages every day.',
-    complete_days: [
-      '2025-01-12',
-      '2025-01-11',
-      '2025-01-10',
-      '2025-01-09',
-      '2025-01-08',
-      '2025-01-07',
-      '2025-01-06',
-      '2025-01-05',
-      '2025-01-04',
-      '2025-01-03',
-      '2025-01-02',
-      '2025-01-01',
-      '2024-12-31',
-      '2024-12-30',
-      '2024-12-29',
-      '2024-12-28',
-      '2024-12-27',
-      '2024-12-26',
-      '2024-12-25',
-      '2024-12-24',
-      '2024-12-23',
-      '2024-12-22',
-      '2024-12-21',
-      '2024-12-20',
-      '2024-12-19',
-      '2024-12-18',
-      '2024-12-17',
-      '2024-12-16',
-      '2024-12-15',
-      '2024-12-14',
-      '2024-12-13',
-      '2024-12-12',
-      '2024-12-11',
-      '2024-12-10',
-      '2024-12-09',
-      '2024-12-08',
-      '2024-12-07',
-      '2024-12-06',
-      '2024-12-05',
-    ],
-    target_days: 40,
-  },
-]);
+const habits = ref<Habit[]>([]);
 
 export const useHabits = () => {
   const supabase = useSupabaseClient<Habit[]>();
   const user = useSupabaseUser();
+
+  const fetchHabits = async () => {
+    if (!user.value) return;
+
+    const { data } = await supabase.from('habits').select('*').eq('user_id', user.value.id);
+
+    habits.value = data ?? [];
+  };
 
   const resetIfStreakBroken = (habit: Habit): void => {
     if (habit.complete_days.length === 0) return;
@@ -94,22 +47,24 @@ export const useHabits = () => {
   };
 
   const addHabit = async (title: string, description: string): Promise<void> => {
-    if (!title.trim() || !description.trim()) return;
+    if (!title.trim() || !description.trim() || !user.value) return;
 
-    if (user.value) {
-      const newHabit: Habit = {
-        id: Date.now(),
-        title,
-        description,
-        complete_days: [],
-        target_days: 40,
-      };
-      habits.value.push(newHabit);
-      await supabase
-        .from('habits')
-        .insert([{ user_id: user.value.id, title, description }])
-        .single();
-    }
+    const newHabit: Habit = {
+      id: Date.now(),
+      title,
+      description,
+      complete_days: [],
+      target_days: 40,
+    };
+
+    habits.value.push(newHabit);
+
+    await supabase
+      .from('habits')
+      .insert([{ user_id: user.value.id, title, description }])
+      .single();
+
+    await fetchHabits();
   };
 
   const deleteHabit = (id: number): void => {
@@ -146,12 +101,11 @@ export const useHabits = () => {
 
   return {
     habits,
-    today,
     addHabit,
     deleteHabit,
     toggleTodayCompletion,
     isTodayCompleted,
     getCompletionRate,
-    checkAllHabitsForStreak,
+    fetchHabits,
   };
 };

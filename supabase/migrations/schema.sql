@@ -1,14 +1,11 @@
--- Gerekli uzantıyı etkinleştir
 create extension if not exists pgcrypto;
 
--- Kullanıcılar tablosu
 create table users (
   id uuid primary key references auth.users(id) on delete cascade,
   email text not null unique,
   created_at timestamp default current_timestamp
 );
 
--- Alışkanlıklar tablosu
 create table habits (
   id serial primary key,
   user_id uuid references users(id) on delete cascade,
@@ -19,11 +16,8 @@ create table habits (
   created_at timestamp default current_timestamp
 );
 
--- İndeksler
--- Kullanıcı bazında hızlı alışkanlık sorguları için
 create index idx_user_id on habits (user_id);
 
--- Kullanıcı oluşturma tetikleyicisi
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql

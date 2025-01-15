@@ -36,8 +36,8 @@ const { habits, toggleTodayCompletion, isTodayCompleted, getCompletionRate, dele
 
 defineProps<{ habit: Habit }>();
 
-const renderMarkdown = async (text: string): Promise<string> => {
-  return await marked(text);
+const renderMarkdown = (text: string) => {
+  return marked(text);
 };
 
 const editingHabit = ref<number | null>(null);

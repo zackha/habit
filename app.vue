@@ -1,22 +1,14 @@
 <template>
-  <div>
-    <button v-if="!session" @click="auth.signInWithOAuth({ provider: 'github' })">Sign in with Github</button>
-    <button v-else @click="auth.signOut()">Sign Out</button>
-  </div>
   <div class="calendar">
     <HabitForm />
-    <div class="habits" v-if="session">
+    <div class="habits">
       <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { habits, fetchHabits } = useHabits();
-const { auth } = useSupabaseClient();
-const session = useSupabaseSession();
-
-onMounted(fetchHabits);
+const { habits } = useHabits();
 </script>
 
 <style scoped>

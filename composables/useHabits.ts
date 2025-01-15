@@ -1,20 +1,8 @@
 import { isSameDay, parseISO, differenceInDays, format, compareAsc } from 'date-fns';
 
 export const useHabits = () => {
-  const supabase = useSupabaseClient<Habit[]>();
-  const user = useSupabaseUser();
   const habits = useState<Habit[]>('habits', () => []);
   const today = format(new Date(), 'yyyy-MM-dd');
-
-  const fetchHabits = async () => {
-    if (!user.value) return;
-
-    const { data } = await supabase.from('habits').select('*').eq('user_id', user.value.id);
-
-    console.log('[SUCCESS] Fetched habits');
-
-    habits.value = data ?? [];
-  };
 
   const resetIfStreakBroken = (habit: Habit): void => {
     if (habit.complete_days.length === 0) return;
@@ -39,7 +27,7 @@ export const useHabits = () => {
   };
 
   const addHabit = async (title: string, description: string): Promise<void> => {
-    if (!title.trim() || !description.trim() || !user.value) return;
+    if (!title.trim() || !description.trim()) return;
 
     const newHabit: Habit = {
       id: Date.now(),
@@ -50,13 +38,6 @@ export const useHabits = () => {
     };
 
     habits.value.push(newHabit);
-
-    await supabase
-      .from('habits')
-      .insert([{ user_id: user.value.id, title, description }])
-      .single();
-
-    await fetchHabits();
   };
 
   const deleteHabit = (id: number): void => {
@@ -98,6 +79,5 @@ export const useHabits = () => {
     toggleTodayCompletion,
     isTodayCompleted,
     getCompletionRate,
-    fetchHabits,
   };
 };

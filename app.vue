@@ -5,7 +5,7 @@
   </div>
   <div class="calendar">
     <HabitForm />
-    <div class="habits">
+    <div class="habits" v-if="session">
       <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </div>
   </div>

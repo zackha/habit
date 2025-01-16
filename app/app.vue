@@ -1,13 +1,18 @@
 <template>
+  <div>
+    <a v-if="!loggedIn" href="/api/auth/github">Sign in with Github</a>
+    <a v-else @click="clear()">Sign Out</a>
+  </div>
   <div class="calendar">
     <HabitForm />
-    <div class="habits">
+    <div class="habits" v-if="user">
       <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const { loggedIn, user, clear } = useUserSession();
 const { habits } = useHabits();
 </script>
 

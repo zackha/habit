@@ -18,6 +18,7 @@ const { loggedIn, user, clear } = useUserSession();
 const { data: habits } = useQuery({
   key: ['habits'],
   query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
+  enabled: user,
 });
 </script>
 

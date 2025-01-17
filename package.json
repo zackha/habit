@@ -12,6 +12,9 @@
   "dependencies": {
     "@nuxthub/core": "0.8.11",
     "date-fns": "^4.1.0",
+    "drizzle-kit": "^0.30.2",
+    "drizzle-orm": "^0.38.4",
+    "h3-zod": "^0.5.3",
     "marked": "^15.0.6",
     "nuxt": "^3.15.1",
     "nuxt-auth-utils": "0.5.7",

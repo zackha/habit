@@ -14,10 +14,12 @@ const queryCache = useQueryCache();
 
 const { mutate: addHabit } = useMutation({
   mutation: (data: { title: string; description: string }) => {
-    return $fetch('/api/habits', {
-      method: 'POST',
-      body: data,
-    });
+    if (title.value.trim() && description.value.trim()) {
+      return $fetch('/api/habits', {
+        method: 'POST',
+        body: data,
+      }) as Promise<Habit>;
+    }
   },
 
   async onSuccess() {

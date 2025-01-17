@@ -6,14 +6,19 @@
   <div class="calendar">
     <HabitForm />
     <div class="habits" v-if="user">
-      <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
+      <!-- <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" /> -->
+      <pre>{{ habits }}</pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const { loggedIn, user, clear } = useUserSession();
-const { habits } = useHabits();
+
+const { data: habits } = useQuery({
+  key: ['habits'],
+  query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
+});
 </script>
 
 <style scoped>

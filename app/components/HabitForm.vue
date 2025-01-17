@@ -1,24 +1,34 @@
 <template>
-  <div class="new-habit-form">
-    <h3>Add New Habit</h3>
+  <h3>Add New Habit</h3>
+  <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
     <input v-model="title" placeholder="Title" />
-    <textarea v-model="description" placeholder="Description (Markdown supported)"></textarea>
-    <button @click="addNewHabit">Add Habit</button>
-  </div>
+    <textarea v-model="description" placeholder="Description"></textarea>
+    <button type="submit">Add Habit</button>
+  </form>
 </template>
 
 <script setup lang="ts">
-const { addHabit } = useHabits();
 const title = ref('');
 const description = ref('');
+const queryCache = useQueryCache();
 
-const addNewHabit = (): void => {
-  if (title.value.trim() && description.value.trim()) {
-    addHabit(title.value, description.value);
+const { mutate: addHabit } = useMutation({
+  mutation: (data: { title: string; description: string }) => {
+    return $fetch('/api/habits', {
+      method: 'POST',
+      body: data,
+    });
+  },
+
+  async onSuccess() {
+    await queryCache.invalidateQueries({ key: ['habits'] });
+  },
+
+  onSettled() {
     title.value = '';
     description.value = '';
-  }
-};
+  },
+});
 </script>
 
 <style scoped>

@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <a v-if="!loggedIn" href="/api/auth/github">Sign in with Github</a>
-    <a v-else @click="clear()">Sign Out</a>
-  </div>
-  <div class="calendar">
-    <HabitForm />
-    <div class="habits" v-if="loggedIn">
-      <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
-      <!-- <pre>{{ habits }}</pre> -->
+  <div style="text-align: center">
+    <div>
+      <a v-if="!loggedIn" href="/api/auth/github">Sign in with Github</a>
+      <a v-else @click="clear()">Sign Out</a>
     </div>
+    <div class="calendar">
+      <HabitForm />
+      <div class="habits" v-if="loggedIn">
+        <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
+        <!-- <pre>{{ habits }}</pre> -->
+      </div>
+    </div>
+    <p>Habit v{{ config.public.version }}</p>
+    <a href="https://github.com/zackha/habit" target="_blank">Github</a>
   </div>
 </template>
 
 <script setup lang="ts">
 const { loggedIn, clear } = useUserSession();
+const config = useRuntimeConfig();
 
 const { data: habits } = useQuery({
   key: ['habits'],

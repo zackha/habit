@@ -1,4 +1,4 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import pkg from './package.json';
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -6,5 +6,10 @@ export default defineNuxtConfig({
   modules: ['@nuxthub/core', 'nuxt-auth-utils', '@pinia/nuxt', '@pinia/colada-nuxt'],
   hub: {
     database: true,
+  },
+  runtimeConfig: {
+    public: {
+      version: pkg.version,
+    },
   },
 });

@@ -11,18 +11,18 @@
         <h3>{{ habit.title }}</h3>
         <div v-html="renderMarkdown(habit.description || '')"></div>
       </div>
-      <!--<div class="habit-status">
+      <div class="habit-status">
         Today:
         <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
           {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
         </strong>
-      </div>-->
+      </div>
       <HabitHeatmap :habit="habit" />
       <div>
         <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-        <!--<button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+        <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
           {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-        </button>-->
+        </button>
         <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
       </div>
       <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { marked } from 'marked';
+import { isSameDay, parseISO, differenceInDays, format, compareAsc } from 'date-fns';
 const queryCache = useQueryCache();
 
 defineProps<{ habit: Habit }>();
@@ -40,6 +41,11 @@ const renderMarkdown = (text: string) => {
   return marked(text);
 };
 
+const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / habit.targetDays) * 100);
+
+const today = format(new Date(), 'yyyy-MM-dd');
+
+// Delete habit
 const { mutate: deleteHabit } = useMutation({
   mutation: (habit: Habit) => $fetch(`/api/habits/${habit.id}`, { method: 'DELETE' }),
 
@@ -48,8 +54,7 @@ const { mutate: deleteHabit } = useMutation({
   },
 });
 
-const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / habit.targetDays) * 100);
-
+// Edit habit
 const editingHabit = ref<number | null>(null);
 const edit = ref<{ title: string; description: string }>({
   title: '',
@@ -80,6 +85,31 @@ const { mutate: saveHabit } = useMutation({
 const cancelEdit = () => {
   editingHabit.value = null;
 };
+
+const isTodayCompleted = (habit: Habit) => habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
+
+const { mutate: toggleTodayCompletion } = useMutation({
+  mutation: (habit: Habit) => {
+    const isCompletedToday = habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
+
+    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
+
+    const updatedTargetDays =
+      updatedCompleteDays.length === 40 && habit.targetDays === 40 ? 90 : updatedCompleteDays.length < 40 && habit.targetDays === 90 ? 40 : habit.targetDays;
+
+    return $fetch(`/api/habits/${habit.id}`, {
+      method: 'PATCH',
+      body: {
+        completeDays: updatedCompleteDays,
+        targetDays: updatedTargetDays,
+      },
+    });
+  },
+
+  async onSuccess() {
+    await queryCache.invalidateQueries({ key: ['habits'] });
+  },
+});
 </script>
 
 <style scoped>

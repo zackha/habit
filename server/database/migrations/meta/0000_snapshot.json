@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "af3da024-52a7-4642-a2dd-a048ef77cc5d",
+  "id": "d3df0b61-d61e-4239-863a-f4c624524c90",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "habits": {
@@ -37,7 +37,7 @@
         },
         "complete_days": {
           "name": "complete_days",
-          "type": "blob",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,

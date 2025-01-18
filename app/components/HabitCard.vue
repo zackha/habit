@@ -25,7 +25,7 @@
         </button>-->
         <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
       </div>
-      <!--<div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>-->
+      <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
     </div>
   </div>
 </template>
@@ -48,6 +48,8 @@ const { mutate: deleteHabit } = useMutation({
     await queryCache.invalidateQueries({ key: ['habits'] });
   },
 });
+
+const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / habit.targetDays) * 100);
 
 // const editingHabit = ref<number | null>(null);
 // const editBuffer = ref<{ title: string; description: string }>({

@@ -1,5 +1,4 @@
 <template>
-  <h3>Add New Habit</h3>
   <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
     <input v-model="title" placeholder="Title" />
     <textarea v-model="description" placeholder="Description"></textarea>
@@ -38,13 +37,11 @@ const { mutate: addHabit } = useMutation({
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 300px;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
 .new-habit-form input,
 .new-habit-form textarea {
-  width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;

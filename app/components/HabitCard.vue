@@ -86,13 +86,13 @@ const cancelEdit = () => {
   editingHabit.value = null;
 };
 
-const isTodayCompleted = (habit: Habit) => habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
+const isTodayCompleted = (habit: Habit) => habit.completeDays.some((day) => isSameDay(parseISO(day), new Date()));
 
 const { mutate: toggleTodayCompletion } = useMutation({
   mutation: (habit: Habit) => {
-    const isCompletedToday = habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
+    const isCompletedToday = habit.completeDays.some((day) => isSameDay(parseISO(day), new Date()));
 
-    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
+    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter((day) => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
 
     const updatedTargetDays =
       updatedCompleteDays.length === 40 && habit.targetDays === 40 ? 90 : updatedCompleteDays.length < 40 && habit.targetDays === 90 ? 40 : habit.targetDays;
@@ -112,76 +112,46 @@ const { mutate: toggleTodayCompletion } = useMutation({
 });
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .habit {
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  position: relative;
-  margin-bottom: 20px;
+  @apply border border-neutral-600 p-4 rounded-2xl relative mb-4;
 }
 
 .habit-status {
-  margin-bottom: 10px;
+  @apply mt-4;
 }
 
 .status-completed {
-  color: green;
+  @apply text-green-500;
 }
 
 .status-pending {
-  color: red;
+  @apply text-red-500;
 }
 
 .complete-today-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
+  @apply mt-4 bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
   transition: background-color 0.3s ease;
-}
-
-.complete-today-button:hover {
-  background-color: #45a049;
+  &:hover {
+    @apply bg-green-800;
+  }
 }
 
 .delete-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #f44336;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.delete-button:hover {
-  background-color: #e53935;
+  @apply mt-4 bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
+  &:hover {
+    @apply bg-red-800;
+  }
 }
 
 .edit-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #2196f3;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.edit-button:hover {
-  background-color: #1976d2;
+  @apply mt-4 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
+  &:hover {
+    @apply bg-blue-800;
+  }
 }
 
 .completion-rate {
-  margin-top: 10px;
-  font-weight: bold;
-  font-size: 14px;
+  @apply mt-4 font-bold;
 }
 </style>

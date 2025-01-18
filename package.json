@@ -15,6 +15,7 @@
     "deploy": "bumpp && nuxthub deploy"
   },
   "dependencies": {
+    "@nuxt/ui": "2.21.0",
     "@nuxthub/core": "0.8.11",
     "@pinia/colada": "^0.13.0",
     "@pinia/colada-nuxt": "0.0.4",

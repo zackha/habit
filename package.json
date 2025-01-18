@@ -12,8 +12,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "db:generate": "drizzle-kit generate",
-    "release": "bumpp",
-    "deploy": "nuxthub deploy"
+    "deploy": "bumpp && nuxthub deploy"
   },
   "dependencies": {
     "@nuxthub/core": "0.8.11",

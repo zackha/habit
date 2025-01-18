@@ -1,14 +1,19 @@
 {
-  "name": "nuxt-app",
+  "name": "habit",
+  "version": "1.0.1-beta.1",
   "private": true,
   "type": "module",
+  "author": "zackha",
+  "description": "Habit App",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "release": "bumpp",
+    "deploy": "nuxthub deploy"
   },
   "dependencies": {
     "@nuxthub/core": "0.8.11",

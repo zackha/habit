@@ -1,13 +1,13 @@
 <template>
   <div class="habit">
     <div>
-      <!--<div v-if="editingHabit === habit.id">
-        <input v-model="editBuffer.title" placeholder="Title" />
-        <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
-        <button @click="saveEdit(habit.id)">Save</button>
-        <button @click="cancelEdit">Cancel</button>
-      </div>-->
-      <div>
+      <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
+        <input v-model="edit.title" placeholder="Title" />
+        <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
+        <button type="submit">Save</button>
+        <button type="button" @click="cancelEdit">Cancel</button>
+      </form>
+      <div v-else>
         <h3>{{ habit.title }}</h3>
         <div v-html="renderMarkdown(habit.description || '')"></div>
       </div>
@@ -19,8 +19,8 @@
       </div>-->
       <HabitHeatmap :habit="habit" />
       <div>
-        <!--<button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-        <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
+        <!--<button @click="toggleTodayCompletion(habit)" class="complete-today-button">
           {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
         </button>-->
         <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
@@ -33,7 +33,6 @@
 <script setup lang="ts">
 import { marked } from 'marked';
 const queryCache = useQueryCache();
-// const { habits, toggleTodayCompletion, isTodayCompleted, getCompletionRate, deleteHabit } = useHabits();
 
 defineProps<{ habit: Habit }>();
 
@@ -51,29 +50,36 @@ const { mutate: deleteHabit } = useMutation({
 
 const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / habit.targetDays) * 100);
 
-// const editingHabit = ref<number | null>(null);
-// const editBuffer = ref<{ title: string; description: string }>({
-//   title: '',
-//   description: '',
-// });
+const editingHabit = ref<number | null>(null);
+const edit = ref<{ title: string; description: string }>({
+  title: '',
+  description: '',
+});
 
-// const editHabit = (habit: Habit): void => {
-//   editingHabit.value = habit.id;
-//   editBuffer.value = { title: habit.title, description: habit.description };
-// };
+const editHabit = (habit: Habit) => {
+  editingHabit.value = habit.id;
+  edit.value = { title: habit.title, description: habit.description || '' };
+};
 
-// const saveEdit = (id: number): void => {
-//   const habit = habits.value.find(h => h.id === id);
-//   if (habit) {
-//     habit.title = editBuffer.value.title;
-//     habit.description = editBuffer.value.description;
-//   }
-//   editingHabit.value = null;
-// };
+const { mutate: saveHabit } = useMutation({
+  mutation: () =>
+    $fetch(`/api/habits/${editingHabit.value}`, {
+      method: 'PATCH',
+      body: {
+        title: edit.value.title,
+        description: edit.value.description,
+      },
+    }),
 
-// const cancelEdit = (): void => {
-//   editingHabit.value = null;
-// };
+  async onSuccess() {
+    await queryCache.invalidateQueries({ key: ['habits'] });
+    editingHabit.value = null;
+  },
+});
+
+const cancelEdit = () => {
+  editingHabit.value = null;
+};
 </script>
 
 <style scoped>

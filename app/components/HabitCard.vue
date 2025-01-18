@@ -1,35 +1,3 @@
-<template>
-  <div class="habit">
-    <div>
-      <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
-        <input v-model="edit.title" placeholder="Title" />
-        <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
-        <button type="submit">Save</button>
-        <button type="button" @click="cancelEdit">Cancel</button>
-      </form>
-      <div v-else>
-        <h3>{{ habit.title }}</h3>
-        <div v-html="renderMarkdown(habit.description || '')"></div>
-      </div>
-      <div class="habit-status">
-        Today:
-        <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
-          {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
-        </strong>
-      </div>
-      <HabitHeatmap :habit="habit" />
-      <div>
-        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-        <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
-          {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-        </button>
-        <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
-      </div>
-      <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { marked } from 'marked';
 import { isSameDay, parseISO, differenceInDays, format, compareAsc } from 'date-fns';
@@ -86,13 +54,13 @@ const cancelEdit = () => {
   editingHabit.value = null;
 };
 
-const isTodayCompleted = (habit: Habit) => habit.completeDays.some((day) => isSameDay(parseISO(day), new Date()));
+const isTodayCompleted = (habit: Habit) => habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
 
 const { mutate: toggleTodayCompletion } = useMutation({
   mutation: (habit: Habit) => {
-    const isCompletedToday = habit.completeDays.some((day) => isSameDay(parseISO(day), new Date()));
+    const isCompletedToday = habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
 
-    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter((day) => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
+    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
 
     const updatedTargetDays =
       updatedCompleteDays.length === 40 && habit.targetDays === 40 ? 90 : updatedCompleteDays.length < 40 && habit.targetDays === 90 ? 40 : habit.targetDays;
@@ -112,13 +80,39 @@ const { mutate: toggleTodayCompletion } = useMutation({
 });
 </script>
 
+<template>
+  <div class="habit">
+    <HabitHeatmap :habit="habit" />
+    <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
+      <input v-model="edit.title" placeholder="Title" />
+      <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
+      <button type="submit">Save</button>
+      <button type="button" @click="cancelEdit">Cancel</button>
+    </form>
+    <div v-else>
+      <div class="font-medium">{{ habit.title }}</div>
+      <div class="text-sm" v-html="renderMarkdown(habit.description || '')"></div>
+    </div>
+    <div>
+      Today:
+      <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
+        {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
+      </strong>
+    </div>
+    <div>
+      <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
+      <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+        {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
+      </button>
+      <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
+    </div>
+    <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
+  </div>
+</template>
+
 <style lang="postcss" scoped>
 .habit {
-  @apply border border-neutral-600 p-4 rounded-2xl relative mb-4;
-}
-
-.habit-status {
-  @apply mt-4;
+  @apply border border-neutral-600 p-4 rounded-2xl gap-4 flex flex-col;
 }
 
 .status-completed {
@@ -130,7 +124,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
 }
 
 .complete-today-button {
-  @apply mt-4 bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
+  @apply bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
   transition: background-color 0.3s ease;
   &:hover {
     @apply bg-green-800;
@@ -138,20 +132,20 @@ const { mutate: toggleTodayCompletion } = useMutation({
 }
 
 .delete-button {
-  @apply mt-4 bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
+  @apply bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
   &:hover {
     @apply bg-red-800;
   }
 }
 
 .edit-button {
-  @apply mt-4 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
+  @apply bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
   &:hover {
     @apply bg-blue-800;
   }
 }
 
 .completion-rate {
-  @apply mt-4 font-bold;
+  @apply font-bold;
 }
 </style>

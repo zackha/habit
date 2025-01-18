@@ -12,6 +12,6 @@
 }
 
 .fzypcq {
-  @apply max-w-xs w-full mx-auto px-5 box-border grid gap-8 text-center;
+  @apply max-w-72 w-full mx-auto px-5 box-border grid gap-8;
 }
 </style>

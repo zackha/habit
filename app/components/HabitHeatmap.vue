@@ -1,17 +1,3 @@
-<template>
-  <div class="heatmap">
-    <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
-      <div
-        v-for="(day, dayIndex) in week"
-        :key="dayIndex"
-        :class="['day', { active: habit.completeDays.includes(day.date) }]"
-        @mouseenter="showTooltip(day.date, $event)"
-        @mouseleave="hideTooltip"></div>
-    </div>
-    <div ref="tooltip" class="tooltip"></div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { format, subDays } from 'date-fns';
 
@@ -54,11 +40,25 @@ const hideTooltip = (): void => {
 };
 </script>
 
+<template>
+  <div class="heatmap">
+    <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
+      <div
+        v-for="(day, dayIndex) in week"
+        :key="dayIndex"
+        :class="['day', { active: habit.completeDays.includes(day.date) }]"
+        @mouseenter="showTooltip(day.date, $event)"
+        @mouseleave="hideTooltip"></div>
+    </div>
+    <div ref="tooltip" class="tooltip"></div>
+  </div>
+</template>
+
 <style scoped>
 .heatmap {
   display: flex;
-  flex-direction: row;
   gap: 4px;
+  justify-content: center;
 }
 
 .week {
@@ -73,10 +73,12 @@ const hideTooltip = (): void => {
   background-color: #e0e0e0;
   border-radius: 2px;
   transition: background-color 0.3s ease-in-out;
+  border: 0.5px solid rgb(0 0 0 / 20%);
 }
 
 .day.active {
-  background-color: #4caf50;
+  background-color: #2ac430;
+  box-shadow: 0 0 4px 0 #2ac430;
 }
 
 .tooltip {

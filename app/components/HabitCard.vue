@@ -1,38 +1,39 @@
 <template>
   <div class="habit">
     <div>
-      <div v-if="editingHabit === habit.id">
+      <!--<div v-if="editingHabit === habit.id">
         <input v-model="editBuffer.title" placeholder="Title" />
         <textarea v-model="editBuffer.description" placeholder="Description (Markdown supported)"></textarea>
         <button @click="saveEdit(habit.id)">Save</button>
         <button @click="cancelEdit">Cancel</button>
-      </div>
-      <div v-else>
+      </div>-->
+      <div>
         <h3>{{ habit.title }}</h3>
-        <div v-html="renderMarkdown(habit.description)"></div>
+        <div v-html="renderMarkdown(habit.description || '')"></div>
       </div>
-      <div class="habit-status">
+      <!--<div class="habit-status">
         Today:
         <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
           {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
         </strong>
-      </div>
+      </div>-->
       <HabitHeatmap :habit="habit" />
       <div>
-        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
+        <!--<button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
         <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
           {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-        </button>
-        <button @click="deleteHabit(habit.id)" class="delete-button">Delete</button>
+        </button>-->
+        <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
       </div>
-      <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
+      <!--<div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>-->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { marked } from 'marked';
-const { habits, toggleTodayCompletion, isTodayCompleted, getCompletionRate, deleteHabit } = useHabits();
+const queryCache = useQueryCache();
+// const { habits, toggleTodayCompletion, isTodayCompleted, getCompletionRate, deleteHabit } = useHabits();
 
 defineProps<{ habit: Habit }>();
 
@@ -40,29 +41,37 @@ const renderMarkdown = (text: string) => {
   return marked(text);
 };
 
-const editingHabit = ref<number | null>(null);
-const editBuffer = ref<{ title: string; description: string }>({
-  title: '',
-  description: '',
+const { mutate: deleteHabit } = useMutation({
+  mutation: (habit: Habit) => $fetch(`/api/habits/${habit.id}`, { method: 'DELETE' }),
+
+  async onSuccess() {
+    await queryCache.invalidateQueries({ key: ['habits'] });
+  },
 });
 
-const editHabit = (habit: Habit): void => {
-  editingHabit.value = habit.id;
-  editBuffer.value = { title: habit.title, description: habit.description };
-};
+// const editingHabit = ref<number | null>(null);
+// const editBuffer = ref<{ title: string; description: string }>({
+//   title: '',
+//   description: '',
+// });
 
-const saveEdit = (id: number): void => {
-  const habit = habits.value.find(h => h.id === id);
-  if (habit) {
-    habit.title = editBuffer.value.title;
-    habit.description = editBuffer.value.description;
-  }
-  editingHabit.value = null;
-};
+// const editHabit = (habit: Habit): void => {
+//   editingHabit.value = habit.id;
+//   editBuffer.value = { title: habit.title, description: habit.description };
+// };
 
-const cancelEdit = (): void => {
-  editingHabit.value = null;
-};
+// const saveEdit = (id: number): void => {
+//   const habit = habits.value.find(h => h.id === id);
+//   if (habit) {
+//     habit.title = editBuffer.value.title;
+//     habit.description = editBuffer.value.description;
+//   }
+//   editingHabit.value = null;
+// };
+
+// const cancelEdit = (): void => {
+//   editingHabit.value = null;
+// };
 </script>
 
 <style scoped>

@@ -5,20 +5,20 @@
   </div>
   <div class="calendar">
     <HabitForm />
-    <div class="habits" v-if="user">
-      <!-- <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" /> -->
-      <pre>{{ habits }}</pre>
+    <div class="habits" v-if="loggedIn">
+      <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
+      <!-- <pre>{{ habits }}</pre> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { loggedIn, user, clear } = useUserSession();
+const { loggedIn, clear } = useUserSession();
 
 const { data: habits } = useQuery({
   key: ['habits'],
   query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
-  enabled: user,
+  enabled: !!loggedIn.value,
 });
 </script>
 

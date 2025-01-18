@@ -4,7 +4,7 @@
       <div
         v-for="(day, dayIndex) in week"
         :key="dayIndex"
-        :class="['day', { active: habit.complete_days.includes(day.date) }]"
+        :class="['day', { active: habit.completeDays.includes(day.date) }]"
         @mouseenter="showTooltip(day.date, $event)"
         @mouseleave="hideTooltip"></div>
     </div>
@@ -26,8 +26,8 @@ defineProps<{ habit: Habit }>();
 const tooltip = ref<HTMLDivElement | null>(null);
 
 const generateWeeks = (habit: Habit): Week[] => {
-  const days: Day[] = Array.from({ length: habit.target_days }, (_, i) => {
-    const date = subDays(new Date(), habit.target_days - 1 - i);
+  const days: Day[] = Array.from({ length: habit.targetDays }, (_, i) => {
+    const date = subDays(new Date(), habit.targetDays - 1 - i);
     return { date: format(date, 'yyyy-MM-dd') };
   });
 

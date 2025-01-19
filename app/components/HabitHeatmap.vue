@@ -78,7 +78,7 @@ const hideTooltip = (): void => {
 
 .day.active {
   background-color: #2ac430;
-  box-shadow: 0 0 4px 0 #2ac430;
+  box-shadow: 0 0 2px 0 #2ac430;
 }
 
 .tooltip {

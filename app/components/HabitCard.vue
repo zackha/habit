@@ -63,7 +63,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
     const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
 
     const updatedTargetDays =
-      updatedCompleteDays.length === 40 && habit.targetDays === 40 ? 90 : updatedCompleteDays.length < 40 && habit.targetDays === 90 ? 40 : habit.targetDays;
+      updatedCompleteDays.length === 49 && habit.targetDays === 49 ? 90 : updatedCompleteDays.length < 49 && habit.targetDays === 90 ? 49 : habit.targetDays;
 
     return $fetch(`/api/habits/${habit.id}`, {
       method: 'PATCH',
@@ -78,74 +78,49 @@ const { mutate: toggleTodayCompletion } = useMutation({
     await queryCache.invalidateQueries({ key: ['habits'] });
   },
 });
+
+const openHabitModal = ref(false);
 </script>
 
 <template>
-  <div class="habit">
+  <div class="bg-neutral-950 p-3 flex flex-row rounded-2xl border border-neutral-800 gap-3 mx-3 mb-3 cursor-pointer" @click="openHabitModal = true">
+    <div class="flex flex-col gap-1 flex-1">
+      <div class="font-medium text-lg">{{ habit.title }}</div>
+      <div class="text-xs text-neutral-400 line-clamp-3" v-html="renderMarkdown(habit.description || '')"></div>
+    </div>
     <HabitHeatmap :habit="habit" />
-    <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
-      <input v-model="edit.title" placeholder="Title" />
-      <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
-      <button type="submit">Save</button>
-      <button type="button" @click="cancelEdit">Cancel</button>
-    </form>
-    <div v-else>
-      <div class="font-medium">{{ habit.title }}</div>
-      <div class="text-sm" v-html="renderMarkdown(habit.description || '')"></div>
-    </div>
-    <div>
-      Today:
-      <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
-        {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
-      </strong>
-    </div>
-    <div>
-      <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-      <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
-        {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-      </button>
-      <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
-    </div>
-    <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
   </div>
+  <UModal v-model="openHabitModal">
+    <div class="p-4 flex flex-col gap-2">
+      <div class="flex flex-col gap-0.5 overflow-auto rounded-md max-h-max">
+        <div v-for="row in 7" :key="row" class="flex w-full gap-0.5">
+          <div v-for="col in 30" :key="col" :class="['w-2.5 h-2.5 flex rounded-sm', row === 7 && col === 30 ? 'bg-green-400' : 'bg-neutral-800']"></div>
+        </div>
+      </div>
+      <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
+        <input v-model="edit.title" placeholder="Title" />
+        <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
+        <button type="submit">Save</button>
+        <button type="button" @click="cancelEdit">Cancel</button>
+      </form>
+      <div v-else class="flex flex-col gap-1 flex-1">
+        <div class="font-medium text-lg">{{ habit.title }}</div>
+        <div class="text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
+      </div>
+      <div>
+        Today:
+        <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
+          {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
+        </strong>
+      </div>
+      <div>
+        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
+        <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+          {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
+        </button>
+        <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
+      </div>
+      <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
+    </div>
+  </UModal>
 </template>
-
-<style lang="postcss" scoped>
-.habit {
-  @apply border border-neutral-600 p-4 rounded-2xl gap-4 flex flex-col;
-}
-
-.status-completed {
-  @apply text-green-500;
-}
-
-.status-pending {
-  @apply text-red-500;
-}
-
-.complete-today-button {
-  @apply bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
-  transition: background-color 0.3s ease;
-  &:hover {
-    @apply bg-green-800;
-  }
-}
-
-.delete-button {
-  @apply bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
-  &:hover {
-    @apply bg-red-800;
-  }
-}
-
-.edit-button {
-  @apply bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer transition-colors duration-300;
-  &:hover {
-    @apply bg-blue-800;
-  }
-}
-
-.completion-rate {
-  @apply font-bold;
-}
-</style>

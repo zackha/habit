@@ -72,6 +72,17 @@ const openHabitModal = ref(false);
 
 <template>
   <Container>
+    <div class="flex justify-between p-5 rounded-xl">
+      <div class="flex gap-4 items-center">
+        <button @click="toggleDark">
+          <div class="capitalize underline">{{ colorMode.preference }}</div>
+        </button>
+        <div>
+          <a v-if="!loggedIn" href="/api/auth/github">Sign in</a>
+          <a v-else @click="clear()">Sign Out</a>
+        </div>
+      </div>
+    </div>
     <div class="flex justify-between items-center px-1">
       <div class="flex justify-center items-center gap-3">
         <div class="text-4xl font-semibold">{{ formattedDate.day }}</div>
@@ -103,53 +114,7 @@ const openHabitModal = ref(false);
           </UDropdown>
         </div>
       </div>
-      <div class="bg-neutral-950 p-3 flex flex-row rounded-2xl border border-neutral-800 gap-3 mx-3 mb-3 cursor-pointer" @click="openHabitModal = true">
-        <div class="flex flex-col gap-1 flex-1">
-          <div class="font-medium text-lg">Pleasure Detox</div>
-          <div class="text-xs text-neutral-400 line-clamp-3">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
-            printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </div>
-        </div>
-        <div class="flex flex-col gap-0.5 overflow-auto rounded-md max-h-max hover:bg-green-500">
-          <div v-for="row in 7" :key="row" class="flex w-full gap-0.5">
-            <div v-for="col in 7" :key="col" :class="['w-2.5 h-2.5 flex rounded-sm', row === 7 && col === 7 ? 'bg-green-400' : 'bg-neutral-800']"></div>
-          </div>
-        </div>
-      </div>
-      <UModal v-model="openHabitModal">
-        <div class="p-4 flex flex-col gap-2">
-          <div class="flex flex-col gap-0.5 overflow-auto rounded-md max-h-max">
-            <div v-for="row in 7" :key="row" class="flex w-full gap-0.5">
-              <div v-for="col in 40" :key="col" :class="['w-2.5 h-2.5 flex rounded-sm', row === 7 && col === 40 ? 'bg-green-400' : 'bg-neutral-800']"></div>
-            </div>
-          </div>
-          <div class="flex flex-col gap-1 flex-1">
-            <div class="font-medium text-lg">Pleasure Detox</div>
-            <div class="text-xs text-neutral-400">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-              unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-              typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-              with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
-          </div>
-        </div>
-      </UModal>
-      <!--<div class="flex justify-between border p-5 rounded-xl">
-        <h1 class="text-2xl">Habit</h1>
-        <div class="flex gap-4 items-center">
-          <button @click="toggleDark">
-            <div class="capitalize underline">{{ colorMode.preference }}</div>
-          </button>
-          <div>
-            <a v-if="!loggedIn" href="/api/auth/github">Sign in</a>
-            <a v-else @click="clear()">Sign Out</a>
-          </div>
-        </div>
-      </div>
-      <HabitCard v-if="loggedIn" v-for="habit in habits" :key="habit.id" :habit="habit" />-->
+      <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </div>
     <div class="flex flex-col items-center text-xs text-neutral-600">
       <div>Habit v{{ config.public.version }}</div>

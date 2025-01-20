@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { format, subDays } from 'date-fns';
+import { format, subDays, isThisYear } from 'date-fns';
 
 interface Day {
   date: string;
@@ -9,87 +9,42 @@ type Week = Day[];
 
 defineProps<{ habit: Habit }>();
 
-const tooltip = ref<HTMLDivElement | null>(null);
-
 const generateWeeks = (habit: Habit): Week[] => {
   const days: Day[] = Array.from({ length: habit.targetDays }, (_, i) => {
     const date = subDays(new Date(), habit.targetDays - 1 - i);
     return { date: format(date, 'yyyy-MM-dd') };
   });
 
-  return days.reduce<Week[]>((weeks, day, index) => {
-    if (index % 7 === 0) weeks.push([]);
-    weeks[weeks.length - 1].push(day);
-    return weeks;
-  }, []);
+  const weeks: Week[] = [];
+  for (let i = 0; i < days.length; i += 7) {
+    weeks.push(days.slice(i, i + 7));
+  }
+
+  return weeks;
 };
 
-const showTooltip = (date: string, event: MouseEvent): void => {
-  if (tooltip.value) {
-    tooltip.value.textContent = `Date: ${date}`;
-    tooltip.value.style.top = `${event.clientY + 10}px`;
-    tooltip.value.style.left = `${event.clientX + 10}px`;
-    tooltip.value.style.visibility = 'visible';
-  }
-};
-
-const hideTooltip = (): void => {
-  if (tooltip.value) {
-    tooltip.value.style.visibility = 'hidden';
-  }
+const formatDate = (date: string): string => {
+  return isThisYear(new Date(date)) ? format(new Date(date), 'MMMM d') : format(new Date(date), 'MMMM d, yyyy');
 };
 </script>
 
 <template>
-  <div class="heatmap">
-    <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="week">
-      <div
-        v-for="(day, dayIndex) in week"
-        :key="dayIndex"
-        :class="['day', { active: habit.completeDays.includes(day.date) }]"
-        @mouseenter="showTooltip(day.date, $event)"
-        @mouseleave="hideTooltip"></div>
+  <div class="flex gap-0.5 overflow-hidden rounded-md max-h-max">
+    <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="flex flex-col gap-0.5">
+      <div v-for="(day, dayIndex) in week" :key="dayIndex">
+        <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex' }">
+          <div :class="['day', { active: habit.completeDays.includes(day.date) }]"></div>
+        </UTooltip>
+      </div>
     </div>
-    <div ref="tooltip" class="tooltip"></div>
   </div>
 </template>
 
-<style scoped>
-.heatmap {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-}
-
-.week {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
+<style lang="postcss" scoped>
 .day {
-  width: 12px;
-  height: 12px;
-  background-color: #e0e0e0;
-  border-radius: 2px;
-  transition: background-color 0.3s ease-in-out;
-  border: 0.5px solid rgb(0 0 0 / 20%);
-}
-
-.day.active {
-  background-color: #2ac430;
-  box-shadow: 0 0 2px 0 #2ac430;
-}
-
-.tooltip {
-  position: fixed;
-  background-color: black;
-  color: white;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 1000;
+  @apply w-2.5 h-2.5 flex rounded-sm bg-neutral-800;
+  &.active {
+    @apply bg-green-400;
+  }
 }
 </style>

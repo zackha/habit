@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d3df0b61-d61e-4239-863a-f4c624524c90",
+  "id": "46f94c04-276b-43e8-8783-a52478f08a52",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "habits": {
@@ -42,14 +42,6 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'[]'"
-        },
-        "target_days": {
-          "name": "target_days",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 40
         },
         "created_at": {
           "name": "created_at",

@@ -10,8 +10,8 @@ type Week = Day[];
 defineProps<{ habit: Habit }>();
 
 const generateWeeks = (habit: Habit): Week[] => {
-  const days: Day[] = Array.from({ length: habit.targetDays }, (_, i) => {
-    const date = subDays(new Date(), habit.targetDays - 1 - i);
+  const days: Day[] = Array.from({ length: 49 }, (_, i) => {
+    const date = subDays(new Date(), 49 - 1 - i);
     return { date: format(date, 'yyyy-MM-dd') };
   });
 
@@ -29,7 +29,7 @@ const formatDate = (date: string): string => {
 </script>
 
 <template>
-  <div class="flex gap-0.5 overflow-hidden rounded-md max-h-max">
+  <div class="flex gap-0.5 overflow-hidden rounded-md">
     <div v-for="(week, weekIndex) in generateWeeks(habit)" :key="weekIndex" class="flex flex-col gap-0.5">
       <div v-for="(day, dayIndex) in week" :key="dayIndex">
         <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex' }">

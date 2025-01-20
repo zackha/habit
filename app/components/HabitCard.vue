@@ -9,9 +9,7 @@ const renderMarkdown = (text: string) => {
   return marked(text);
 };
 
-const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / habit.targetDays) * 100);
-
-const today = format(new Date(), 'yyyy-MM-dd');
+const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / 49) * 100);
 
 // Delete habit
 const { mutate: deleteHabit } = useMutation({
@@ -60,16 +58,14 @@ const { mutate: toggleTodayCompletion } = useMutation({
   mutation: (habit: Habit) => {
     const isCompletedToday = habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
 
-    const updatedCompleteDays = isCompletedToday ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date())) : [...habit.completeDays, today];
-
-    const updatedTargetDays =
-      updatedCompleteDays.length === 49 && habit.targetDays === 49 ? 90 : updatedCompleteDays.length < 49 && habit.targetDays === 90 ? 49 : habit.targetDays;
+    const updatedCompleteDays = isCompletedToday
+      ? habit.completeDays.filter(day => !isSameDay(parseISO(day), new Date()))
+      : [...habit.completeDays, format(new Date(), 'yyyy-MM-dd')];
 
     return $fetch(`/api/habits/${habit.id}`, {
       method: 'PATCH',
       body: {
         completeDays: updatedCompleteDays,
-        targetDays: updatedTargetDays,
       },
     });
   },

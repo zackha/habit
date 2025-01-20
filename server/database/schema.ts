@@ -6,6 +6,5 @@ export const habits = sqliteTable('habits', {
   title: text('title').notNull(),
   description: text('description'),
   completeDays: text('complete_days', { mode: 'json' }).$type<string[]>().notNull().default([]),
-  targetDays: integer('target_days').notNull().default(40),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 });

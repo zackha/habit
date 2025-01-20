@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { marked } from 'marked';
-import { isSameDay, parseISO, differenceInDays, format, compareAsc } from 'date-fns';
+import { isSameDay, parseISO, format } from 'date-fns';
 const queryCache = useQueryCache();
 
 defineProps<{ habit: Habit }>();

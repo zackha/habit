@@ -86,35 +86,37 @@ const openHabitModal = ref(false);
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </div>
-  <UModal v-model="openHabitModal" :ui="{ rounded: 'rounded-2xl' }">
-    <div class="flex flex-col gap-2 p-4">
-      <div class="flex items-center justify-center">
-        <HabitHeatmap :habit="habit" :habitDays="280" />
+  <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
+    <div class="flex flex-col">
+      <div class="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-neutral-800 bg-neutral-400/5 p-2.5 shadow-md shadow-black">
+        <div class="text-xs">Completion Rate: {{ getCompletionRate(habit) }}%</div>
+        <HabitHeatmap :habit="habit" :habitDays="287" />
       </div>
-      <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
-        <input v-model="edit.title" placeholder="Title" />
-        <textarea v-model="edit.description" placeholder="Description (Markdown supported)"></textarea>
-        <button type="submit">Save</button>
-        <button type="button" @click="cancelEdit">Cancel</button>
-      </form>
-      <div v-else class="flex flex-1 flex-col gap-1">
-        <div class="text-lg font-medium">{{ habit.title }}</div>
-        <div class="text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
+      <div class="rounded-2xl p-4">
+        <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()" class="flex flex-col gap-2">
+          <UInput v-model="edit.title" :padded="false" variant="none" />
+          <UTextarea v-model="edit.description" :padded="false" variant="none" autoresize />
+          <button type="submit">Save</button>
+          <button type="button" @click="cancelEdit">Cancel</button>
+        </form>
+        <div v-else class="flex flex-1 flex-col gap-2">
+          <div class="text-xl font-semibold">{{ habit.title }}</div>
+          <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+        </div>
+        <div>
+          Today:
+          <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
+            {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
+          </strong>
+        </div>
+        <div>
+          <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
+          <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
+            {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
+          </button>
+          <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
+        </div>
       </div>
-      <div>
-        Today:
-        <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
-          {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
-        </strong>
-      </div>
-      <div>
-        <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-        <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
-          {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-        </button>
-        <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
-      </div>
-      <div class="completion-rate">Completion Rate: {{ getCompletionRate(habit) }}%</div>
     </div>
   </UModal>
 </template>

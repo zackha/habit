@@ -42,7 +42,7 @@ const formatDate = (date: string): string => {
 
 <style lang="postcss" scoped>
 .day {
-  @apply w-2.5 h-2.5 flex rounded-sm bg-neutral-800;
+  @apply flex h-2.5 w-2.5 rounded-sm bg-neutral-800;
   &.active {
     @apply bg-green-400;
   }

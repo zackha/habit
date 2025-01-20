@@ -79,18 +79,18 @@ const openHabitModal = ref(false);
 </script>
 
 <template>
-  <div class="bg-neutral-950 p-3 flex flex-row rounded-2xl border border-neutral-800 gap-3 mx-3 mb-3 cursor-pointer" @click="openHabitModal = true">
-    <div class="flex flex-col gap-1 flex-1">
-      <div class="font-medium text-lg">{{ habit.title }}</div>
-      <div class="text-xs text-neutral-400 line-clamp-3" v-html="renderMarkdown(habit.description || '')"></div>
+  <div class="mx-3 mb-3 flex cursor-pointer flex-row gap-3 rounded-2xl border border-neutral-800 bg-neutral-950 p-3" @click="openHabitModal = true">
+    <div class="flex flex-1 flex-col gap-1">
+      <div class="text-lg font-medium">{{ habit.title }}</div>
+      <div class="line-clamp-3 text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" />
   </div>
   <UModal v-model="openHabitModal">
-    <div class="p-4 flex flex-col gap-2">
-      <div class="flex flex-col gap-0.5 overflow-auto rounded-md max-h-max">
+    <div class="flex flex-col gap-2 p-4">
+      <div class="flex max-h-max flex-col gap-0.5 overflow-auto rounded-md">
         <div v-for="row in 7" :key="row" class="flex w-full gap-0.5">
-          <div v-for="col in 30" :key="col" :class="['w-2.5 h-2.5 flex rounded-sm', row === 7 && col === 30 ? 'bg-green-400' : 'bg-neutral-800']"></div>
+          <div v-for="col in 30" :key="col" :class="['flex h-2.5 w-2.5 rounded-sm', row === 7 && col === 30 ? 'bg-green-400' : 'bg-neutral-800']"></div>
         </div>
       </div>
       <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
@@ -99,8 +99,8 @@ const openHabitModal = ref(false);
         <button type="submit">Save</button>
         <button type="button" @click="cancelEdit">Cancel</button>
       </form>
-      <div v-else class="flex flex-col gap-1 flex-1">
-        <div class="font-medium text-lg">{{ habit.title }}</div>
+      <div v-else class="flex flex-1 flex-col gap-1">
+        <div class="text-lg font-medium">{{ habit.title }}</div>
         <div class="text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
       </div>
       <div>

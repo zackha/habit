@@ -8,10 +8,10 @@
 
 <style lang="postcss" scoped>
 .rmterp {
-  @apply relative z-10 min-h-screen flex flex-col justify-center box-border;
+  @apply relative z-10 box-border flex min-h-screen flex-col justify-center;
 }
 
 .fzypcq {
-  @apply max-w-sm w-full mx-auto px-5 box-border grid gap-4;
+  @apply mx-auto box-border grid w-full max-w-sm gap-4 px-5;
 }
 </style>

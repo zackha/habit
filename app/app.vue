@@ -71,8 +71,8 @@ const createHabitModal = ref(false);
 
 <template>
   <Container>
-    <div class="flex justify-between p-5 rounded-xl">
-      <div class="flex gap-4 items-center">
+    <div class="flex justify-between rounded-xl p-5">
+      <div class="flex items-center gap-4">
         <button @click="toggleDark">
           <div class="capitalize underline">{{ colorMode.preference }}</div>
         </button>
@@ -82,18 +82,20 @@ const createHabitModal = ref(false);
         </div>
       </div>
     </div>
-    <div class="flex justify-between items-center px-1">
-      <div class="flex justify-center items-center gap-3">
+    <div class="flex items-center justify-between px-1">
+      <div class="flex items-center justify-center gap-3">
         <div class="text-4xl font-semibold">{{ formattedDate.day }}</div>
         <div class="today completed"></div>
       </div>
       <div class="flex flex-col items-end font-medium">
-        <div class="text-xs text-neutral-400">{{ formattedDate.monthAndYear }}</div>
+        <div class="text-xs text-neutral-400">
+          {{ formattedDate.monthAndYear }}
+        </div>
         <div class="text-sm">{{ formattedDate.weekDay }}</div>
       </div>
     </div>
-    <div class="flex flex-col border border-neutral-800 bg-neutral-900 rounded-3xl">
-      <div class="flex justify-between items-start p-4">
+    <div class="flex flex-col rounded-3xl border border-neutral-800 bg-neutral-900">
+      <div class="flex items-start justify-between p-4">
         <div class="flex flex-col items-start gap-3">
           <UAvatar size="3xl" :src="user?.avatar_url" :alt="user?.login" />
           <div class="flex flex-col gap-1">
@@ -101,7 +103,7 @@ const createHabitModal = ref(false);
             <div class="text-xs text-neutral-400">{{ user?.bio }}</div>
           </div>
         </div>
-        <div class="items-center flex gap-3">
+        <div class="flex items-center gap-3">
           <UButton :ui="{ rounded: 'rounded-full' }" variant="soft" icon="i-heroicons-plus-16-solid" @click="createHabitModal = true">Create</UButton>
           <UModal v-model="createHabitModal">
             <div class="p-10">
@@ -114,14 +116,14 @@ const createHabitModal = ref(false);
         </div>
       </div>
       <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
-      <div v-if="emptyHabits" class="flex flex-col items-center justify-center text-center rounded-2xl border border-neutral-800 mx-3 mb-3 bg-neutral-950 relative overflow-hidden">
+      <div v-if="emptyHabits" class="relative mx-3 mb-3 flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 text-center">
         <div class="absolute flex flex-col gap-0.5">
           <div v-for="row in 14" :key="row" class="flex w-full gap-0.5">
-            <div v-for="col in 27" :key="col" class="w-2.5 h-2.5 rounded-sm bg-neutral-600/10"></div>
+            <div v-for="col in 27" :key="col" class="h-2.5 w-2.5 rounded-sm bg-neutral-600/10"></div>
           </div>
         </div>
-        <div class="absolute w-full h-full bg-gradient-to-t from-neutral-950"></div>
-        <div class="z-10 flex flex-col items-center justify-center p-6 gap-2">
+        <div class="absolute h-full w-full bg-gradient-to-t from-neutral-950"></div>
+        <div class="z-10 flex flex-col items-center justify-center gap-2 p-6">
           <UButton class="mb-2" icon="i-heroicons-plus-16-solid" @click="createHabitModal = true" size="xl" variant="solid" :ui="{ rounded: 'rounded-full' }" />
           <div class="font-medium">No habit found</div>
           <div class="text-xs text-neutral-400">Create a new habit to track your progress</div>
@@ -137,7 +139,7 @@ const createHabitModal = ref(false);
 
 <style lang="postcss" scoped>
 .today {
-  @apply w-3 h-3 rounded-full;
+  @apply h-3 w-3 rounded-full;
   background: linear-gradient(165deg, #ff0000 0%, #ff8e8e 92%);
   &.completed {
     background: linear-gradient(165deg, #15ff00 0%, #a5ffa1 92%);

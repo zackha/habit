@@ -1,11 +1,3 @@
-<template>
-  <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
-    <input v-model="title" placeholder="Title" />
-    <textarea v-model="description" placeholder="Description"></textarea>
-    <button type="submit">Add Habit</button>
-  </form>
-</template>
-
 <script setup lang="ts">
 const title = ref('');
 const description = ref('');
@@ -31,6 +23,14 @@ const { mutate: addHabit } = useMutation({
   },
 });
 </script>
+
+<template>
+  <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
+    <input v-model="title" placeholder="Title" />
+    <textarea v-model="description" placeholder="Description"></textarea>
+    <button type="submit">Add Habit</button>
+  </form>
+</template>
 
 <style scoped>
 .new-habit-form {

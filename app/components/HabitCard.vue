@@ -84,14 +84,12 @@ const openHabitModal = ref(false);
       <div class="text-lg font-medium">{{ habit.title }}</div>
       <div class="line-clamp-3 text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
-    <HabitHeatmap :habit="habit" />
+    <HabitHeatmap :habit="habit" :habitDays="49" />
   </div>
-  <UModal v-model="openHabitModal">
+  <UModal v-model="openHabitModal" :ui="{ rounded: 'rounded-2xl' }">
     <div class="flex flex-col gap-2 p-4">
-      <div class="flex max-h-max flex-col gap-0.5 overflow-auto rounded-md">
-        <div v-for="row in 7" :key="row" class="flex w-full gap-0.5">
-          <div v-for="col in 30" :key="col" :class="['flex h-2.5 w-2.5 rounded-sm', row === 7 && col === 30 ? 'bg-green-400' : 'bg-neutral-800']"></div>
-        </div>
+      <div class="flex items-center justify-center">
+        <HabitHeatmap :habit="habit" :habitDays="280" />
       </div>
       <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()">
         <input v-model="edit.title" placeholder="Title" />

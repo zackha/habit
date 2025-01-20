@@ -1,12 +1,10 @@
 <script setup lang="ts">
-defineProps<{ habit: Habit }>();
-
-const weeks = generateWeeks();
+defineProps<{ habit: Habit; habitDays: number }>();
 </script>
 
 <template>
   <div class="flex gap-0.5 overflow-hidden rounded-md">
-    <div v-for="(week, weekIndex) in weeks" :key="weekIndex" class="flex flex-col gap-0.5">
+    <div v-for="(week, weekIndex) in generateWeeks(habitDays)" :key="weekIndex" class="flex flex-col gap-0.5">
       <div v-for="(day, dayIndex) in week" :key="dayIndex">
         <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex' }">
           <div :class="['day', { active: habit.completeDays.includes(day.date) }]"></div>

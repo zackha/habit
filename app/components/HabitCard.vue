@@ -9,7 +9,7 @@ const renderMarkdown = (text: string) => {
   return marked(text);
 };
 
-const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / 49) * 100);
+const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / 40) * 100);
 
 // Delete habit
 const { mutate: deleteHabit } = useMutation({
@@ -131,9 +131,9 @@ const openHabitModal = ref(false);
             <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </div>
         </div>
-        <div class="flex flex-col gap-3 rounded-2xl border border-neutral-800 bg-white/5 p-3">
+        <div class="flex flex-col gap-2 rounded-2xl border border-neutral-800 bg-neutral-200/5 p-3">
+          <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
           <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
-          <div class="text-xs text-neutral-600">Created Date: {{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
         </div>
         <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()" class="flex flex-col gap-2">
           <UInput v-model="edit.title" :padded="false" variant="none" />

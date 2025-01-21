@@ -1,6 +1,15 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import pkg from './package.json';
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/supabase']
-})
+  future: { compatibilityVersion: 4 },
+  modules: ['@nuxthub/core', 'nuxt-auth-utils', '@pinia/nuxt', '@pinia/colada-nuxt', '@nuxt/ui'],
+  hub: {
+    database: true,
+  },
+  runtimeConfig: {
+    public: {
+      version: pkg.version,
+    },
+  },
+});

@@ -87,23 +87,60 @@ const openHabitModal = ref(false);
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </div>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-neutral-800 bg-neutral-400/5 p-2.5 shadow-md shadow-black">
-        <div class="text-xs">Completion Rate: {{ getCompletionRate(habit) }}%</div>
+        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-neutral-600">
+          <div class="text-xs">
+            Completion Rate:
+            <strong>{{ getCompletionRate(habit) }}%</strong>
+          </div>
+          <UProgress
+            :value="getCompletionRate(habit)"
+            size="xs"
+            :ui="{
+              wrapper: 'flex-1',
+              progress: {
+                color: 'dark:text-neutral-600',
+                track:
+                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-neutral-800 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-neutral-800',
+              },
+            }" />
+          <div class="text-xs">
+            Today:
+            <strong>
+              {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
+            </strong>
+          </div>
+        </div>
         <HabitHeatmap :habit="habit" :habitDays="287" />
       </div>
-      <div class="rounded-2xl p-4">
+      <div class="flex flex-col gap-4 rounded-2xl">
+        <div class="flex justify-between">
+          <div class="flex items-center gap-4">
+            <!--<UButton icon="i-heroicons-arrow-left-20-solid" size="sm" color="white" :ui="{ rounded: 'rounded-full' }" square @click="openHabitModal = false" />-->
+            <div class="text-xl font-semibold">{{ habit.title }}</div>
+          </div>
+          <div class="flex items-center gap-3">
+            <UButton
+              :color="isTodayCompleted(habit) ? 'white' : 'primary'"
+              :icon="isTodayCompleted(habit) ? '' : 'i-heroicons-check-16-solid'"
+              @click="toggleTodayCompletion(habit)"
+              :ui="{ rounded: 'rounded-full' }">
+              {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
+            </UButton>
+            <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
+          </div>
+        </div>
+        <div class="rounded-xl border border-neutral-800 bg-neutral-900 p-3">
+          <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+        </div>
         <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()" class="flex flex-col gap-2">
           <UInput v-model="edit.title" :padded="false" variant="none" />
           <UTextarea v-model="edit.description" :padded="false" variant="none" autoresize />
           <button type="submit">Save</button>
           <button type="button" @click="cancelEdit">Cancel</button>
         </form>
-        <div v-else class="flex flex-1 flex-col gap-2">
-          <div class="text-xl font-semibold">{{ habit.title }}</div>
-          <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
-        </div>
-        <div>
+        <!--<div>
           Today:
           <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
             {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
@@ -115,7 +152,7 @@ const openHabitModal = ref(false);
             {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
           </button>
           <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
-        </div>
+        </div>-->
       </div>
     </div>
   </UModal>

@@ -114,7 +114,7 @@ const openHabitModal = ref(false);
         </div>
         <HabitHeatmap :habit="habit" :habitDays="287" />
       </div>
-      <div class="flex flex-col gap-4 rounded-2xl">
+      <div class="flex flex-col gap-4 px-3">
         <div class="flex justify-between">
           <div class="flex items-center gap-4">
             <!--<UButton icon="i-heroicons-arrow-left-20-solid" size="sm" color="white" :ui="{ rounded: 'rounded-full' }" square @click="openHabitModal = false" />-->
@@ -131,8 +131,9 @@ const openHabitModal = ref(false);
             <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </div>
         </div>
-        <div class="rounded-xl border border-neutral-800 bg-neutral-900 p-3">
+        <div class="flex flex-col gap-3 rounded-2xl border border-neutral-800 bg-white/5 p-3">
           <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          <div class="text-xs text-neutral-600">Created Date: {{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
         </div>
         <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()" class="flex flex-col gap-2">
           <UInput v-model="edit.title" :padded="false" variant="none" />

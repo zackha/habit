@@ -34,4 +34,4 @@ jobs:
         uses: nuxt-hub/action@v1
         id: deploy
         with:
-          project-key: habit-60lv
+          project-key: habit-opnq

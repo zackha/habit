@@ -17,7 +17,7 @@
   "dependencies": {
     "@nuxt/ui": "2.21.0",
     "@nuxthub/core": "0.8.11",
-    "@pinia/colada": "^0.13.0",
+    "@pinia/colada": "^0.13.3",
     "@pinia/colada-nuxt": "0.0.4",
     "@pinia/nuxt": "^0.9.0",
     "date-fns": "^4.1.0",
@@ -25,9 +25,9 @@
     "drizzle-orm": "^0.38.4",
     "h3-zod": "^0.5.3",
     "marked": "^15.0.6",
-    "nuxt": "^3.15.1",
+    "nuxt": "^3.15.2",
     "nuxt-auth-utils": "0.5.7",
-    "pinia": "^2.3.0",
+    "pinia": "^2.3.1",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -35,6 +35,6 @@
   "devDependencies": {
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.10",
-    "wrangler": "^3.102.0"
+    "wrangler": "^3.103.2"
   }
 }

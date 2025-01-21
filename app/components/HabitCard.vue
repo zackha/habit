@@ -76,6 +76,27 @@ const { mutate: toggleTodayCompletion } = useMutation({
 });
 
 const openHabitModal = ref(false);
+
+const items = (habit: Habit) => [
+  [
+    {
+      label: 'Edit',
+      icon: 'i-heroicons-pencil-square-20-solid',
+      click: () => {
+        editHabit(habit);
+      },
+    },
+  ],
+  [
+    {
+      label: 'Delete',
+      icon: 'i-heroicons-trash-20-solid',
+      click: () => {
+        deleteHabit(habit);
+      },
+    },
+  ],
+];
 </script>
 
 <template>
@@ -115,11 +136,9 @@ const openHabitModal = ref(false);
         <HabitHeatmap :habit="habit" :habitDays="287" />
       </div>
       <div class="flex flex-col gap-4 px-3">
-        <div class="flex justify-between">
-          <div class="flex items-center gap-4">
-            <!--<UButton icon="i-heroicons-arrow-left-20-solid" size="sm" color="white" :ui="{ rounded: 'rounded-full' }" square @click="openHabitModal = false" />-->
-            <div class="text-xl font-semibold">{{ habit.title }}</div>
-          </div>
+        <div class="flex items-center justify-between gap-3">
+          <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
+          <div v-else class="text-xl font-semibold">{{ habit.title }}</div>
           <div class="flex items-center gap-3">
             <UButton
               :color="isTodayCompleted(habit) ? 'white' : 'primary'"
@@ -128,32 +147,23 @@ const openHabitModal = ref(false);
               :ui="{ rounded: 'rounded-full' }">
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </UButton>
-            <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
+            <UDropdown :items="items(habit)" :popper="{ placement: 'bottom-end', arrow: true }" :ui="{ width: 'w-auto' }">
+              <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
+            </UDropdown>
           </div>
         </div>
         <div class="flex flex-col gap-2 rounded-2xl border border-neutral-800 bg-neutral-200/5 p-3">
           <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
-          <div class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
+          <div v-else class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
         </div>
-        <form v-if="editingHabit === habit.id" @submit.prevent="saveHabit()" class="flex flex-col gap-2">
-          <UInput v-model="edit.title" :padded="false" variant="none" />
-          <UTextarea v-model="edit.description" :padded="false" variant="none" autoresize />
-          <button type="submit">Save</button>
-          <button type="button" @click="cancelEdit">Cancel</button>
-        </form>
-        <!--<div>
-          Today:
-          <strong :class="isTodayCompleted(habit) ? 'status-completed' : 'status-pending'">
-            {{ isTodayCompleted(habit) ? 'Completed' : 'Pending' }}
-          </strong>
+        <div v-if="editingHabit === habit.id" class="flex items-center justify-between">
+          <div></div>
+          <div class="flex gap-2">
+            <UButton :ui="{ rounded: 'rounded-full' }" @click="cancelEdit" color="white" variant="link">Cancel</UButton>
+            <UButton :ui="{ rounded: 'rounded-full' }" @click="saveHabit" trailing>Save changes</UButton>
+          </div>
         </div>
-        <div>
-          <button v-if="editingHabit !== habit.id" @click="editHabit(habit)" class="edit-button">Edit</button>
-          <button @click="toggleTodayCompletion(habit)" class="complete-today-button">
-            {{ isTodayCompleted(habit) ? 'Undo Today' : 'Complete Today' }}
-          </button>
-          <button @click="deleteHabit(habit)" class="delete-button">Delete</button>
-        </div>-->
       </div>
     </div>
   </UModal>

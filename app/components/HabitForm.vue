@@ -27,7 +27,7 @@ const { mutate: addHabit } = useMutation({
 <template>
   <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
     <input v-model="title" placeholder="Title" />
-    <textarea v-model="description" placeholder="Description"></textarea>
+    <textarea v-model="description" placeholder="Description (Markdown supported)"></textarea>
     <button type="submit">Add Habit</button>
   </form>
 </template>

@@ -25,39 +25,9 @@ const { mutate: addHabit } = useMutation({
 </script>
 
 <template>
-  <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
-    <input v-model="title" placeholder="Title" />
-    <textarea v-model="description" placeholder="Description (Markdown supported)"></textarea>
-    <button type="submit">Add Habit</button>
+  <form class="flex flex-col gap-4" @submit.prevent="addHabit({ title, description })">
+    <UInput size="lg" v-model="title" placeholder="Title" />
+    <UTextarea size="lg" v-model="description" placeholder="Description (Markdown supported)" autoresize :maxrows="3" />
+    <UButton size="lg" type="submit" label="Add Habit" block />
   </form>
 </template>
-
-<style scoped>
-.new-habit-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.new-habit-form input,
-.new-habit-form textarea {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.new-habit-form button {
-  padding: 8px 12px;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.new-habit-form button:hover {
-  background-color: #45a049;
-}
-</style>

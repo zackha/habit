@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { marked } from 'marked';
 import { isSameDay, parseISO, format } from 'date-fns';
+import confetti from 'canvas-confetti';
 const queryCache = useQueryCache();
 
 defineProps<{ habit: Habit }>();
@@ -54,6 +55,32 @@ const cancelEdit = () => {
 
 const isTodayCompleted = (habit: Habit) => habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
 
+const startConfettiAnimation = () => {
+  const end = Date.now() + 3 * 1000;
+  const colors = ['#01a535', '#7affc7'];
+
+  (function frame() {
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: colors,
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: colors,
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+};
+
 const { mutate: toggleTodayCompletion } = useMutation({
   mutation: (habit: Habit) => {
     const isCompletedToday = habit.completeDays.some(day => isSameDay(parseISO(day), new Date()));
@@ -70,8 +97,11 @@ const { mutate: toggleTodayCompletion } = useMutation({
     });
   },
 
-  async onSuccess() {
+  async onSuccess(habit) {
     await queryCache.invalidateQueries({ key: ['habits'] });
+    if (habit.completeDays.some(day => isSameDay(parseISO(day), new Date()))) {
+      startConfettiAnimation();
+    }
   },
 });
 

@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-const { loggedIn, clear } = useUserSession();
-const colorMode = useColorMode();
-
-const toggleDark = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
-};
-
+const { loggedIn } = useUserSession();
 const today = new Date();
 const formattedDate = {
   day: format(today, 'dd'),
@@ -16,17 +10,7 @@ const formattedDate = {
 </script>
 
 <template>
-  <div class="flex justify-between rounded-xl p-5">
-    <div class="flex items-center gap-4">
-      <button @click="toggleDark">
-        <div class="capitalize underline">{{ colorMode.preference }}</div>
-      </button>
-      <div>
-        <a v-if="!loggedIn" href="/api/auth/github">Sign in</a>
-        <a v-else @click="clear()">Sign Out</a>
-      </div>
-    </div>
-  </div>
+  <a v-if="!loggedIn" href="/api/auth/github">Sign in</a>
   <div class="flex items-center justify-between px-1">
     <div class="flex items-center justify-center gap-3">
       <div class="text-4xl font-semibold">{{ formattedDate.day }}</div>

@@ -164,27 +164,22 @@ const items = (habit: Habit) => [
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Confirm Deletion</h3>
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Are you sure?</h3>
             <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="closeDeleteConfirmation" />
           </div>
         </template>
         <div class="flex flex-col gap-4">
+          <p v-if="habit.completeDays.length > 1" class="text-sm text-red-500">
+            Warning: This habit has been completed for {{ habit.completeDays.length }} days. Deleting it will remove all progress.
+          </p>
           <p class="text-sm text-neutral-400">
             To confirm deletion, please type
             <strong>DELETE</strong>
             in the box below.
           </p>
-          <p v-if="habit.completeDays.length > 1" class="text-sm text-red-500">
-            Warning: This habit has been completed for {{ habit.completeDays.length }} days. Deleting it will remove all progress.
-          </p>
           <UInput color="red" v-model="confirmationText" placeholder="Type DELETE here..." />
+          <UButton block color="red" :disabled="confirmationText.toLowerCase() !== 'delete'" @click="deleteHabit(habit)">I understand, delete this habit</UButton>
         </div>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton color="white" variant="link" @click="closeDeleteConfirmation">Cancel</UButton>
-            <UButton :ui="{ rounded: 'rounded-full' }" color="red" :disabled="confirmationText.toLowerCase() !== 'delete'" @click="deleteHabit(habit)">Confirm</UButton>
-          </div>
-        </template>
       </UCard>
     </UModal>
   </UModal>

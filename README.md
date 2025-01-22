@@ -1,10 +1,12 @@
-# Habit Tracker 🚀
+### Habit Tracker 🚀
 
 A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLite**. Designed to help you set and achieve your daily goals while providing a clean and intuitive user experience.
 
+![habit](https://github.com/user-attachments/assets/719ace31-69ca-4b13-94c7-89b3b2c7ba34)
+
 ---
 
-## Features
+### Features
 
 - ✨ **Server-Side Rendering (SSR)** for optimized performance.
 - 🔒 **GitHub Authentication** using [nuxt-auth-utils](https://github.com/atinux/nuxt-auth-utils).
@@ -20,10 +22,10 @@ A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLit
 
 ---
 
-## Demo
+### Demo
 
 Check out the live demo: [https://habit.nuxt.dev](https://habit.nuxt.dev)
 
-## License
+### License
 
 This project is licensed under the [MIT License](./LICENSE).

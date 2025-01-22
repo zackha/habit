@@ -1,75 +1,31 @@
-# Nuxt Minimal Starter
+### Habit Tracker 🚀
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLite**. Designed to help you set and achieve your daily goals while providing a clean and intuitive user experience.
 
-## Setup
+![habit](https://github.com/user-attachments/assets/719ace31-69ca-4b13-94c7-89b3b2c7ba34)
 
-Make sure to install dependencies:
+---
 
-```bash
-# npm
-npm install
+### Features
 
-# pnpm
-pnpm install
+- ✨ **Server-Side Rendering (SSR)** for optimized performance.
+- 🔒 **GitHub Authentication** using [nuxt-auth-utils](https://github.com/atinux/nuxt-auth-utils).
+- 🗂️ **Drizzle ORM** integrated with **SQLite** for efficient database management.
+- 📅 **Calendar Heatmap** to visualize your progress.
+- 📊 **Progress Tracker** with dynamic completion rates.
+- 🌗 **Dark/Light Mode Toggle** with built-in support from [Nuxt UI](https://ui.nuxt.com).
+- 🖊️ **Markdown Support** for habit descriptions.
+- 🧩 Modular and scalable **component-based architecture**.
+- 🚀 Seamless deployment with [NuxtHub](https://hub.nuxt.com).
+- 🔄 **State Management** with [Pinia](https://pinia.vuejs.org).
+- 🛠️ Enhanced developer experience with [Nuxt DevTools](https://devtools.nuxt.com).
 
-# yarn
-yarn install
+---
 
-# bun
-bun install
-```
+### Demo
 
-## Development Server
+Check out the live demo: [https://habit.nuxt.dev](https://habit.nuxt.dev)
 
-Start the development server on `http://localhost:3000`:
+### License
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+This project is licensed under the [MIT License](./LICENSE).

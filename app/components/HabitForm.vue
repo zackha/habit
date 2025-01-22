@@ -1,12 +1,26 @@
 <script setup lang="ts">
-const title = ref('');
-const description = ref('');
+import { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
+
+const schema = z.object({
+  title: z.string().min(1, 'Title is required').max(100, 'Title cannot exceed 100 characters'),
+  description: z.string().min(1, 'Description is required').max(1000, 'Description cannot exceed 1000 characters'),
+});
+
+type Schema = z.output<typeof schema>;
+
+const formState = reactive<Schema>({
+  title: '',
+  description: '',
+});
+
 const queryCache = useQueryCache();
+const emit = defineEmits<{
+  (e: 'habitAdded'): void;
+}>();
 
 const { mutate: addHabit } = useMutation({
-  mutation: (data: { title: string; description: string }) => {
-    if (!title.value.trim() || !description.value.trim()) throw new Error('Error: Title and description are required');
-
+  mutation: (data: Schema) => {
     return $fetch('/api/habits', {
       method: 'POST',
       body: data,
@@ -15,49 +29,28 @@ const { mutate: addHabit } = useMutation({
 
   async onSuccess() {
     await queryCache.invalidateQueries({ key: ['habits'] });
+    emit('habitAdded');
   },
 
   onSettled() {
-    title.value = '';
-    description.value = '';
+    formState.title = '';
+    formState.description = '';
   },
 });
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  addHabit(event.data);
+}
 </script>
 
 <template>
-  <form class="new-habit-form" @submit.prevent="addHabit({ title, description })">
-    <input v-model="title" placeholder="Title" />
-    <textarea v-model="description" placeholder="Description (Markdown supported)"></textarea>
-    <button type="submit">Add Habit</button>
-  </form>
+  <UForm :schema="schema" :state="formState" class="flex flex-col gap-4" @submit="onSubmit">
+    <UFormGroup name="title">
+      <UInput size="lg" v-model="formState.title" placeholder="Title" />
+    </UFormGroup>
+    <UFormGroup name="description">
+      <UTextarea size="lg" v-model="formState.description" placeholder="Description (Markdown supported)" autoresize :maxrows="3" />
+    </UFormGroup>
+    <UButton size="lg" type="submit" label="Add Habit" block />
+  </UForm>
 </template>
-
-<style scoped>
-.new-habit-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
-
-.new-habit-form input,
-.new-habit-form textarea {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.new-habit-form button {
-  padding: 8px 12px;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.new-habit-form button:hover {
-  background-color: #45a049;
-}
-</style>

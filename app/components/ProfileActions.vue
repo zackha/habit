@@ -11,8 +11,8 @@ const isDarkMode = computed({
 
 const items = [
   [{ label: 'Profile', slot: 'account' }],
-  [{ label: 'Theme', slot: 'theme' }],
-  [{ label: 'Sign out', icon: 'i-heroicons-arrow-left-on-rectangle', click: () => clear() }],
+  [{ label: 'Theme', slot: 'theme', click: () => (isDarkMode.value = !isDarkMode.value) }],
+  [{ label: 'Sign out', click: () => clear() }],
 ];
 
 const createHabitModal = ref(false);
@@ -41,15 +41,13 @@ const createHabitModal = ref(false);
         </div>
       </template>
 
-      <template #item="{ item }">
-        <span class="truncate">{{ item.label }}</span>
-        <UIcon :name="item.icon" class="ms-auto h-4 w-4 flex-shrink-0 text-gray-400 dark:text-gray-500" />
+      <template #item>
+        <span class="truncate">Sign out</span>
+        <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="ms-auto h-5 w-5 flex-shrink-0 text-gray-400" />
       </template>
     </UDropdown>
   </div>
-  <UModal v-model="createHabitModal">
-    <div class="p-10">
-      <HabitForm />
-    </div>
+  <UModal v-model="createHabitModal" :ui="{ width: 'w-80', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
+    <HabitForm @habitAdded="createHabitModal = false" />
   </UModal>
 </template>

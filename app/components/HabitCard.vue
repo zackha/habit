@@ -103,7 +103,7 @@ const items = (habit: Habit) => [
   </div>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-neutral-800 bg-neutral-400/5 p-2.5 shadow-md shadow-black">
+      <div class="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-neutral-400/10 bg-neutral-400/5 p-2.5 shadow-md shadow-black">
         <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-neutral-600">
           <div class="text-xs">
             Completion Rate:
@@ -117,7 +117,7 @@ const items = (habit: Habit) => [
               progress: {
                 color: 'dark:text-neutral-600',
                 track:
-                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-neutral-800 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-neutral-800',
+                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-neutral-400/10 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-neutral-400/10',
               },
             }" />
           <div class="text-xs">
@@ -146,7 +146,7 @@ const items = (habit: Habit) => [
             </UDropdown>
           </div>
         </div>
-        <div class="flex flex-col gap-2 rounded-2xl border border-neutral-800 bg-neutral-200/5 p-3">
+        <div class="flex flex-col gap-2 rounded-2xl border border-neutral-400/10 bg-neutral-200/5 p-3">
           <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
           <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
           <div v-else class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>

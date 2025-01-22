@@ -15,6 +15,9 @@ const formState = reactive<Schema>({
 });
 
 const queryCache = useQueryCache();
+const emit = defineEmits<{
+  (e: 'habitAdded'): void;
+}>();
 
 const { mutate: addHabit } = useMutation({
   mutation: (data: Schema) => {
@@ -26,6 +29,7 @@ const { mutate: addHabit } = useMutation({
 
   async onSuccess() {
     await queryCache.invalidateQueries({ key: ['habits'] });
+    emit('habitAdded');
   },
 
   onSettled() {

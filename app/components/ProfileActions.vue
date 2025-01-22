@@ -48,6 +48,6 @@ const createHabitModal = ref(false);
     </UDropdown>
   </div>
   <UModal v-model="createHabitModal" :ui="{ width: 'w-80', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
-    <HabitForm />
+    <HabitForm @habitAdded="createHabitModal = false" />
   </UModal>
 </template>

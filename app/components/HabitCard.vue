@@ -5,13 +5,25 @@ const queryCache = useQueryCache();
 
 defineProps<{ habit: Habit }>();
 
-const renderMarkdown = (text: string) => {
-  return marked(text);
-};
+const renderMarkdown = (text: string) => marked(text);
 
 const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.length / 40) * 100);
 
+const openHabitModal = ref(false);
+
 // Delete habit
+const confirmDeleteModal = ref(false);
+const confirmationText = ref('');
+
+const openDeleteConfirmation = (habit: Habit) => {
+  confirmDeleteModal.value = true;
+};
+
+const closeDeleteConfirmation = () => {
+  confirmationText.value = '';
+  confirmDeleteModal.value = false;
+};
+
 const { mutate: deleteHabit } = useMutation({
   mutation: (habit: Habit) => $fetch(`/api/habits/${habit.id}`, { method: 'DELETE' }),
 
@@ -22,10 +34,7 @@ const { mutate: deleteHabit } = useMutation({
 
 // Edit habit
 const editingHabit = ref<number | null>(null);
-const edit = ref<{ title: string; description: string }>({
-  title: '',
-  description: '',
-});
+const edit = ref<{ title: string; description: string }>({ title: '', description: '' });
 
 const editHabit = (habit: Habit) => {
   editingHabit.value = habit.id;
@@ -70,32 +79,17 @@ const { mutate: toggleTodayCompletion } = useMutation({
     });
   },
 
-  async onSuccess() {
+  async onSuccess(habit) {
     await queryCache.invalidateQueries({ key: ['habits'] });
+    if (habit.completeDays.some(day => isSameDay(parseISO(day), new Date()))) {
+      startConfettiAnimation();
+    }
   },
 });
 
-const openHabitModal = ref(false);
-
 const items = (habit: Habit) => [
-  [
-    {
-      label: 'Edit',
-      icon: 'i-heroicons-pencil-square-20-solid',
-      click: () => {
-        editHabit(habit);
-      },
-    },
-  ],
-  [
-    {
-      label: 'Delete',
-      icon: 'i-heroicons-trash-20-solid',
-      click: () => {
-        deleteHabit(habit);
-      },
-    },
-  ],
+  [{ label: 'Edit', icon: 'i-heroicons-pencil-square-20-solid', click: () => editHabit(habit) }],
+  [{ label: 'Delete', labelClass: 'text-red-500', iconClass: 'bg-red-500', icon: 'i-heroicons-trash-20-solid', click: () => openDeleteConfirmation(habit) }],
 ];
 </script>
 
@@ -166,5 +160,32 @@ const items = (habit: Habit) => [
         </div>
       </div>
     </div>
+    <UModal v-model="confirmDeleteModal" :ui="{ width: 'w-80', rounded: 'rounded-2xl' }">
+      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Confirm Deletion</h3>
+            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="closeDeleteConfirmation" />
+          </div>
+        </template>
+        <div class="flex flex-col gap-4">
+          <p class="text-sm text-neutral-400">
+            To confirm deletion, please type
+            <strong>DELETE</strong>
+            in the box below.
+          </p>
+          <p v-if="habit.completeDays.length > 1" class="text-sm text-red-500">
+            Warning: This habit has been completed for {{ habit.completeDays.length }} days. Deleting it will remove all progress.
+          </p>
+          <UInput color="red" v-model="confirmationText" placeholder="Type DELETE here..." />
+        </div>
+        <template #footer>
+          <div class="flex justify-end gap-2">
+            <UButton color="white" variant="link" @click="closeDeleteConfirmation">Cancel</UButton>
+            <UButton :ui="{ rounded: 'rounded-full' }" color="red" :disabled="confirmationText.toLowerCase() !== 'delete'" @click="deleteHabit(habit)">Confirm</UButton>
+          </div>
+        </template>
+      </UCard>
+    </UModal>
   </UModal>
 </template>

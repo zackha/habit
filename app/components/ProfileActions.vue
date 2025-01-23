@@ -4,9 +4,7 @@ const colorMode = useColorMode();
 
 const isDarkMode = computed({
   get: () => colorMode.preference === 'dark',
-  set: (value: boolean) => {
-    colorMode.preference = value ? 'dark' : 'light';
-  },
+  set: () => (colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'),
 });
 
 const items = [
@@ -26,10 +24,10 @@ const createHabitModal = ref(false);
       <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-cog-8-tooth" />
       <template #account>
         <div class="flex items-center gap-2.5">
-          <UAvatar :src="user.avatar_url" size="md" />
+          <UAvatar :src="user?.avatar_url" size="md" />
           <div class="text-left">
-            <p>{{ user.name }}</p>
-            <p class="truncate font-medium text-gray-900 dark:text-white">@{{ user.login }}</p>
+            <p>{{ user?.name }}</p>
+            <p class="truncate font-medium text-gray-900 dark:text-white">@{{ user?.login }}</p>
           </div>
         </div>
       </template>
@@ -37,7 +35,7 @@ const createHabitModal = ref(false);
       <template #theme>
         <div class="flex flex-1 items-center justify-between">
           <span class="truncate">Dark mode</span>
-          <UToggle size="sm" v-model="isDarkMode" />
+          <UIcon :name="colorMode.preference === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="ms-auto h-5 w-5 flex-shrink-0 text-gray-400" />
         </div>
       </template>
 

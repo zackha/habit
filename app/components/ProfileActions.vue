@@ -35,7 +35,9 @@ const createHabitModal = ref(false);
       <template #theme>
         <div class="flex flex-1 items-center justify-between">
           <span class="truncate">Dark mode</span>
-          <UIcon :name="colorMode.preference === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="ms-auto h-5 w-5 flex-shrink-0 text-gray-400" />
+          <UIcon
+            :name="colorMode.preference === 'dark' || colorMode.preference === 'system' ? 'i-heroicons-moon' : 'i-heroicons-sun'"
+            class="ms-auto h-5 w-5 flex-shrink-0 text-gray-400" />
         </div>
       </template>
 

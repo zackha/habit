@@ -2,7 +2,7 @@
 
 A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLite**. Designed to help you set and achieve your daily goals while providing a clean and intuitive user experience.
 
-![habit](https://github.com/user-attachments/assets/4507fa48-9f12-4dcc-b5e9-a5ccb058a147)
+![habit](https://github.com/user-attachments/assets/9ee10d49-f289-44af-81b8-213e181d7dbd)
 
 ---
 

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-const { loggedIn } = useUserSession();
 const today = new Date();
 const formattedDate = {
   day: format(today, 'dd'),
@@ -10,7 +9,6 @@ const formattedDate = {
 </script>
 
 <template>
-  <a v-if="!loggedIn" href="/api/auth/github">Sign in</a>
   <div class="flex items-center justify-between px-1">
     <div class="flex items-center justify-center gap-3">
       <div class="text-4xl font-semibold">{{ formattedDate.day }}</div>

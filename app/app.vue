@@ -14,12 +14,12 @@ const emptyHabits = computed(() => habits.value?.length === 0);
   <Container>
     <AppHeader />
     <Transition name="fade" mode="out-in">
-      <div v-if="user" class="flex flex-col rounded-3xl border border-neutral-800 bg-neutral-900">
+      <Card v-if="user" class="flex flex-col">
         <ProfileHeader />
         <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
         <EmptyHabits v-if="emptyHabits" />
-      </div>
-      <Card v-else class="flex flex-col items-start justify-center gap-7">
+      </Card>
+      <Card v-else class="flex flex-col items-start justify-center gap-7 p-6 backdrop-blur-xl">
         <div class="flex w-5/6 flex-col gap-5">
           <div class="h-12 w-12 rounded-2xl border-4 border-green-400/30 bg-green-400/50 shadow-lg"></div>
           <div class="text-lg font-medium">Habit Tracker</div>

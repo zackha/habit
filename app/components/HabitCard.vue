@@ -94,13 +94,13 @@ const items = (habit: Habit) => [
 </script>
 
 <template>
-  <div class="mx-3 mb-3 flex cursor-pointer flex-row gap-3 rounded-2xl border border-neutral-800 bg-neutral-950 p-3" @click="openHabitModal = true">
+  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 p-3" @click="openHabitModal = true">
     <div class="flex flex-1 flex-col gap-1">
       <div class="text-lg font-medium">{{ habit.title }}</div>
-      <div class="line-clamp-3 text-xs text-neutral-400" v-html="renderMarkdown(habit.description || '')"></div>
+      <div class="line-clamp-3 text-xs text-neutral-200" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
-  </div>
+  </ContentBox>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center justify-center gap-2.5 rounded-2xl border border-neutral-400/10 bg-neutral-400/5 p-2.5 shadow-md shadow-black">

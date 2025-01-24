@@ -14,14 +14,14 @@ const emptyHabits = computed(() => habits.value?.length === 0);
   <Container>
     <AppHeader />
     <Transition name="fade" mode="out-in">
-      <div v-if="user" class="flex flex-col rounded-3xl border border-neutral-800 bg-neutral-900">
+      <Card v-if="user" class="flex flex-col">
         <ProfileHeader />
         <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
         <EmptyHabits v-if="emptyHabits" />
-      </div>
-      <div v-else class="flex flex-col items-start justify-center gap-7 rounded-3xl border border-neutral-800 bg-neutral-900 p-6">
-        <div class="flex w-5/6 flex-col gap-4">
-          <div class="h-12 w-12 rounded-2xl border-4 border-black/35 bg-green-400 shadow-lg"></div>
+      </Card>
+      <Card v-else class="flex flex-col items-start justify-center gap-7 p-6 backdrop-blur-xl">
+        <div class="flex w-5/6 flex-col gap-5">
+          <div class="h-12 w-12 rounded-2xl border-4 border-green-400/30 bg-green-400/50 shadow-lg"></div>
           <div class="text-lg font-medium">Habit Tracker</div>
           <div class="text-3xl font-medium">
             An efficient tool to
@@ -30,14 +30,17 @@ const emptyHabits = computed(() => habits.value?.length === 0);
             <span class="text-green-400">daily habits</span>
           </div>
         </div>
-        <UButton to="/api/auth/github" icon="i-simple-icons-github" label="Login with GitHub" color="black" />
-      </div>
+        <a href="/api/auth/github" class="button">
+          <UIcon name="i-simple-icons-github" class="h-5 w-5" />
+          Continue with GitHub
+        </a>
+      </Card>
     </Transition>
     <AppFooter />
   </Container>
 </template>
 
-<style>
+<style lang="postcss" scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 250ms;
@@ -46,5 +49,19 @@ const emptyHabits = computed(() => habits.value?.length === 0);
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.button {
+  box-shadow:
+    inset 0.5px 0.5px 1px 0px rgba(255, 255, 255, 0.1),
+    inset -0.5px -0.5px 1px 0px rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.2) 0px 3px 10px -5px;
+  @apply flex items-center justify-center gap-2 rounded-full bg-white/10 px-2.5 py-2 text-sm text-white backdrop-blur-sm transition-all;
+  &:active {
+    @apply scale-95;
+  }
+  &:hover {
+    @apply bg-white/20;
+  }
 }
 </style>

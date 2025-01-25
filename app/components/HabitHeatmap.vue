@@ -18,7 +18,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
 .day {
   @apply flex h-2.5 w-2.5 rounded-sm bg-white/10;
   &.active {
-    @apply border border-black/50 bg-green-400;
+    @apply bg-gradient-to-tr from-green-400 via-green-500 to-green-800 shadow-sm shadow-green-800;
   }
 }
 </style>

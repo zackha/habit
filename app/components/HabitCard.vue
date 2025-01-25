@@ -136,8 +136,8 @@ const items = (habit: Habit) => [
           <div class="flex items-center gap-3">
             <button
               @click="toggleTodayCompletion(habit)"
-              class="button px-2.5 py-1.5 font-semibold"
-              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-green-600'">
+              class="button px-2.5 py-1.5 font-semibold outline-none"
+              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-white/25 hover:text-white'">
               <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </button>

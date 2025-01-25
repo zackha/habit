@@ -94,17 +94,17 @@ const items = (habit: Habit) => [
 </script>
 
 <template>
-  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 rounded-3xl bg-neutral-300/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
-    <div class="flex flex-1 flex-col gap-1">
-      <div class="text-lg font-medium">{{ habit.title }}</div>
-      <div class="line-clamp-3 text-xs text-neutral-200" v-html="renderMarkdown(habit.description || '')"></div>
+  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 bg-neutral-400/5 p-3 transition hover:bg-white/5" @click="openHabitModal = true">
+    <div class="flex flex-1 flex-col justify-center gap-1">
+      <div class="text-md font-medium text-white">{{ habit.title }}</div>
+      <div class="line-clamp-3 text-xs text-white/70" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </ContentBox>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <ContentBox class="flex flex-col items-center justify-center gap-2.5 rounded-2xl bg-neutral-400/5 p-2.5">
-        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-neutral-600">
+      <ContentBox class="flex flex-col items-center justify-center gap-2.5 bg-neutral-400/5 p-2.5">
+        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/15">
           <div class="text-xs">
             Completion Rate:
             <strong>{{ getCompletionRate(habit) }}%</strong>
@@ -115,9 +115,9 @@ const items = (habit: Habit) => [
             :ui="{
               wrapper: 'flex-1',
               progress: {
-                color: 'dark:text-neutral-600',
+                color: 'dark:text-white/15',
                 track:
-                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-neutral-400/10 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-neutral-400/10',
+                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-white/5 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-white/5',
               },
             }" />
           <div class="text-xs">
@@ -134,19 +134,22 @@ const items = (habit: Habit) => [
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="text-xl font-semibold">{{ habit.title }}</div>
           <div class="flex items-center gap-3">
-            <UButton
-              :color="isTodayCompleted(habit) ? 'white' : 'primary'"
-              :icon="isTodayCompleted(habit) ? '' : 'i-heroicons-check-16-solid'"
+            <button
               @click="toggleTodayCompletion(habit)"
-              :ui="{ rounded: 'rounded-full' }">
+              class="button px-2.5 py-1.5 font-semibold outline-none"
+              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-green-300'">
+              <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
-            </UButton>
+            </button>
+
             <UDropdown :items="items(habit)" :popper="{ placement: 'bottom-end', arrow: true }" :ui="{ width: 'w-auto' }">
-              <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
+              <button class="button bg-white/10 p-1.5 hover:bg-white/25">
+                <UIcon name="i-heroicons-ellipsis-horizontal-20-solid" class="h-5 w-5" />
+              </button>
             </UDropdown>
           </div>
         </div>
-        <ContentBox class="flex flex-col gap-2 rounded-3xl bg-neutral-200/5 p-4 backdrop-blur-xl">
+        <ContentBox class="flex flex-col gap-2 bg-neutral-200/5 p-4 backdrop-blur-2xl">
           <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
           <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
           <div v-else class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>

@@ -3,10 +3,10 @@ defineProps<{ habit: Habit; habitDays: number }>();
 </script>
 
 <template>
-  <div class="flex gap-0.5 overflow-hidden rounded-md">
+  <div class="flex gap-0.5 overflow-hidden rounded-xl">
     <div v-for="(week, weekIndex) in generateWeeks(habitDays)" :key="weekIndex" class="flex flex-col gap-0.5">
       <div v-for="(day, dayIndex) in week" :key="dayIndex">
-        <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex' }">
+        <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex', rounded: 'rounded-full' }">
           <div :class="['day', { active: habit.completeDays.includes(day.date) }]"></div>
         </UTooltip>
       </div>
@@ -18,7 +18,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
 .day {
   @apply flex h-2.5 w-2.5 rounded-sm bg-white/5;
   &.active {
-    @apply border border-black/60 bg-green-400;
+    @apply bg-gradient-to-tr from-green-400 via-green-500 to-green-800 shadow-sm shadow-green-800;
   }
 }
 </style>

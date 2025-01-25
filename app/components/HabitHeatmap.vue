@@ -6,7 +6,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
   <div class="flex gap-0.5 overflow-hidden rounded-xl">
     <div v-for="(week, weekIndex) in generateWeeks(habitDays)" :key="weekIndex" class="flex flex-col gap-0.5">
       <div v-for="(day, dayIndex) in week" :key="dayIndex">
-        <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex' }">
+        <UTooltip :text="formatDate(day.date)" :popper="{ placement: 'top' }" :ui="{ wrapper: 'flex', rounded: 'rounded-full' }">
           <div :class="['day', { active: habit.completeDays.includes(day.date) }]"></div>
         </UTooltip>
       </div>

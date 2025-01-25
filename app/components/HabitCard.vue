@@ -96,8 +96,8 @@ const items = (habit: Habit) => [
 <template>
   <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 bg-white/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
     <div class="flex flex-1 flex-col justify-center gap-1">
-      <div class="text-md font-medium text-white/80">{{ habit.title }}</div>
-      <div class="line-clamp-3 text-xs text-white/50" v-html="renderMarkdown(habit.description || '')"></div>
+      <div class="text-md font-medium text-white">{{ habit.title }}</div>
+      <div class="line-clamp-3 text-xs text-white/70" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </ContentBox>
@@ -137,7 +137,7 @@ const items = (habit: Habit) => [
             <button
               @click="toggleTodayCompletion(habit)"
               class="button px-2.5 py-1.5 font-semibold outline-none"
-              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-white/25 hover:text-white'">
+              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-green-300'">
               <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </button>

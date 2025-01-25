@@ -10,7 +10,7 @@ const createHabitModal = ref(false);
       </div>
     </div>
     <div class="z-10 flex flex-col items-center justify-center gap-2 p-6">
-      <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-white/25 hover:text-white">
+      <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
         <UIcon name="i-heroicons-plus-16-solid" class="h-6 w-6" />
       </button>
       <div class="font-medium">No habit found</div>

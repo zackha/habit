@@ -16,7 +16,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
 
 <style lang="postcss" scoped>
 .day {
-  @apply flex h-2.5 w-2.5 rounded-sm bg-white/10;
+  @apply flex h-2.5 w-2.5 rounded-sm bg-white/5;
   &.active {
     @apply bg-gradient-to-tr from-green-400 via-green-500 to-green-800 shadow-sm shadow-green-800;
   }

@@ -94,17 +94,17 @@ const items = (habit: Habit) => [
 </script>
 
 <template>
-  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 rounded-3xl bg-neutral-300/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
-    <div class="flex flex-1 flex-col gap-1">
-      <div class="text-lg font-medium">{{ habit.title }}</div>
-      <div class="line-clamp-3 text-xs text-neutral-200" v-html="renderMarkdown(habit.description || '')"></div>
+  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 rounded-3xl bg-white/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
+    <div class="flex flex-1 flex-col justify-center gap-1">
+      <div class="text-md font-medium text-white/80">{{ habit.title }}</div>
+      <div class="line-clamp-3 text-xs text-white/50" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </ContentBox>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <ContentBox class="flex flex-col items-center justify-center gap-2.5 rounded-2xl bg-neutral-400/5 p-2.5">
-        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-neutral-600">
+      <ContentBox class="flex flex-col items-center justify-center gap-2.5 rounded-3xl bg-neutral-400/5 p-2.5 backdrop-blur-2xl">
+        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/15">
           <div class="text-xs">
             Completion Rate:
             <strong>{{ getCompletionRate(habit) }}%</strong>
@@ -115,9 +115,9 @@ const items = (habit: Habit) => [
             :ui="{
               wrapper: 'flex-1',
               progress: {
-                color: 'dark:text-neutral-600',
+                color: 'dark:text-white/15',
                 track:
-                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-neutral-400/10 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-neutral-400/10',
+                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-white/5 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-white/5',
               },
             }" />
           <div class="text-xs">

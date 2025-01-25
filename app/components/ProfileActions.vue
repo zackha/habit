@@ -18,10 +18,15 @@ const createHabitModal = ref(false);
 
 <template>
   <div class="flex items-center gap-3">
-    <UButton :ui="{ rounded: 'rounded-full' }" variant="soft" icon="i-heroicons-plus-16-solid" @click="createHabitModal = true">Create</UButton>
+    <button class="button bg-white/20 py-1.5 pl-2 pr-2.5 hover:bg-white/25" @click="createHabitModal = true">
+      <UIcon name="i-heroicons-plus-16-solid" class="h-5 w-5" />
+      Create
+    </button>
 
     <UDropdown :items="items" :popper="{ placement: 'bottom-end' }">
-      <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-cog-8-tooth" />
+      <button class="button bg-white/20 p-1.5 hover:bg-white/25">
+        <UIcon name="i-heroicons-cog-8-tooth" class="h-5 w-5" />
+      </button>
       <template #account>
         <div class="flex items-center gap-2.5">
           <UAvatar :src="user?.avatar_url" size="md" />

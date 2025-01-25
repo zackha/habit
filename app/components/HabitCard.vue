@@ -134,15 +134,18 @@ const items = (habit: Habit) => [
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="text-xl font-semibold">{{ habit.title }}</div>
           <div class="flex items-center gap-3">
-            <UButton
-              :color="isTodayCompleted(habit) ? 'white' : 'primary'"
-              :icon="isTodayCompleted(habit) ? '' : 'i-heroicons-check-16-solid'"
+            <button
               @click="toggleTodayCompletion(habit)"
-              :ui="{ rounded: 'rounded-full' }">
+              class="button px-2.5 py-1.5 font-semibold"
+              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-green-600'">
+              <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
-            </UButton>
+            </button>
+
             <UDropdown :items="items(habit)" :popper="{ placement: 'bottom-end', arrow: true }" :ui="{ width: 'w-auto' }">
-              <UButton color="white" :ui="{ rounded: 'rounded-full' }" square trailing-icon="i-heroicons-ellipsis-horizontal-20-solid" />
+              <button class="button bg-white/10 p-1.5 hover:bg-white/25">
+                <UIcon name="i-heroicons-ellipsis-horizontal-20-solid" class="h-5 w-5" />
+              </button>
             </UDropdown>
           </div>
         </div>

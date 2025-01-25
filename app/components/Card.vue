@@ -6,10 +6,21 @@
 
 <style lang="postcss" scoped>
 .card {
-  box-shadow:
-    inset 0px 0px 2.5px 0px rgba(255, 255, 255, 0.1),
-    inset 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.4) 0px 15px 40px -10px;
-  @apply flex flex-col rounded-[2.375rem] bg-black/50;
+  @apply relative flex h-full w-full flex-col rounded-[2.375rem];
+  &::before {
+    @apply absolute inset-0 rounded-[2.375rem];
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: inset 2px 4px 16px 0 hsla(0, 0%, 97%, 0.06);
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+    content: '';
+  }
+  &::after {
+    @apply pointer-events-none absolute inset-0 rounded-[2.375rem];
+    border: 1.5px solid hsla(0, 0%, 100%, 0.05);
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+    mask-image: linear-gradient(180deg, #000, transparent);
+    content: '';
+  }
 }
 </style>

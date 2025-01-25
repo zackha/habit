@@ -94,7 +94,7 @@ const items = (habit: Habit) => [
 </script>
 
 <template>
-  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 rounded-3xl bg-white/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
+  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 bg-white/5 p-3 transition hover:bg-white/10" @click="openHabitModal = true">
     <div class="flex flex-1 flex-col justify-center gap-1">
       <div class="text-md font-medium text-white/80">{{ habit.title }}</div>
       <div class="line-clamp-3 text-xs text-white/50" v-html="renderMarkdown(habit.description || '')"></div>
@@ -103,7 +103,7 @@ const items = (habit: Habit) => [
   </ContentBox>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <ContentBox class="flex flex-col items-center justify-center gap-2.5 rounded-3xl bg-neutral-400/5 p-2.5 backdrop-blur-2xl">
+      <ContentBox class="flex flex-col items-center justify-center gap-2.5 bg-neutral-400/5 p-2.5 backdrop-blur-2xl">
         <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/15">
           <div class="text-xs">
             Completion Rate:
@@ -149,7 +149,7 @@ const items = (habit: Habit) => [
             </UDropdown>
           </div>
         </div>
-        <ContentBox class="flex flex-col gap-2 rounded-3xl bg-neutral-200/5 p-4 backdrop-blur-xl">
+        <ContentBox class="flex flex-col gap-2 bg-neutral-200/5 p-4 backdrop-blur-2xl">
           <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
           <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
           <div v-else class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>

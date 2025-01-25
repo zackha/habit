@@ -3,7 +3,7 @@
     <div class="fzypcq">
       <slot />
     </div>
-    <div class="absolute h-screen w-screen bg-cover bg-center blur-md" style="background-image: url('/bg/bg2.jpg')"></div>
+    <div class="absolute h-screen w-screen bg-cover bg-center blur" style="background-image: url('/bg/bg2.jpg')"></div>
   </div>
 </template>
 

@@ -21,7 +21,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
 .day {
   @apply flex h-2.5 w-2.5 rounded-sm bg-white/5;
   &.active {
-    @apply bg-gradient-to-tr from-green-400 via-green-500 to-green-800 shadow-sm shadow-green-800;
+    @apply bg-gradient-to-tr from-green-300 via-green-400 to-green-500 shadow-sm dark:from-green-400 dark:via-green-500 dark:to-green-800 dark:shadow-green-800;
   }
 }
 
@@ -31,7 +31,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
     inset 0.5px 0.5px 1px 0px rgba(255, 255, 255, 0.1),
     inset -0.5px -0.5px 1px 0px rgba(0, 0, 0, 0.1),
     rgba(0, 0, 0, 0.2) 0px 3px 10px -5px;
-  @apply flex select-none items-center justify-center rounded-full bg-black/80 px-2.5 py-0.5;
+  @apply flex select-none items-center justify-center rounded-full bg-black/40 px-2.5 py-0.5 text-white dark:bg-black/80;
   &.active {
     @apply bg-green-950/80 text-green-400;
   }

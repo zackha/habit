@@ -96,10 +96,10 @@ const { mutate: toggleTodayCompletion } = useMutation({
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </ContentBox>
-  <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
+  <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <ContentBox class="flex flex-col items-center justify-center gap-2.5 bg-neutral-400/5 p-2.5">
-        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/15">
+      <ContentBox class="flex flex-col items-center justify-center gap-2.5 bg-white/10 p-2.5 dark:bg-neutral-400/5">
+        <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/25 dark:text-white/15">
           <div class="text-xs">
             Completion Rate:
             <strong>{{ getCompletionRate(habit) }}%</strong>
@@ -110,9 +110,9 @@ const { mutate: toggleTodayCompletion } = useMutation({
             :ui="{
               wrapper: 'flex-1',
               progress: {
-                color: 'dark:text-white/15',
+                color: 'text-white/25 dark:text-white/15',
                 track:
-                  '[&::-webkit-progress-bar]:bg-neutral-200 [&::-webkit-progress-bar]:dark:bg-white/5 [@supports(selector(&::-moz-progress-bar))]:bg-neutral-200 [@supports(selector(&::-moz-progress-bar))]:dark:bg-white/5',
+                  '[&::-webkit-progress-bar]:bg-white/10 [&::-webkit-progress-bar]:dark:bg-white/5 [@supports(selector(&::-moz-progress-bar))]:bg-white/10 [@supports(selector(&::-moz-progress-bar))]:dark:bg-white/5',
               },
             }" />
           <div class="text-xs">
@@ -124,7 +124,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         </div>
         <HabitHeatmap :habit="habit" :habitDays="287" />
       </ContentBox>
-      <div class="flex flex-col gap-4 px-3">
+      <div class="flex flex-col gap-4 px-3 text-white">
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="text-xl font-semibold">{{ habit.title }}</div>
@@ -132,7 +132,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
             <button
               @click="toggleTodayCompletion(habit)"
               class="button px-2.5 py-1.5 font-semibold outline-none"
-              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-400 text-green-950 hover:bg-green-300'">
+              :class="isTodayCompleted(habit) ? 'bg-white/10 hover:bg-white/25' : 'bg-green-500 hover:bg-green-400 dark:bg-green-400 dark:text-green-950 dark:hover:bg-green-300'">
               <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </button>
@@ -148,7 +148,9 @@ const { mutate: toggleTodayCompletion } = useMutation({
                     <span>Edit</span>
                   </div>
                   <div class="border-b border-white/5"></div>
-                  <div @click="openDeleteConfirmation(habit)" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 text-red-500 transition hover:bg-red-900/30">
+                  <div
+                    @click="openDeleteConfirmation(habit)"
+                    class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30 dark:text-red-500 dark:hover:bg-red-900/30">
                     <UIcon name="i-heroicons-trash-20-solid" class="h-5 w-5" />
                     <span>Delete</span>
                   </div>
@@ -157,10 +159,10 @@ const { mutate: toggleTodayCompletion } = useMutation({
             </UPopover>
           </div>
         </div>
-        <ContentBox class="flex flex-col gap-2 bg-neutral-200/5 p-4 backdrop-blur-2xl">
-          <div class="text-xs font-medium text-neutral-400">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
+        <ContentBox class="flex flex-col gap-2 bg-white/10 p-4 backdrop-blur-2xl dark:bg-neutral-200/5">
+          <div class="text-xs font-medium text-white/50">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
           <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
-          <div v-else class="prose prose-sm dark:prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
         </ContentBox>
         <div v-if="editingHabit === habit.id" class="flex items-center justify-between">
           <div></div>

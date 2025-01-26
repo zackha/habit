@@ -6,10 +6,9 @@
 
 <style lang="postcss" scoped>
 .card {
-  @apply relative flex h-full w-full flex-col rounded-[2.375rem];
+  @apply relative flex h-full w-full flex-col rounded-[2.375rem] text-white;
   &::before {
-    @apply absolute inset-0 rounded-[2.375rem];
-    background: rgba(0, 0, 0, 0.5);
+    @apply absolute inset-0 rounded-[2.375rem] bg-white/5 dark:bg-black/50;
     box-shadow: inset 2px 4px 16px 0 hsla(0, 0%, 97%, 0.06);
     -webkit-backdrop-filter: blur(50px);
     backdrop-filter: blur(50px);

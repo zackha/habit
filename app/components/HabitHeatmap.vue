@@ -31,9 +31,9 @@ defineProps<{ habit: Habit; habitDays: number }>();
     inset 0.5px 0.5px 1px 0px rgba(255, 255, 255, 0.1),
     inset -0.5px -0.5px 1px 0px rgba(0, 0, 0, 0.1),
     rgba(0, 0, 0, 0.2) 0px 3px 10px -5px;
-  @apply flex select-none items-center justify-center rounded-full bg-black/70 px-2.5 py-0.5;
+  @apply flex select-none items-center justify-center rounded-full bg-black/80 px-2.5 py-0.5;
   &.active {
-    @apply text-green-400;
+    @apply bg-green-950/80 text-green-400;
   }
 }
 </style>

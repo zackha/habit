@@ -17,7 +17,7 @@ const createHabitModal = ref(false);
       <div class="text-xs text-neutral-400">Create a new habit to track your progress</div>
     </div>
   </ContentBox>
-  <UModal v-model="createHabitModal" :ui="{ width: 'w-80', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
+  <UModal v-model="createHabitModal" :ui="{ width: 'w-96', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
     <HabitForm @habitAdded="createHabitModal = false" />
   </UModal>
 </template>

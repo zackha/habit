@@ -9,7 +9,7 @@ const createHabitModal = ref(false);
         <div v-for="col in 27" :key="col" class="h-2.5 w-2.5 rounded-sm bg-neutral-600/5"></div>
       </div>
     </div>
-    <div class="z-10 flex flex-col items-center justify-center gap-2 p-6">
+    <div class="flex flex-col items-center justify-center gap-2 p-6">
       <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
         <UIcon name="i-heroicons-plus-16-solid" class="h-6 w-6" />
       </button>

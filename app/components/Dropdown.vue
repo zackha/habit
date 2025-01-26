@@ -24,22 +24,22 @@ const isDarkMode = computed({
         </div>
         <div class="border-b border-white/10"></div>-->
         <div @click="isDarkMode = !isDarkMode" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
-          <UIcon :name="colorMode.preference === 'dark' || colorMode.preference === 'system' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="h-5 w-5 text-white/80" />
-          <span class="text-white/80">Dark mode</span>
+          <UIcon :name="colorMode.preference === 'dark' || colorMode.preference === 'system' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="h-5 w-5" />
+          <span>Dark mode</span>
         </div>
         <div class="border-b border-white/10"></div>
         <div @click="clear()" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
-          <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="h-5 w-5 text-white/80" />
-          <span class="text-white/80">Sign out</span>
+          <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="h-5 w-5" />
+          <span>Sign out</span>
         </div>
       </div>
     </template>
   </UPopover>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 .dropdown {
-  @apply mt-1 flex w-36 select-none flex-col rounded-2xl text-sm;
+  @apply mt-1 flex select-none flex-col rounded-2xl text-sm text-white/80;
   background: hsla(0, 0%, 100%, 0.05);
   box-shadow:
     0 24px 32px -12px hsla(0, 0%, 7%, 0.1),

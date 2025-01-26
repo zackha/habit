@@ -86,11 +86,6 @@ const { mutate: toggleTodayCompletion } = useMutation({
     }
   },
 });
-
-const items = (habit: Habit) => [
-  [{ label: 'Edit', icon: 'i-heroicons-pencil-square-20-solid', click: () => editHabit(habit) }],
-  [{ label: 'Delete', labelClass: 'text-red-500', iconClass: 'bg-red-500', icon: 'i-heroicons-trash-20-solid', click: () => openDeleteConfirmation(habit) }],
-];
 </script>
 
 <template>
@@ -142,11 +137,24 @@ const items = (habit: Habit) => [
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </button>
 
-            <UDropdown :items="items(habit)" :popper="{ placement: 'bottom-end', arrow: true }" :ui="{ width: 'w-auto' }">
+            <UPopover :popper="{ placement: 'bottom-end' }" :ui="{ background: '', shadow: '', ring: '' }">
               <button class="button bg-white/10 p-1.5 hover:bg-white/25">
                 <UIcon name="i-heroicons-ellipsis-horizontal-20-solid" class="h-5 w-5" />
               </button>
-            </UDropdown>
+              <template #panel>
+                <div class="dropdown">
+                  <div @click="editHabit(habit)" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+                    <UIcon name="i-heroicons-pencil-square-20-solid" class="h-5 w-5" />
+                    <span>Edit</span>
+                  </div>
+                  <div class="border-b border-white/10"></div>
+                  <div @click="openDeleteConfirmation(habit)" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 text-red-500 transition hover:bg-red-900/30">
+                    <UIcon name="i-heroicons-trash-20-solid" class="h-5 w-5" />
+                    <span>Delete</span>
+                  </div>
+                </div>
+              </template>
+            </UPopover>
           </div>
         </div>
         <ContentBox class="flex flex-col gap-2 bg-neutral-200/5 p-4 backdrop-blur-2xl">

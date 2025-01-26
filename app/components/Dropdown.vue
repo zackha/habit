@@ -23,12 +23,12 @@ const isDarkMode = computed({
           </div>
         </div>
         <div class="border-b border-white/10"></div>-->
-        <div @click="isDarkMode = !isDarkMode" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+        <div @click="isDarkMode = !isDarkMode" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
           <UIcon :name="colorMode.preference === 'dark' || colorMode.preference === 'system' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="h-5 w-5" />
           <span>Dark mode</span>
         </div>
-        <div class="border-b border-white/10"></div>
-        <div @click="clear()" class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+        <div class="border-b border-white/5"></div>
+        <div @click="clear()" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
           <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="h-5 w-5" />
           <span>Sign out</span>
         </div>
@@ -39,15 +39,12 @@ const isDarkMode = computed({
 
 <style lang="postcss">
 .dropdown {
-  @apply mt-1 flex select-none flex-col rounded-2xl text-sm text-white/80;
+  @apply mt-1 flex select-none flex-col rounded-xl border border-white/5 text-sm text-white/80;
   background: hsla(0, 0%, 100%, 0.05);
   box-shadow:
     0 24px 32px -12px hsla(0, 0%, 7%, 0.1),
     inset 2px 4px 16px 0 hsla(0, 0%, 97%, 0.06);
   -webkit-backdrop-filter: blur(50px);
   backdrop-filter: blur(50px);
-  visibility: visible;
-  opacity: 1;
-  transition: all 0.2s;
 }
 </style>

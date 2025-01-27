@@ -8,6 +8,20 @@ const { data: habits } = useQuery({
 });
 
 const emptyHabits = computed(() => habits.value?.length === 0);
+
+useHead({
+  htmlAttrs: { lang: 'en' },
+  link: [{ rel: 'icon', href: '/icon.png' }],
+});
+
+useSeoMeta({
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  title: 'Habit',
+  description: 'A minimalistic habit tracker application to track and manage your daily habits with ease',
+  ogImage: '/social-card.png',
+  twitterImage: '/social-card.png',
+  twitterCard: 'summary_large_image',
+});
 </script>
 
 <template>

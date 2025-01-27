@@ -10,7 +10,7 @@ const createHabitModal = ref(false);
     </button>
     <Dropdown />
   </div>
-  <UModal v-model="createHabitModal" :ui="{ width: 'w-96', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'dark:bg-black/60' } }">
+  <UModal v-model="createHabitModal" :ui="{ width: 'w-96', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
     <HabitForm @habitAdded="createHabitModal = false" />
   </UModal>
 </template>

@@ -96,7 +96,9 @@ const { mutate: toggleTodayCompletion } = useMutation({
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
   </ContentBox>
-  <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
+  <UModal
+    v-model="openHabitModal"
+    :ui="{ container: 'items-center', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
       <ContentBox class="flex flex-col gap-2.5 bg-white/10 p-2.5 dark:bg-neutral-400/5">
         <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/25 dark:text-white/15">

@@ -98,7 +98,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
   </ContentBox>
   <UModal v-model="openHabitModal" :ui="{ background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
     <div class="flex flex-col gap-4">
-      <ContentBox class="flex flex-col  justify-center gap-2.5 bg-white/10 p-2.5 dark:bg-neutral-400/5">
+      <ContentBox class="flex flex-col gap-2.5 bg-white/10 p-2.5 dark:bg-neutral-400/5">
         <div class="flex w-full items-center justify-between gap-2.5 px-0.5 text-white/25 dark:text-white/15">
           <div class="text-xs">
             Completion Rate:
@@ -122,7 +122,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
             </strong>
           </div>
         </div>
-        <HabitHeatmap :habit="habit" :habitDays="287" />
+        <HabitHeatmap :habit="habit" :habitDays="343" />
       </ContentBox>
       <div class="flex flex-col gap-4 px-3 text-white">
         <div class="flex items-center justify-between gap-3">

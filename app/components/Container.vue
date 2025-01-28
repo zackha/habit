@@ -21,7 +21,7 @@ const setBackground = (image: string) => {
       class="absolute h-dvh w-screen bg-cover bg-center blur transition-opacity duration-300"
       :style="{ backgroundImage: `url('${backgroundImage}')`, opacity: isTransitioning ? 0 : 1 }"
       @transitionend="isTransitioning = false"></div>
-    <div class="absolute max-sm:hidden bottom-8 left-8 flex gap-4">
+    <div class="absolute bottom-8 left-8 flex gap-4 max-sm:hidden">
       <button @click="setBackground('/bg/bg1.jpg')" class="bg-image-button" :style="{ backgroundImage: `url('/bg/bg1.jpg')` }"></button>
       <button @click="setBackground('/bg/bg2.jpg')" class="bg-image-button" :style="{ backgroundImage: `url('/bg/bg2.jpg')` }"></button>
     </div>
@@ -34,7 +34,7 @@ const setBackground = (image: string) => {
 }
 
 .fzypcq {
-  @apply z-10 mx-auto flex w-full max-w-sm flex-col gap-4 px-5;
+  @apply z-10 mx-auto flex w-full max-w-sm flex-col gap-4 p-5;
 }
 
 .bg-image-button {

@@ -18,10 +18,10 @@ const setBackground = (image: string) => {
       <slot />
     </div>
     <div
-      class="absolute h-screen w-screen bg-cover bg-center blur transition-opacity duration-300"
+      class="absolute h-dvh w-screen bg-cover bg-center blur transition-opacity duration-300"
       :style="{ backgroundImage: `url('${backgroundImage}')`, opacity: isTransitioning ? 0 : 1 }"
       @transitionend="isTransitioning = false"></div>
-    <div class="absolute bottom-8 left-8 flex gap-4">
+    <div class="absolute max-sm:hidden bottom-8 left-8 flex gap-4">
       <button @click="setBackground('/bg/bg1.jpg')" class="bg-image-button" :style="{ backgroundImage: `url('/bg/bg1.jpg')` }"></button>
       <button @click="setBackground('/bg/bg2.jpg')" class="bg-image-button" :style="{ backgroundImage: `url('/bg/bg2.jpg')` }"></button>
     </div>
@@ -30,7 +30,7 @@ const setBackground = (image: string) => {
 
 <style lang="postcss" scoped>
 .rmterp {
-  @apply relative flex min-h-screen flex-col items-center justify-center;
+  @apply relative flex h-dvh items-center justify-center;
 }
 
 .fzypcq {

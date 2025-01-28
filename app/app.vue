@@ -15,12 +15,14 @@ useHead({
 });
 
 useSeoMeta({
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
   title: 'Habit',
   description: 'A minimalistic habit tracker application to track and manage your daily habits with ease',
+  ogTitle: 'Habit',
+  ogDescription: 'A minimalistic habit tracker application to track and manage your daily habits with ease',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  twitterCard: 'summary_large_image',
   ogImage: '/social-card.png',
   twitterImage: '/social-card.png',
-  twitterCard: 'summary_large_image',
 });
 </script>
 

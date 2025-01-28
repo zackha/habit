@@ -3,7 +3,7 @@ defineProps<{ habit: Habit; habitDays: number }>();
 </script>
 
 <template>
-  <div class="flex gap-0.5 overflow-hidden rounded-xl">
+  <div class="flex gap-0.5 overflow-auto rounded-xl">
     <div v-for="(week, weekIndex) in generateWeeks(habitDays)" :key="weekIndex" class="flex flex-col gap-0.5">
       <div v-for="(day, dayIndex) in week" :key="dayIndex">
         <UTooltip :popper="{ placement: 'top' }" :ui="{ wrapper: '', background: '', ring: '', shadow: '', base: '' }">

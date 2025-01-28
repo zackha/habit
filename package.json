@@ -31,7 +31,6 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "db:generate": "drizzle-kit generate",
@@ -45,11 +44,11 @@
     "@pinia/nuxt": "^0.9.0",
     "canvas-confetti": "^1.9.3",
     "date-fns": "^4.1.0",
-    "drizzle-kit": "^0.30.2",
+    "drizzle-kit": "^0.30.3",
     "drizzle-orm": "^0.38.4",
     "h3-zod": "^0.5.3",
     "marked": "^15.0.6",
-    "nuxt": "^3.15.2",
+    "nuxt": "^3.15.3",
     "nuxt-auth-utils": "0.5.7",
     "pinia": "^2.3.1",
     "vue": "latest",
@@ -59,10 +58,10 @@
   "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a",
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.21",
+    "@iconify-json/simple-icons": "^1.2.22",
     "@types/canvas-confetti": "^1.9.0",
     "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.10",
-    "wrangler": "^3.103.2"
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "wrangler": "^3.105.1"
   }
 }

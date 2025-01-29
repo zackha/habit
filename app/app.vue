@@ -11,7 +11,11 @@ const emptyHabits = computed(() => habits.value?.length === 0);
 
 useHead({
   htmlAttrs: { lang: 'en' },
-  link: [{ rel: 'icon', href: '/icon.png' }],
+  link: [
+    { rel: 'icon', href: '/icon.png' },    
+    { rel: 'apple-touch-icon', href: '/icon.png' },
+    { rel: 'msapplication-TileImage', href: '/icon.png' },
+  ],
 });
 
 useSeoMeta({
@@ -23,6 +27,13 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/social-card.png',
   twitterImage: '/social-card.png',
+  ogType: 'website',
+  ogUrl: 'https://habit.vercel.app',
+  ogSiteName: 'Habit',
+  twitterCreator: '@ZHatlen',
+  twitterSite: '@ZHatlen',
+  robots: 'index, follow',
+  keywords: 'habit, tracker, daily, habits, management, tool, minimalistic',
 });
 </script>
 

@@ -32,7 +32,7 @@ useSeoMeta({
       <Card v-if="user">
         <div class="relative z-10">
           <ProfileHeader />
-          <div class="max-h-[calc(100vh-18.875rem)] overflow-y-auto">
+          <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
             <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
           </div>
           <EmptyHabits v-if="emptyHabits" />
@@ -60,6 +60,9 @@ useSeoMeta({
 </template>
 
 <style lang="postcss">
+.scrollable-card {
+  scrollbar-width: none;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 250ms;

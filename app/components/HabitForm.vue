@@ -53,7 +53,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
       <UFormGroup name="description">
         <div class="input-container">
-          <textarea rows="5" v-model="formState.description" placeholder="Description (Markdown supported)..."></textarea>
+          <textarea class="scroll-bar" rows="5" v-model="formState.description" placeholder="Description (Markdown supported)..."></textarea>
         </div>
       </UFormGroup>
       <button type="submit" class="button bg-green-400 px-2.5 py-3 font-semibold text-green-950 outline-none hover:bg-green-300">Add Habit</button>
@@ -75,35 +75,6 @@ textarea {
   @apply w-full rounded-2xl bg-white/10 p-4 outline-none transition-all placeholder:text-white/35;
   &:focus {
     @apply bg-white/15;
-  }
-}
-
-textarea {
-  resize: none;
-  --sb-track-color: rgba(0, 0, 0, 0);
-  --sb-thumb-color: #666;
-  --sb-size: 12px;
-}
-
-textarea::-webkit-scrollbar {
-  width: var(--sb-size);
-}
-
-textarea::-webkit-scrollbar-track {
-  background: var(--sb-track-color);
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-textarea::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb-color);
-  border-radius: 12px;
-  border: 4px solid #242724;
-}
-
-textarea {
-  &:focus::-webkit-scrollbar-thumb {
-    border: 4px solid #333633;
   }
 }
 </style>

@@ -12,7 +12,7 @@ const emptyHabits = computed(() => habits.value?.length === 0);
 useHead({
   htmlAttrs: { lang: 'en' },
   link: [
-    { rel: 'icon', href: '/icon.png' },    
+    { rel: 'icon', href: '/icon.png' },
     { rel: 'apple-touch-icon', href: '/icon.png' },
     { rel: 'msapplication-TileImage', href: '/icon.png' },
   ],
@@ -93,5 +93,10 @@ useSeoMeta({
   &:active {
     @apply scale-95;
   }
+}
+
+/* ===== Scrollbar CSS ===== */
+* {
+  scrollbar-color: #555 rgba(0, 0, 0, 0);
 }
 </style>

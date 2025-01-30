@@ -89,9 +89,9 @@ const { mutate: toggleTodayCompletion } = useMutation({
 </script>
 
 <template>
-  <ContentBox class="mx-4 mb-4 active:scale-[.975] flex cursor-pointer gap-3 bg-neutral-400/5 p-3 transition hover:bg-white/5" @click="openHabitModal = true">
+  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 bg-neutral-400/5 p-3 transition hover:bg-white/5 active:scale-[.975]" @click="openHabitModal = true">
     <div class="flex flex-1 flex-col justify-center gap-1">
-      <div class="text-md font-medium text-white">{{ habit.title }}</div>
+      <div class="text-md line-clamp-1 font-medium text-white">{{ habit.title }}</div>
       <div class="line-clamp-3 text-xs text-white/70" v-html="renderMarkdown(habit.description || '')"></div>
     </div>
     <HabitHeatmap :habit="habit" :habitDays="49" />
@@ -129,7 +129,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
       <div class="flex flex-col gap-4 px-3 text-white">
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
-          <div v-else class="text-xl font-semibold">{{ habit.title }}</div>
+          <div v-else class="line-clamp-1 text-xl font-semibold">{{ habit.title }}</div>
           <div class="flex items-center gap-3">
             <button
               @click="toggleTodayCompletion(habit)"
@@ -163,8 +163,10 @@ const { mutate: toggleTodayCompletion } = useMutation({
         </div>
         <ContentBox class="flex flex-col gap-2 bg-white/10 p-4 backdrop-blur-2xl dark:bg-neutral-200/5">
           <div class="text-xs font-medium text-white/50">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
-          <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
-          <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          <div class="max-h-[calc(100vh-19rem)] overflow-y-auto">
+            <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
+            <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          </div>
         </ContentBox>
         <div v-if="editingHabit === habit.id" class="flex items-center justify-between">
           <div></div>

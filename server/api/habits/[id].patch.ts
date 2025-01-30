@@ -7,8 +7,8 @@ export default eventHandler(async event => {
   });
 
   const { title, description, completeDays } = await useValidatedBody(event, {
-    title: z.string().min(1).max(255).optional(),
-    description: z.string().max(1000).optional(),
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
     completeDays: z.array(z.string()).optional(),
   });
 

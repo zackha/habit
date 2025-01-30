@@ -28,7 +28,7 @@ useSeoMeta({
   ogImage: '/social-card.png',
   twitterImage: '/social-card.png',
   ogType: 'website',
-  ogUrl: 'https://habit.vercel.app',
+  ogUrl: 'https://habit.nuxt.dev',
   ogSiteName: 'Habit',
   twitterCreator: '@ZHatlen',
   twitterSite: '@ZHatlen',

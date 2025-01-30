@@ -89,7 +89,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
 </script>
 
 <template>
-  <ContentBox class="mx-4 mb-4 flex cursor-pointer gap-3 bg-neutral-400/5 p-3 transition hover:bg-white/5" @click="openHabitModal = true">
+  <ContentBox class="mx-4 mb-4 active:scale-[.975] flex cursor-pointer gap-3 bg-neutral-400/5 p-3 transition hover:bg-white/5" @click="openHabitModal = true">
     <div class="flex flex-1 flex-col justify-center gap-1">
       <div class="text-md font-medium text-white">{{ habit.title }}</div>
       <div class="line-clamp-3 text-xs text-white/70" v-html="renderMarkdown(habit.description || '')"></div>

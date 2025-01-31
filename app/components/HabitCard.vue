@@ -163,7 +163,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         </div>
         <ContentBox class="flex flex-col gap-2 bg-white/10 p-4 backdrop-blur-2xl dark:bg-neutral-200/5">
           <div class="text-xs font-medium text-white/50">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
-          <div class="max-h-[calc(100vh-19rem)] overflow-y-auto">
+          <div class="max-h-[calc(100vh-23rem)] overflow-y-auto">
             <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
             <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
           </div>

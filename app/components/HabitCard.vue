@@ -86,6 +86,8 @@ const { mutate: toggleTodayCompletion } = useMutation({
     }
   },
 });
+
+const isPublicUser = computed(() => !!useRoute().params.username)
 </script>
 
 <template>
@@ -126,7 +128,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         </div>
         <HabitHeatmap :habit="habit" :habitDays="343" />
       </ContentBox>
-      <div class="flex flex-col gap-4 px-3 text-white">
+      <div class="flex flex-col gap-4 px-3 text-white" v-if="!isPublicUser">
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="line-clamp-1 text-xl font-semibold">{{ habit.title }}</div>

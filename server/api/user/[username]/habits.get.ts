@@ -1,15 +1,16 @@
 import { eq } from 'drizzle-orm';
-import { useValidatedParams, zh } from 'h3-zod';
+import { useValidatedParams, z } from 'h3-zod';
 
 export default eventHandler(async (event) =>  {
-  const { id } = await useValidatedParams(event, {
-    id: zh.intAsString,
+  const { username } = await useValidatedParams(event, {
+    username: z.string()
   });
+
 
   const user = await useDB()
     .select()
     .from(tables.user)
-    .where(and(eq(tables.user.id, id), eq(tables.user.public, true)))
+    .where(and(eq(tables.user.username, username), eq(tables.user.public, true)))
     .get();
 
   if (!user) {
@@ -19,7 +20,7 @@ export default eventHandler(async (event) =>  {
   const habits = await useDB()
     .select()
     .from(tables.habits)
-    .where(and(eq(tables.habits.userId, id),eq(tables.habits.public, true)))
+    .where(and(eq(tables.habits.userId, user.id),eq(tables.habits.public, true)))
     .all();
 
   return habits as Habit[];

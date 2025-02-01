@@ -12,6 +12,10 @@ export const habits = sqliteTable('habits', {
 
 export const user = sqliteTable('user', {
   id: integer('id').primaryKey(),
+  name: text('name').notNull(),
+  username: text('username').notNull().unique(),
+  bio: text('bio'),
+  avatarUrl: text('avatar_url'),
   public: integer('public', { mode: 'boolean' }).notNull().default(false),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 });

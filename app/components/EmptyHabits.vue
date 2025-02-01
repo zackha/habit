@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const createHabitModal = ref(false);
+const isPublicUser = computed(() => !!useRoute().params.username)
 </script>
 
 <template>
@@ -10,7 +11,7 @@ const createHabitModal = ref(false);
       </div>
     </div>
     <div class="flex flex-col items-center justify-center gap-2 p-6">
-      <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
+      <button v-if="!isPublicUser" @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
         <UIcon name="i-heroicons-plus-16-solid" class="h-6 w-6" />
       </button>
       <div class="font-medium">No habit found</div>
@@ -18,6 +19,7 @@ const createHabitModal = ref(false);
     </div>
   </ContentBox>
   <UModal
+    v-if="!isPublicUser"
     v-model="createHabitModal"
     :ui="{ container: 'items-center', width: 'w-96', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
     <HabitForm @habitAdded="createHabitModal = false" />

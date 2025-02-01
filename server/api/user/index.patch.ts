@@ -11,7 +11,6 @@ export default eventHandler(async event => {
   const { isPublic } = await useValidatedBody(event, {
     isPublic: z.boolean().optional(),
   });
-  console.log(isPublic)
 
   const updatedFields: Partial<{ public: boolean }> = {
     public: isPublic

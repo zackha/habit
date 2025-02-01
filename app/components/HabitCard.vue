@@ -34,12 +34,14 @@ const { mutate: deleteHabit } = useMutation({
 
 // Edit habit
 const editingHabit = ref<number | null>(null);
-const edit = ref<{ title: string; description: string }>({ title: '', description: '' });
+const edit = ref<{ title: string; description: string, isPublic: boolean }>({ title: '', description: '', isPublic: false });
 
 const editHabit = (habit: Habit) => {
   editingHabit.value = habit.id;
-  edit.value = { title: habit.title, description: habit.description || '' };
+  edit.value = { title: habit.title, description: habit.description || '', isPublic: habit.public };
 };
+
+
 
 const { mutate: saveHabit } = useMutation({
   mutation: () =>
@@ -48,6 +50,7 @@ const { mutate: saveHabit } = useMutation({
       body: {
         title: edit.value.title,
         description: edit.value.description,
+        isPublic: edit.value.isPublic
       },
     }),
 
@@ -169,6 +172,12 @@ const isPublicUser = computed(() => !!useRoute().params.username);
             <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
             <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
           </div>
+          <UFormGroup name="isPublic">
+            <div class="input-container">
+              <UCheckbox  v-if="editingHabit === habit.id" v-model="edit.isPublic" placeholder="Public profile" label="Public habit"/>
+              <UCheckbox  v-else v-model="habit.public" disabled placeholder="Public profile" label="Public habit"/>
+            </div>
+          </UFormGroup>
         </ContentBox>
         <div v-if="editingHabit === habit.id" class="flex items-center justify-between">
           <div></div>

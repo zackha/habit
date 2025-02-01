@@ -5,6 +5,7 @@ import type { FormSubmitEvent } from '#ui/types';
 const schema = z.object({
   title: z.string().min(1, 'Title is required').max(100, 'Title cannot exceed 100 characters'),
   description: z.string().min(1, 'Description is required').max(1000, 'Description cannot exceed 1000 characters'),
+  isPublic: z.boolean().optional()
 });
 
 type Schema = z.output<typeof schema>;
@@ -12,6 +13,7 @@ type Schema = z.output<typeof schema>;
 const formState = reactive<Schema>({
   title: '',
   description: '',
+  isPublic: false,
 });
 
 const queryCache = useQueryCache();
@@ -35,6 +37,7 @@ const { mutate: addHabit } = useMutation({
   onSettled() {
     formState.title = '';
     formState.description = '';
+    formState.isPublic = false;
   },
 });
 
@@ -54,6 +57,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <UFormGroup name="description">
         <div class="input-container">
           <textarea class="scroll-bar" rows="5" v-model="formState.description" placeholder="Description (Markdown supported)..."></textarea>
+        </div>
+      </UFormGroup>
+      <UFormGroup name="isPublic">
+        <div class="input-container">
+          <UCheckbox v-model="formState.isPublic" placeholder="Public profile" label="Public habit"/>
         </div>
       </UFormGroup>
       <button type="submit" class="button bg-green-400 px-2.5 py-3 font-semibold text-green-950 outline-none hover:bg-green-300">Add Habit</button>

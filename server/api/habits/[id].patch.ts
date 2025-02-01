@@ -18,8 +18,8 @@ export default eventHandler(async event => {
   const updatedFields: Partial<{ title: string; description: string; public: boolean; completeDays: string[] }> = {};
   if (title) updatedFields.title = title;
   if (description) updatedFields.description = description;
-  if (isPublic) updatedFields.public = isPublic;
   if (completeDays) updatedFields.completeDays = completeDays;
+  updatedFields.public = isPublic;
 
   const habit = await useDB()
     .update(tables.habits)

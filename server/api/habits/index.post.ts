@@ -7,6 +7,8 @@ export default eventHandler(async event => {
     description: z.string().min(1),
   });
 
+  console.log(isPublic)
+
   const { user } = await requireUserSession(event);
 
   const habit = await useDB()

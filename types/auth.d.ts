@@ -1,3 +1,4 @@
+
 declare module '#auth-utils' {
   interface User {
     login: string;
@@ -32,6 +33,7 @@ declare module '#auth-utils' {
     public_gists: number;
     followers: number;
     following: number;
+    habitUser?: typeof tables.user.$inferSelect;
     created_at: string;
     updated_at: string;
   }

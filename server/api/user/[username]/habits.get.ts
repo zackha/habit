@@ -12,14 +12,20 @@ export default eventHandler(async event => {
     .where(and(eq(tables.user.username, username), eq(tables.user.public, true)))
     .get();
 
-  if (!user) {
-    return createError({ statusCode: 404 });
-  }
+    if(!user) {
+      return [] as Habit[]
+    }
+
 
   const habits = await useDB()
     .select()
     .from(tables.habits)
-    .where(and(eq(tables.habits.userId, user.id), eq(tables.habits.public, true)))
+    .where(
+      and(
+        eq(tables.habits.userId, user.id),
+        eq(tables.habits.public, true)
+      )
+    )
     .all();
 
   return habits as Habit[];

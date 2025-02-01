@@ -4,16 +4,18 @@ import { useValidatedBody, z } from 'h3-zod';
 export default eventHandler(async event => {
   const { user: requestUser } = await requireUserSession(event);
 
-  if (requestUser.id) {
+  if (!requestUser) {
     return createError({ statusCode: 401 });
   }
 
   const { isPublic } = await useValidatedBody(event, {
     isPublic: z.boolean().optional(),
   });
+  console.log(isPublic)
 
-  const updatedFields: Partial<{ public: boolean }> = {};
-  if (isPublic) updatedFields.public = isPublic;
+  const updatedFields: Partial<{ public: boolean }> = {
+    public: isPublic
+  };
 
   const user = await useDB()
     .update(tables.user)

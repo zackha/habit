@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const createHabitModal = ref(false);
-const isPublicUser = computed(() => !!useRoute().params.username)
+const isPublicUser = computed(() => !!useRoute().params.username);
 </script>
 
 <template>

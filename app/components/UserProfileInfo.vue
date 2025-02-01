@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import type { User } from '~~/server/utils/db';
-
-export interface Props {
-  user?: User
-}
-const props = defineProps<Props>()
+const props = defineProps<{ user?: User }>();
 
 const { user } = useUserSession();
-
 </script>
 
 <template>

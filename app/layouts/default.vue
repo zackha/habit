@@ -1,12 +1,11 @@
 <template>
-    <Container>
-        <Transition name="fade" mode="out-in">
-            <slot/>
-        </Transition>
-        <AppFooter />
-    </Container>
+  <Container>
+    <Transition name="fade" mode="out-in">
+      <slot />
+    </Transition>
+    <AppFooter />
+  </Container>
 </template>
-
 
 <style lang="postcss">
 .scrollable-card {
@@ -33,9 +32,7 @@
   }
 }
 
-/* ===== Scrollbar CSS ===== */
 * {
   scrollbar-color: #555 rgba(0, 0, 0, 0);
 }
 </style>
-

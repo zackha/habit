@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const route = useRoute()
-
+const route = useRoute();
 
 const { data: publicUser } = useQuery({
   key: ['publicUser'],
@@ -26,7 +25,7 @@ useHead({
 useSeoMeta({
   title: `${publicUser.value?.username ? `${publicUser.value?.username}'s profile | Habit` : 'Habit'}`,
   description: 'A minimalistic habit tracker application to track and manage your daily habits with ease',
-  ogTitle: 'Habit',
+  ogTitle: `${publicUser.value?.username ? `${publicUser.value?.username}'s profile | Habit` : 'Habit'}`,
   ogDescription: 'A minimalistic habit tracker application to track and manage your daily habits with ease',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
   twitterCard: 'summary_large_image',
@@ -34,7 +33,7 @@ useSeoMeta({
   twitterImage: '/social-card.png',
   ogType: 'website',
   ogUrl: 'https://habit.nuxt.dev',
-  ogSiteName: 'Habit',
+  ogSiteName: `${publicUser.value?.username ? `${publicUser.value?.username}'s profile | Habit` : 'Habit'}`,
   twitterCreator: '@ZHatlen',
   twitterSite: '@ZHatlen',
   robots: 'index, follow',
@@ -50,16 +49,13 @@ useSeoMeta({
         <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
       </div>
       <EmptyHabits v-if="emptyHabits" />
-      
-    </div> 
+    </div>
   </Card>
   <Card v-else class="items-start justify-center gap-7 p-6">
     <div class="relative z-10 flex w-5/6 flex-col gap-5">
       <div class="h-12 w-12 rounded-2xl border-4 border-green-600 bg-green-400 shadow-lg"></div>
       <div class="text-lg font-medium">404</div>
-      <div class="text-3xl font-medium">
-        We couldn't find that profile
-      </div>
+      <div class="text-3xl font-medium">We couldn't find that profile</div>
     </div>
     <a href="/api/auth/github" class="button bg-white/20 px-2.5 py-2 hover:bg-white/30">
       <UIcon name="i-simple-icons-github" class="h-5 w-5" />

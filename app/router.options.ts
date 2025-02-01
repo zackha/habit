@@ -1,5 +1,5 @@
-import type { RouterOptions } from 'nuxt/schema'
+import type { RouterOptions } from 'nuxt/schema';
 
 export default <RouterOptions>{
-    sensitive: true
-}
+  sensitive: true,
+};

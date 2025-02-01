@@ -87,7 +87,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
   },
 });
 
-const isPublicUser = computed(() => !!useRoute().params.username)
+const isPublicUser = computed(() => !!useRoute().params.username);
 </script>
 
 <template>

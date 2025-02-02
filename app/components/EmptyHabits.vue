@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const createHabitModal = ref(false);
+const { loggedIn } = useUserSession();
+const { publicUser } = usePublicUser();
 </script>
 
 <template>
@@ -10,11 +12,17 @@ const createHabitModal = ref(false);
       </div>
     </div>
     <div class="flex flex-col items-center justify-center gap-2 p-6">
-      <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
-        <UIcon name="i-heroicons-plus-16-solid" class="h-6 w-6" />
-      </button>
-      <div class="font-medium">No habit found</div>
-      <div class="text-xs text-neutral-400">Create a new habit to track your progress</div>
+      <template v-if="publicUser.info && publicUser.habits?.length === 0">
+        <div class="font-medium">User habits are private</div>
+        <div class="text-xs text-neutral-400">This user has not shared their habits</div>
+      </template>
+      <template v-else-if="loggedIn">
+        <button @click="createHabitModal = true" class="button mb-2 bg-green-400 p-2.5 text-green-950 hover:bg-green-300">
+          <UIcon name="i-heroicons-plus-16-solid" class="h-6 w-6" />
+        </button>
+        <div class="font-medium">No habit found</div>
+        <div class="text-xs text-neutral-400">Create a new habit to track your progress</div>
+      </template>
     </div>
   </ContentBox>
   <UModal

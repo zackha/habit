@@ -2,6 +2,8 @@ declare module '#auth-utils' {
   interface User {
     login: string;
     id: number;
+    public_id: string;
+    is_public: boolean;
     node_id: string;
     avatar_url: string;
     gravatar_id: string;

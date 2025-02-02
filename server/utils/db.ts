@@ -10,3 +10,5 @@ export function useDB() {
 }
 
 export type Habit = typeof tables.habits.$inferSelect;
+
+export type User = typeof tables.users.$inferSelect;

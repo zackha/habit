@@ -7,4 +7,15 @@ export const habits = sqliteTable('habits', {
   description: text('description'),
   completeDays: text('complete_days', { mode: 'json' }).$type<string[]>().notNull().default([]),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  isPublic: integer('is_public', { mode: 'boolean' }).notNull().default(false),
+});
+
+export const users = sqliteTable('users', {
+  id: integer('id').primaryKey(),
+  publicId: text('public_id').notNull().unique(),
+  name: text('name').notNull(),
+  bio: text('bio'),
+  avatarUrl: text('avatar_url').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  isPublic: integer('is_public', { mode: 'boolean' }).notNull().default(false),
 });

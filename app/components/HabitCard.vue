@@ -2,8 +2,10 @@
 import { marked } from 'marked';
 import { isSameDay, parseISO, format } from 'date-fns';
 const queryCache = useQueryCache();
+const toast = useToast();
+const { loggedIn } = useUserSession();
 
-defineProps<{ habit: Habit }>();
+const props = defineProps<{ habit: Habit }>();
 
 const renderMarkdown = (text: string) => marked(text);
 
@@ -86,6 +88,25 @@ const { mutate: toggleTodayCompletion } = useMutation({
     }
   },
 });
+
+// Toggle habit privacy
+const isLoading = ref(false);
+
+const toggleHabitPrivacy = async () => {
+  try {
+    isLoading.value = true;
+    await $fetch(`/api/habits/${props.habit.id}`, {
+      method: 'PATCH',
+      body: { isPublic: !props.habit.isPublic },
+    });
+    toast.add({ title: 'Success', description: 'Privacy settings updated', color: 'green' });
+    await queryCache.invalidateQueries({ key: ['habits'] });
+  } catch (error: any) {
+    toast.add({ title: 'Error', description: error.message, color: 'yellow' });
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -130,7 +151,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="line-clamp-1 text-xl font-semibold">{{ habit.title }}</div>
-          <div class="flex items-center gap-3">
+          <div v-if="loggedIn" class="flex items-center gap-3">
             <button
               @click="toggleTodayCompletion(habit)"
               class="button px-2.5 py-1.5 font-semibold outline-none"
@@ -138,6 +159,15 @@ const { mutate: toggleTodayCompletion } = useMutation({
               <UIcon v-if="!isTodayCompleted(habit)" name="i-heroicons-check-16-solid" class="h-5 w-5" />
               {{ isTodayCompleted(habit) ? 'Undo' : 'Complete' }}
             </button>
+
+            <UTooltip :text="habit.isPublic ? 'Switch to private' : 'Switch to public'">
+              <button
+                @click="toggleHabitPrivacy"
+                class="button px-2.5 py-1.5 font-semibold outline-none"
+                :class="[isLoading ? 'cursor-not-allowed opacity-50' : 'hover:bg-white/25']">
+                <UIcon :name="habit.isPublic ? 'i-heroicons-lock-open' : 'i-heroicons-lock-closed'" class="h-5 w-5" />
+              </button>
+            </UTooltip>
 
             <UPopover :popper="{ placement: 'bottom-end' }" :ui="{ background: '', shadow: '', ring: '' }">
               <button class="button bg-white/10 p-1.5 hover:bg-white/25">

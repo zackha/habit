@@ -1,11 +1,34 @@
 <script setup lang="ts">
-const { clear, user } = useUserSession();
+const { clear, user, loggedIn, fetch } = useUserSession();
 const colorMode = useColorMode();
+const toast = useToast();
 
 const isDarkMode = computed({
   get: () => colorMode.preference === 'dark',
   set: () => (colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'),
 });
+
+const onLogout = () => {
+  clear();
+  navigateTo('/');
+};
+
+const isLoading = ref(false);
+const togglePrivacy = async () => {
+  try {
+    isLoading.value = true;
+    await $fetch('/api/user', {
+      method: 'PATCH',
+      body: { isPublic: !user?.value.is_public },
+    });
+    toast.add({ title: 'Success', description: 'Privacy settings updated', color: 'green' });
+    await fetch();
+  } catch (error: any) {
+    toast.add({ title: 'Error', description: error.message, color: 'yellow' });
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -28,10 +51,19 @@ const isDarkMode = computed({
           <span>Dark mode</span>
         </div>
         <div class="border-b border-white/5"></div>
-        <div @click="clear()" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
-          <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="h-5 w-5" />
-          <span>Sign out</span>
-        </div>
+        <template v-if="loggedIn">
+          <div
+            @click="togglePrivacy"
+            class="m-1 flex items-center gap-3 rounded-lg p-2 transition"
+            :class="[isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-black/30']">
+            <UIcon :name="user?.is_public ? 'i-heroicons-lock-open' : 'i-heroicons-lock-closed'" class="h-5 w-5" />
+            <span>{{ user?.is_public ? 'Public' : 'Private' }}</span>
+          </div>
+          <div @click="onLogout" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+            <UIcon name="i-heroicons-arrow-right-on-rectangle-20-solid" class="h-5 w-5" />
+            <span>Sign out</span>
+          </div>
+        </template>
       </div>
     </template>
   </UPopover>

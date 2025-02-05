@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { clear, user } = useUserSession();
+const { clear } = useUserSession();
 const colorMode = useColorMode();
 
 const isDarkMode = computed({

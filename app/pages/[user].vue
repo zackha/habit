@@ -1,22 +1,19 @@
 <script setup lang="ts">
 const { session } = useUserSession();
 const login = useRoute().params.user as string;
-const isOwnProfile = computed(() => session.value?.user?.login === login);
 
-const { data: user } = useQuery({
-  key: ['user'],
-  query: () => useRequestFetch()(`/api/users/${login}`) as Promise<User>,
-});
+const isMyProfile = computed(() => session.value?.user?.login === login);
 
-const { data: habits } = useQuery({
-  key: ['habits'],
-  query: () => useRequestFetch()(`/api/users/${login}/habits`) as Promise<Habit[]>,
-});
+const fetchUser = () => useRequestFetch()(`/api/users/${login}`) as Promise<User>;
+const fetchHabits = () => useRequestFetch()(`/api/users/${login}/habits`) as Promise<Habit[]>;
+const fetchMyHabits = () => useRequestFetch()('/api/habits') as Promise<Habit[]>;
 
+const { data: user } = useQuery({ key: ['user'], query: fetchUser });
+const { data: habits } = useQuery({ key: ['habits'], query: fetchHabits });
 const { data: myHabits } = useQuery({
   key: ['my_habits'],
-  query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
-  enabled: isOwnProfile.value,
+  query: fetchMyHabits,
+  enabled: isMyProfile.value,
 });
 
 const emptyHabits = computed(() => habits.value?.length === 0);
@@ -27,20 +24,10 @@ const emptyMyHabits = computed(() => myHabits.value?.length === 0);
   <Card v-if="user">
     <div class="relative z-10">
       <ProfileHeader :user="user" />
-      <Transition name="fade" mode="out-in">
-        <div v-if="isOwnProfile">
-          <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
-            <HabitCard v-for="habit in myHabits" :key="habit.id" :habit="habit" />
-          </div>
-          <EmptyHabits v-if="emptyMyHabits" />
-        </div>
-        <div v-else>
-          <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
-            <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
-          </div>
-          <EmptyHabits v-if="emptyHabits" />
-        </div>
-      </Transition>
+      <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
+        <HabitCard v-for="habit in isMyProfile ? myHabits : habits" :key="habit.id" :habit="habit" />
+      </div>
+      <EmptyHabits v-if="isMyProfile ? emptyMyHabits : emptyHabits" />
     </div>
   </Card>
   <Card v-else class="items-start justify-center gap-7 p-6">

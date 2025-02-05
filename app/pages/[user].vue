@@ -1,5 +1,8 @@
 <script setup lang="ts">
+const { session, loggedIn } = useUserSession();
 const route = useRoute();
+const username = route.params.user as string;
+const isOwnProfile = computed(() => session.value?.user?.login === username);
 
 const { data: user } = useQuery({
   key: ['user'],
@@ -11,17 +14,34 @@ const { data: habits } = useQuery({
   query: () => useRequestFetch()(`/api/users/${route.params.user}/habits`) as Promise<Habit[]>,
 });
 
+const { data: myHabits } = useQuery({
+  key: ['my_habits'],
+  query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
+  enabled: loggedIn.value,
+});
+
 const emptyHabits = computed(() => habits.value?.length === 0);
+const emptyMyHabits = computed(() => myHabits.value?.length === 0);
 </script>
 
 <template>
   <Card v-if="user">
     <div class="relative z-10">
       <ProfileHeader :user="user" />
-      <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
-        <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
-      </div>
-      <EmptyHabits v-if="emptyHabits" />
+      <Transition name="fade" mode="out-in">
+        <div v-if="isOwnProfile">
+          <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
+            <HabitCard v-for="habit in myHabits" :key="habit.id" :habit="habit" />
+          </div>
+          <EmptyHabits v-if="emptyMyHabits" />
+        </div>
+        <div v-else>
+          <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
+            <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
+          </div>
+          <EmptyHabits v-if="emptyHabits" />
+        </div>
+      </Transition>
     </div>
   </Card>
   <Card v-else class="items-start justify-center gap-7 p-6">

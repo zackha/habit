@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const { session } = useUserSession();
 const login = useRoute().params.user as string;
-
 const isMyProfile = computed(() => session.value?.user?.login === login);
+const emptyHabits = computed(() => habits.value?.length === 0);
+const emptyMyHabits = computed(() => myHabits.value?.length === 0);
+const pageTitle = computed(() => (user.value?.login && user.value?.name ? `${user.value.name} (@${user.value.login}) · Habits and Todos` : 'Page Not Found · Habit'));
 
 const fetchUser = () => useRequestFetch()(`/api/users/${login}`) as Promise<User>;
 const fetchHabits = () => useRequestFetch()(`/api/users/${login}/habits`) as Promise<Habit[]>;
@@ -16,8 +18,11 @@ const { data: myHabits } = useQuery({
   enabled: isMyProfile.value,
 });
 
-const emptyHabits = computed(() => habits.value?.length === 0);
-const emptyMyHabits = computed(() => myHabits.value?.length === 0);
+useSeoMeta({
+  title: pageTitle,
+  ogTitle: pageTitle,
+  ogSiteName: pageTitle,
+});
 </script>
 
 <template>

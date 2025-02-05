@@ -1,14 +1,14 @@
 <script setup lang="ts">
-const router = useRoute();
+const route = useRoute();
 
 const { data: user } = useQuery({
   key: ['user'],
-  query: () => useRequestFetch()(`/api/users/${router.params.user}`) as Promise<User>,
+  query: () => useRequestFetch()(`/api/users/${route.params.user}`) as Promise<User>,
 });
 
 const { data: habits } = useQuery({
   key: ['habits'],
-  query: () => useRequestFetch()(`/api/users/${router.params.user}/habits`) as Promise<Habit[]>,
+  query: () => useRequestFetch()(`/api/users/${route.params.user}/habits`) as Promise<Habit[]>,
 });
 
 const emptyHabits = computed(() => habits.value?.length === 0);

@@ -1,23 +1,22 @@
 <script setup lang="ts">
-const { session, loggedIn } = useUserSession();
-const route = useRoute();
-const username = route.params.user as string;
-const isOwnProfile = computed(() => session.value?.user?.login === username);
+const { session } = useUserSession();
+const login = useRoute().params.user as string;
+const isOwnProfile = computed(() => session.value?.user?.login === login);
 
 const { data: user } = useQuery({
   key: ['user'],
-  query: () => useRequestFetch()(`/api/users/${route.params.user}`) as Promise<User>,
+  query: () => useRequestFetch()(`/api/users/${login}`) as Promise<User>,
 });
 
 const { data: habits } = useQuery({
   key: ['habits'],
-  query: () => useRequestFetch()(`/api/users/${route.params.user}/habits`) as Promise<Habit[]>,
+  query: () => useRequestFetch()(`/api/users/${login}/habits`) as Promise<Habit[]>,
 });
 
 const { data: myHabits } = useQuery({
   key: ['my_habits'],
   query: () => useRequestFetch()('/api/habits') as Promise<Habit[]>,
-  enabled: loggedIn.value,
+  enabled: isOwnProfile.value,
 });
 
 const emptyHabits = computed(() => habits.value?.length === 0);

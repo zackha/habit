@@ -28,7 +28,7 @@ const { mutate: addHabit } = useMutation({
   },
 
   async onSuccess() {
-    await queryCache.invalidateQueries({ key: ['habits'] });
+    await queryCache.invalidateQueries({ key: ['my_habits'] });
     emit('habitAdded');
   },
 

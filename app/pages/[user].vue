@@ -3,5 +3,5 @@ const router = useRoute();
 </script>
 
 <template>
-  <pre>{{ router }}</pre>
+  <pre>{{ router.params.user }}</pre>
 </template>

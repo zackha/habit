@@ -28,7 +28,7 @@ const { mutate: deleteHabit } = useMutation({
   mutation: (habit: Habit) => $fetch(`/api/habits/${habit.id}`, { method: 'DELETE' }),
 
   async onSuccess() {
-    await queryCache.invalidateQueries({ key: ['my_habits'] });
+    await queryCache.invalidateQueries({ active: true });
   },
 });
 
@@ -53,7 +53,7 @@ const { mutate: saveHabit } = useMutation({
     }),
 
   async onSuccess() {
-    await queryCache.invalidateQueries({ key: ['my_habits'] });
+    await queryCache.invalidateQueries({ active: true });
     editingHabit.value = null;
   },
 });
@@ -81,7 +81,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
   },
 
   async onSuccess(habit) {
-    await queryCache.invalidateQueries({ key: ['my_habits'] });
+    await queryCache.invalidateQueries({ active: true });
     if (habit.completeDays.some(day => isSameDay(parseISO(day), new Date()))) {
       startConfettiAnimation();
     }

@@ -30,10 +30,13 @@ useSeoMeta({
   <Card v-if="user">
     <div class="relative z-10">
       <ProfileHeader :user="user" />
-      <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
-        <HabitCard v-for="habit in isMyProfile ? myHabits : habits" :key="habit.id" :habit="habit" :isMyProfile="isMyProfile" />
-      </div>
-      <EmptyHabits v-if="isMyProfile ? emptyMyHabits : emptyHabits" />
+      <template v-if="!user.userView && !isMyProfile"><PrivateAccount :user="user" /></template>
+      <template v-else>
+        <div class="scrollable-card max-h-[calc(100vh-18.875rem)] overflow-y-auto">
+          <HabitCard v-for="habit in isMyProfile ? myHabits : habits" :key="habit.id" :habit="habit" :isMyProfile="isMyProfile" />
+        </div>
+        <EmptyHabits v-if="isMyProfile ? emptyMyHabits : emptyHabits" :isMyProfile="isMyProfile" />
+      </template>
     </div>
   </Card>
   <Card v-else class="items-start justify-center gap-7 p-6">

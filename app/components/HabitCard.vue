@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { marked } from 'marked';
 import { isSameDay, parseISO, format } from 'date-fns';
-import { UIcon } from '#components';
 const queryCache = useQueryCache();
 
 defineProps<{ habit: Habit; isMyProfile: Boolean }>();

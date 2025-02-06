@@ -144,15 +144,27 @@ const { mutate: toggleTodayCompletion } = useMutation({
               <button class="button bg-white/10 p-1.5 hover:bg-white/25">
                 <UIcon name="i-heroicons-ellipsis-horizontal-20-solid" class="h-5 w-5" />
               </button>
-              <template #panel>
+              <template #panel="{ close }">
                 <div class="dropdown">
-                  <div @click="editHabit(habit)" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+                  <div
+                    @click="
+                      () => {
+                        close();
+                        editHabit(habit);
+                      }
+                    "
+                    class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
                     <UIcon name="i-heroicons-pencil-square-20-solid" class="h-5 w-5" />
                     <span>Edit</span>
                   </div>
                   <div class="border-b border-white/5"></div>
                   <div
-                    @click="openDeleteConfirmation(habit)"
+                    @click="
+                      () => {
+                        close();
+                        openDeleteConfirmation(habit);
+                      }
+                    "
                     class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30 dark:text-red-500 dark:hover:bg-red-900/30">
                     <UIcon name="i-heroicons-trash-20-solid" class="h-5 w-5" />
                     <span>Delete</span>

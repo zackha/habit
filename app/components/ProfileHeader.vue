@@ -19,7 +19,7 @@ const isOwnProfile = computed(() => session.value.user?.login === useRoute().par
         <UIcon name="i-heroicons-plus-16-solid" class="h-5 w-5" />
         Create
       </button>
-      <Dropdown />
+      <Dropdown :user="user" />
     </div>
     <div v-else-if="!loggedIn" class="absolute right-5 top-5 flex gap-3">
       <a href="/api/auth/github" class="button bg-white/20 px-2 py-1.5 hover:bg-white/25">

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { clear, user } = useUserSession();
+defineProps<{ user: User }>();
+const { clear } = useUserSession();
+const openEditProfile = ref(false);
 const colorMode = useColorMode();
 
 const isDarkMode = computed({
@@ -13,16 +15,23 @@ const isDarkMode = computed({
     <button class="button bg-white/20 p-1.5 hover:bg-white/25">
       <UIcon name="i-heroicons-cog-8-tooth" class="h-5 w-5" />
     </button>
-    <template #panel>
+    <template #panel="{ close }">
       <div class="dropdown">
-        <!--<div class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-white/10">
-          <UAvatar :src="user?.avatar_url" size="md" />
+        <div
+          @click="
+            () => {
+              close();
+              openEditProfile = true;
+            }
+          "
+          class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+          <UAvatar :src="user?.avatarUrl" size="md" />
           <div class="flex flex-col">
             <div class="font-medium">{{ user?.name }}</div>
             <div>@{{ user?.login }}</div>
           </div>
         </div>
-        <div class="border-b border-white/10"></div>-->
+        <div class="border-b border-white/10"></div>
         <div @click="isDarkMode = !isDarkMode" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
           <UIcon :name="colorMode.preference === 'dark' || colorMode.preference === 'system' ? 'i-heroicons-moon' : 'i-heroicons-sun'" class="h-5 w-5" />
           <span>Dark mode</span>
@@ -35,6 +44,11 @@ const isDarkMode = computed({
       </div>
     </template>
   </UPopover>
+  <UModal
+    v-model="openEditProfile"
+    :ui="{ container: 'items-center', width: 'w-96', background: '', shadow: '', overlay: { base: 'backdrop-blur-2xl', background: 'bg-white/5 dark:bg-black/60' } }">
+    <ProfileForm :user="user" />
+  </UModal>
 </template>
 
 <style lang="postcss">

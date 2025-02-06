@@ -6,18 +6,20 @@ export default eventHandler(async event => {
     id: zh.intAsString,
   });
 
-  const { title, description, completeDays } = await useValidatedBody(event, {
-    title: z.string().min(1).optional(),
+  const { title, description, completeDays, habitView } = await useValidatedBody(event, {
+    title: z.string().optional(),
     description: z.string().optional(),
     completeDays: z.array(z.string()).optional(),
+    habitView: z.boolean().optional(),
   });
 
   const { user } = await requireUserSession(event);
 
-  const updatedFields: Partial<{ title: string; description: string; completeDays: string[] }> = {};
+  const updatedFields: Partial<{ title: string; description: string; completeDays: string[]; habitView: boolean }> = {};
   if (title) updatedFields.title = title;
   if (description) updatedFields.description = description;
   if (completeDays) updatedFields.completeDays = completeDays;
+  if (habitView !== undefined) updatedFields.habitView = habitView;
 
   const habit = await useDB()
     .update(tables.habits)

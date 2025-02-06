@@ -39,7 +39,7 @@
   "dependencies": {
     "@nuxt/ui": "2.21.0",
     "@nuxthub/core": "0.8.11",
-    "@pinia/colada": "^0.13.3",
+    "@pinia/colada": "^0.13.4",
     "@pinia/colada-nuxt": "0.0.4",
     "@pinia/nuxt": "^0.9.0",
     "canvas-confetti": "^1.9.3",
@@ -58,10 +58,10 @@
   "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a",
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.22",
+    "@iconify-json/simple-icons": "^1.2.23",
     "@types/canvas-confetti": "^1.9.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "wrangler": "^3.106.0"
+    "wrangler": "^3.107.3"
   }
 }

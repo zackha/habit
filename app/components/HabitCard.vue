@@ -3,7 +3,7 @@ import { marked } from 'marked';
 import { isSameDay, parseISO, format } from 'date-fns';
 const queryCache = useQueryCache();
 
-defineProps<{ habit: Habit }>();
+defineProps<{ habit: Habit; isMyProfile: Boolean }>();
 
 const renderMarkdown = (text: string) => marked(text);
 
@@ -28,17 +28,17 @@ const { mutate: deleteHabit } = useMutation({
   mutation: (habit: Habit) => $fetch(`/api/habits/${habit.id}`, { method: 'DELETE' }),
 
   async onSuccess() {
-    await queryCache.invalidateQueries({ key: ['habits'] });
+    await queryCache.invalidateQueries({ active: true });
   },
 });
 
 // Edit habit
 const editingHabit = ref<number | null>(null);
-const edit = ref<{ title: string; description: string }>({ title: '', description: '' });
+const edit = ref<{ title: string; description: string; habitView: boolean }>({ title: '', description: '', habitView: false });
 
 const editHabit = (habit: Habit) => {
   editingHabit.value = habit.id;
-  edit.value = { title: habit.title, description: habit.description || '' };
+  edit.value = { title: habit.title, description: habit.description || '', habitView: habit.habitView };
 };
 
 const { mutate: saveHabit } = useMutation({
@@ -48,11 +48,12 @@ const { mutate: saveHabit } = useMutation({
       body: {
         title: edit.value.title,
         description: edit.value.description,
+        habitView: edit.value.habitView,
       },
     }),
 
   async onSuccess() {
-    await queryCache.invalidateQueries({ key: ['habits'] });
+    await queryCache.invalidateQueries({ active: true });
     editingHabit.value = null;
   },
 });
@@ -80,7 +81,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
   },
 
   async onSuccess(habit) {
-    await queryCache.invalidateQueries({ key: ['habits'] });
+    await queryCache.invalidateQueries({ active: true });
     if (habit.completeDays.some(day => isSameDay(parseISO(day), new Date()))) {
       startConfettiAnimation();
     }
@@ -130,7 +131,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="line-clamp-1 text-xl font-semibold">{{ habit.title }}</div>
-          <div class="flex items-center gap-3">
+          <div v-if="isMyProfile" class="flex items-center gap-3">
             <button
               @click="toggleTodayCompletion(habit)"
               class="button px-2.5 py-1.5 font-semibold outline-none"
@@ -143,15 +144,27 @@ const { mutate: toggleTodayCompletion } = useMutation({
               <button class="button bg-white/10 p-1.5 hover:bg-white/25">
                 <UIcon name="i-heroicons-ellipsis-horizontal-20-solid" class="h-5 w-5" />
               </button>
-              <template #panel>
+              <template #panel="{ close }">
                 <div class="dropdown">
-                  <div @click="editHabit(habit)" class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+                  <div
+                    @click="
+                      () => {
+                        close();
+                        editHabit(habit);
+                      }
+                    "
+                    class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
                     <UIcon name="i-heroicons-pencil-square-20-solid" class="h-5 w-5" />
                     <span>Edit</span>
                   </div>
                   <div class="border-b border-white/5"></div>
                   <div
-                    @click="openDeleteConfirmation(habit)"
+                    @click="
+                      () => {
+                        close();
+                        openDeleteConfirmation(habit);
+                      }
+                    "
                     class="m-1 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30 dark:text-red-500 dark:hover:bg-red-900/30">
                     <UIcon name="i-heroicons-trash-20-solid" class="h-5 w-5" />
                     <span>Delete</span>
@@ -162,10 +175,25 @@ const { mutate: toggleTodayCompletion } = useMutation({
           </div>
         </div>
         <ContentBox class="flex flex-col gap-2 bg-white/10 p-4 backdrop-blur-2xl dark:bg-neutral-200/5">
-          <div class="text-xs font-medium text-white/50">{{ format(habit.createdAt, 'MMM d, yyyy') }}</div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-xs font-medium text-white/50">
+              <p>{{ format(habit.createdAt, 'MMM d, yyyy') }}</p>
+              <UIcon v-if="isMyProfile" :name="habit.habitView ? 'i-heroicons-eye-20-solid' : 'i-heroicons-eye-slash-20-solid'" class="-mt-0.5 h-4 w-4" />
+            </div>
+          </div>
           <div class="max-h-[calc(100vh-23rem)] overflow-y-auto">
             <UTextarea v-if="editingHabit === habit.id" v-model="edit.description" autoresize />
             <div v-else class="prose prose-sm prose-invert" v-html="renderMarkdown(habit.description || '')"></div>
+          </div>
+          <div v-if="editingHabit === habit.id" class="mt-2 flex items-center justify-between">
+            <div></div>
+            <div class="flex items-center gap-4 text-sm">
+              <div>
+                Visibility:
+                <strong>{{ edit.habitView ? 'Public' : 'Private' }}</strong>
+              </div>
+              <UToggle v-model="edit.habitView" />
+            </div>
           </div>
         </ContentBox>
         <div v-if="editingHabit === habit.id" class="flex items-center justify-between">

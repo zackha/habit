@@ -13,7 +13,7 @@ type Schema = z.output<typeof schema>;
 const formState = reactive<Schema>({
   title: '',
   description: '',
-  habitView: true,
+  habitView: false,
 });
 
 const queryCache = useQueryCache();

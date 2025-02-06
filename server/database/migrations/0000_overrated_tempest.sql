@@ -15,7 +15,7 @@ CREATE TABLE `users` (
 	`bio` text,
 	`avatar_url` text NOT NULL,
 	`created_at` integer NOT NULL,
-	`user_view` integer DEFAULT true NOT NULL
+	`user_view` integer DEFAULT false NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_login_unique` ON `users` (`login`);

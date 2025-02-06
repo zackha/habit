@@ -17,5 +17,5 @@ export const users = sqliteTable('users', {
   bio: text('bio'),
   avatarUrl: text('avatar_url').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
-  userView: integer('user_view', { mode: 'boolean' }).notNull().default(true),
+  userView: integer('user_view', { mode: 'boolean' }).notNull().default(false),
 });

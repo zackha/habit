@@ -45,7 +45,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 const habitVisibilityMessage = computed(() => {
-  return formState.habitView ? 'This habit is <strong>public</strong> and can be seen by anyone.' : 'This habit is <strong>private</strong> and can only be seen by you.';
+  return formState.habitView
+    ? 'This habit is <strong>public</strong> and visible to everyone if your account is public.'
+    : 'This habit is <strong>private</strong> and only visible to you.';
 });
 </script>
 
@@ -65,8 +67,8 @@ const habitVisibilityMessage = computed(() => {
       <UFormGroup name="habitView">
         <div class="toggle flex items-center justify-between gap-20">
           <div class="flex flex-col">
-            <div class="text-sm font-semibold">Public Habit</div>
-            <div class="text-xs text-white/50" v-html="habitVisibilityMessage"></div>
+            <div class="text-sm font-semibold text-white">Public Habit</div>
+            <div class="text-xs text-white/60" v-html="habitVisibilityMessage"></div>
           </div>
           <UToggle v-model="formState.habitView" />
         </div>
@@ -78,7 +80,7 @@ const habitVisibilityMessage = computed(() => {
 
 <style lang="postcss" scoped>
 .input-container {
-  @apply relative flex w-full items-center;
+  @apply relative flex w-full items-center text-white;
 }
 
 input,

@@ -3,7 +3,7 @@ import { marked } from 'marked';
 import { isSameDay, parseISO, format } from 'date-fns';
 const queryCache = useQueryCache();
 
-defineProps<{ habit: Habit }>();
+defineProps<{ habit: Habit; isMyProfile: Boolean }>();
 
 const renderMarkdown = (text: string) => marked(text);
 
@@ -130,7 +130,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         <div class="flex items-center justify-between gap-3">
           <UInput v-if="editingHabit === habit.id" :ui="{ wrapper: 'flex-1', rounded: 'rounded-full', size: { sm: 'text-sm font-semibold' } }" v-model="edit.title" />
           <div v-else class="line-clamp-1 text-xl font-semibold">{{ habit.title }}</div>
-          <div class="flex items-center gap-3">
+          <div v-if="isMyProfile" class="flex items-center gap-3">
             <button
               @click="toggleTodayCompletion(habit)"
               class="button px-2.5 py-1.5 font-semibold outline-none"

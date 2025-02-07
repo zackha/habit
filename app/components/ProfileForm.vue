@@ -49,9 +49,15 @@ const closeDeleteConfirmation = () => {
   confirmDeleteAccount.value = false;
 };
 
-const deleteAccount = () => {
-  clear();
-};
+const { mutate: deleteAccount } = useMutation({
+  mutation: () => $fetch(`/api/users`, { method: 'DELETE' }),
+
+  async onSuccess() {
+    await clear();
+    await navigateTo('/');
+    await queryCache.invalidateQueries({ key: ['user'] });
+  },
+});
 </script>
 
 <template>

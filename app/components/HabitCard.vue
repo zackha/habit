@@ -12,16 +12,16 @@ const getCompletionRate = (habit: Habit) => Math.round((habit.completeDays.lengt
 const openHabitModal = ref(false);
 
 // Delete habit
-const confirmDeleteModal = ref(false);
+const confirmDeleteHabit = ref(false);
 const confirmationText = ref('');
 
 const openDeleteConfirmation = (habit: Habit) => {
-  confirmDeleteModal.value = true;
+  confirmDeleteHabit.value = true;
 };
 
 const closeDeleteConfirmation = () => {
   confirmationText.value = '';
-  confirmDeleteModal.value = false;
+  confirmDeleteHabit.value = false;
 };
 
 const { mutate: deleteHabit } = useMutation({
@@ -205,7 +205,7 @@ const { mutate: toggleTodayCompletion } = useMutation({
         </div>
       </div>
     </div>
-    <UModal v-model="confirmDeleteModal" :ui="{ width: 'w-80', rounded: 'rounded-2xl' }">
+    <UModal v-model="confirmDeleteHabit" :ui="{ width: 'w-80', rounded: 'rounded-2xl' }">
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">

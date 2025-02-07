@@ -73,7 +73,7 @@ const habitVisibilityMessage = computed(() => {
           <UToggle v-model="formState.habitView" />
         </div>
       </UFormGroup>
-      <button type="submit" class="button bg-green-400 px-2.5 py-3 font-semibold text-green-950 outline-none hover:bg-green-300">Add Habit</button>
+      <button type="submit" class="button bg-green-500 px-2.5 py-3 font-semibold text-black/80 outline-none hover:bg-green-400">Add Habit</button>
     </UForm>
   </div>
 </template>

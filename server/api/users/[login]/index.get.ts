@@ -6,7 +6,7 @@ export default eventHandler(async event => {
     login: z.string().toLowerCase(),
   });
 
-  const user = await useDB().select().from(tables.users).where(eq(tables.users.login, login)).get();
+  const user = await useDB().select().from(tables.users).where(eq(tables.users.login, login)).limit(1).get();
 
-  return user as User;
+  return user;
 });

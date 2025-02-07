@@ -6,11 +6,11 @@ export default eventHandler(async event => {
     userView: z.boolean().optional(),
   });
 
-  const { user: requestUser } = await requireUserSession(event);
+  const { user } = await requireUserSession(event);
 
-  const updatedFields: Partial<{ userView: boolean }> = { userView };
+  const updatedFields = { userView };
 
-  const user = await useDB().update(tables.users).set(updatedFields).where(eq(tables.users.id, requestUser.id)).returning().get();
+  const updatedUser = await useDB().update(tables.users).set(updatedFields).where(eq(tables.users.id, user.id)).returning().get();
 
-  return user;
+  return updatedUser;
 });

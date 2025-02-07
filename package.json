@@ -39,7 +39,7 @@
   "dependencies": {
     "@nuxt/ui": "2.21.0",
     "@nuxthub/core": "0.8.11",
-    "@pinia/colada": "^0.13.4",
+    "@pinia/colada": "^0.13.5",
     "@pinia/colada-nuxt": "0.0.4",
     "@pinia/nuxt": "^0.9.0",
     "canvas-confetti": "^1.9.3",

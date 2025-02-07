@@ -24,10 +24,10 @@ const isDarkMode = computed({
               openEditProfile = true;
             }
           "
-          class="m-2 flex cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
+          class="m-2 flex w-36 cursor-pointer items-center gap-3 rounded-lg p-2 transition hover:bg-black/30">
           <UAvatar :src="user?.avatarUrl" size="md" />
           <div class="flex flex-col">
-            <div class="font-medium">{{ user?.name }}</div>
+            <div class="line-clamp-1 font-medium">{{ user?.name }}</div>
             <div>@{{ user?.login }}</div>
           </div>
         </div>

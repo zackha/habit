@@ -34,7 +34,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "db:generate": "drizzle-kit generate",
-    "deploy": "bumpp && nuxthub deploy"
+    "deploy": "bumpp"
   },
   "dependencies": {
     "@nuxt/ui": "2.21.0",

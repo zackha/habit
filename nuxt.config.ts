@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   hub: {
     database: true,
   },
+  colorMode: {
+    preference: 'dark',
+  },
   runtimeConfig: {
     public: {
       version: pkg.version,

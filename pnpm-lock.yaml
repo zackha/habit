@@ -13,7 +13,7 @@ importers:
         version: 2.21.0(change-case@5.4.4)(magicast@0.3.5)(typescript@5.7.3)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
       '@nuxthub/core':
         specifier: 0.8.11
-        version: 0.8.11(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0)(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))
+        version: 0.8.11(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0)(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))
       '@pinia/colada':
         specifier: ^0.13.6
         version: 0.13.6(pinia@2.3.1(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)))
@@ -34,7 +34,7 @@ importers:
         version: 0.30.4
       drizzle-orm:
         specifier: ^0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250214.0)
+        version: 0.38.4(@cloudflare/workers-types@4.20250224.0)
       h3-zod:
         specifier: ^0.5.3
         version: 0.5.3(h3@1.15.1)(zod@3.24.2)
@@ -43,7 +43,7 @@ importers:
         version: 15.0.7
       nuxt:
         specifier: ^3.15.4
-        version: 3.15.4(@parcel/watcher@2.5.1)(@types/node@22.13.5)(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))(ioredis@5.5.0)(magicast@0.3.5)(rollup@4.34.8)(sass@1.83.1)(terser@5.39.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0)
+        version: 3.15.4(@parcel/watcher@2.5.1)(@types/node@22.13.5)(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))(ioredis@5.5.0)(magicast@0.3.5)(rollup@4.34.8)(sass@1.83.1)(terser@5.39.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0)
       nuxt-auth-utils:
         specifier: 0.5.7
         version: 0.5.7(magicast@0.3.5)
@@ -64,8 +64,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
       '@iconify-json/simple-icons':
-        specifier: ^1.2.25
-        version: 1.2.25
+        specifier: ^1.2.26
+        version: 1.2.26
       '@types/canvas-confetti':
         specifier: ^1.9.0
         version: 1.9.0
@@ -76,8 +76,8 @@ importers:
         specifier: ^0.6.11
         version: 0.6.11(prettier@3.5.2)
       wrangler:
-        specifier: ^3.109.2
-        version: 3.109.2(@cloudflare/workers-types@4.20250214.0)
+        specifier: ^3.109.3
+        version: 3.109.3(@cloudflare/workers-types@4.20250224.0)
 
 packages:
 
@@ -284,8 +284,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-types@4.20250214.0':
-    resolution: {integrity: sha512-+M8oOFVbyXT5GeJrYLWMUGyPf5wGB4+k59PPqdedtOig7NjZ5r4S79wMdaZ/EV5IV8JPtZBSNjTKpDnNmfxjaQ==}
+  '@cloudflare/workers-types@4.20250224.0':
+    resolution: {integrity: sha512-j6ZwQ5G2moQRaEtGI2u5TBQhVXv/XwOS5jfBAheZHcpCM07zm8j0i8jZHHLq/6VA8e6VRjKohOyj5j6tZ1KHLQ==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -898,11 +898,11 @@ packages:
   '@iconify-json/heroicons@1.2.2':
     resolution: {integrity: sha512-qoW4pXr5kTTL6juEjgTs83OJIwpePu7q1tdtKVEdj+i0zyyVHgg/dd9grsXJQnpTpBt6/VwNjrXBvFjRsKPENg==}
 
-  '@iconify-json/simple-icons@1.2.25':
-    resolution: {integrity: sha512-2E1/gOCO97rF6usfhhiXxwzCb+UhdEsxW3lW1Sew+xZY0COY6dp82Z/r1rUt2fWKneWjuoGcNeJHHXQyG8mIuw==}
+  '@iconify-json/simple-icons@1.2.26':
+    resolution: {integrity: sha512-NvqRuE+5h/tp4boPlnvfs0alD0CvnRE7oeG9Li5NGmZRx2/rhwlNjW/vEVTyhZcR9zqvRPAVh2GXR+PTEpzV+A==}
 
-  '@iconify/collections@1.0.520':
-    resolution: {integrity: sha512-cZtEPxgS73CoszQoJ4yLOf9yO2f5QSTiUfjLIFcMNJqh1eIIKBWOeu/8fJB4noq+dxP/g68o/njf4V6p+73HGw==}
+  '@iconify/collections@1.0.521':
+    resolution: {integrity: sha512-fryCall7fKZsBwsg5cA+2n+qBrFyFpJoGdIrdtznX9smwA2djSd4iRwClpmvkWk9xk1M/uPnu1PYUjiSnOiaeQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -2529,8 +2529,8 @@ packages:
     resolution: {integrity: sha512-9UbaD6XdAL97+k/n+N7JwX46K/M6Zc6KcFYskrYL8wbBV/Uyk0CTAMY0VT+qiK5PM7AIc9aTWYtq65U7T+aCNQ==}
     engines: {node: '>=8'}
 
-  foreground-child@3.3.0:
-    resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
+  foreground-child@3.3.1:
+    resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
   fraction.js@4.3.7:
@@ -2879,8 +2879,8 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
-  jose@5.10.0:
-    resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
+  jose@6.0.6:
+    resolution: {integrity: sha512-FFF9x3KcdRJgQo74X8e6I4D1h3Wtd27fEo0suijveKFc+HFz6M5gonqxFPnDos9ulJFRqMNqWI6NexiHQPSnfQ==}
 
   js-levenshtein@1.1.6:
     resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
@@ -3328,8 +3328,8 @@ packages:
     peerDependencies:
       typescript: ^5.x
 
-  openid-client@6.3.1:
-    resolution: {integrity: sha512-l+uRCCM+KaGKQmCWjrjlFHXa1husuc72OPCCyGB7VjHeEMVldfwsn4Pfb/5Xk51FRqbRakMbwfIUPiAMQDHaSw==}
+  openid-client@6.3.3:
+    resolution: {integrity: sha512-lTK8AV8SjqCM4qznLX0asVESAwzV39XTVdfMAM185ekuaZCnkWdPzcxMTXNlsm9tsUAMa1Q30MBmKAykdT1LWw==}
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
@@ -4510,8 +4510,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.109.2:
-    resolution: {integrity: sha512-CT8izugPBth5o1o4gLNcQrDkHKSX2Jthy6gkyhaWiy2pFrx+536NMn/atWilLA1t1uhIgddEI5BXDNudIkPPHA==}
+  wrangler@3.109.3:
+    resolution: {integrity: sha512-T+SfFYEbkWDzf8WRR1JzaVKPH7wAzyciRIua8qszT+UqPqFNb6M5beCHHK/de7Zk5z6W5lvLly9SHToC11maDQ==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -4838,7 +4838,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20250214.0':
     optional: true
 
-  '@cloudflare/workers-types@4.20250214.0': {}
+  '@cloudflare/workers-types@4.20250224.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -5170,11 +5170,11 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.25':
+  '@iconify-json/simple-icons@1.2.26':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/collections@1.0.520':
+  '@iconify/collections@1.0.521':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -5473,7 +5473,7 @@ snapshots:
 
   '@nuxt/icon@1.10.3(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))':
     dependencies:
-      '@iconify/collections': 1.0.520
+      '@iconify/collections': 1.0.521
       '@iconify/types': 2.0.0
       '@iconify/utils': 2.3.0
       '@iconify/vue': 4.3.0(vue@3.5.13(typescript@5.7.3))
@@ -5647,9 +5647,9 @@ snapshots:
       - vue-tsc
       - yaml
 
-  '@nuxthub/core@0.8.11(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0)(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))':
+  '@nuxthub/core@0.8.11(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0)(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))':
     dependencies:
-      '@cloudflare/workers-types': 4.20250214.0
+      '@cloudflare/workers-types': 4.20250224.0
       '@nuxt/devtools-kit': 1.7.0(magicast@0.3.5)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))
       '@nuxt/kit': 3.15.4(magicast@0.3.5)
       '@uploadthing/mime-types': 0.3.4
@@ -5666,7 +5666,7 @@ snapshots:
       std-env: 3.8.0
       ufo: 1.5.4
       uncrypto: 0.1.3
-      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0)
+      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0)
       zod: 3.24.2
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6719,9 +6719,9 @@ snapshots:
 
   date-fns@4.1.0: {}
 
-  db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)):
+  db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)):
     optionalDependencies:
-      drizzle-orm: 0.38.4(@cloudflare/workers-types@4.20250214.0)
+      drizzle-orm: 0.38.4(@cloudflare/workers-types@4.20250224.0)
 
   debug@2.6.9:
     dependencies:
@@ -6811,9 +6811,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0):
+  drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250214.0
+      '@cloudflare/workers-types': 4.20250224.0
 
   dunder-proto@1.0.1:
     dependencies:
@@ -7056,7 +7056,7 @@ snapshots:
 
   flattie@1.1.1: {}
 
-  foreground-child@3.3.0:
+  foreground-child@3.3.1:
     dependencies:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
@@ -7161,7 +7161,7 @@ snapshots:
 
   glob@10.4.5:
     dependencies:
-      foreground-child: 3.3.0
+      foreground-child: 3.3.1
       jackspeak: 3.4.3
       minimatch: 9.0.5
       minipass: 7.1.2
@@ -7420,7 +7420,7 @@ snapshots:
 
   jiti@2.4.2: {}
 
-  jose@5.10.0: {}
+  jose@6.0.6: {}
 
   js-levenshtein@1.1.6: {}
 
@@ -7721,7 +7721,7 @@ snapshots:
       mlly: 1.7.4
       pkg-types: 1.3.1
 
-  nitropack@2.10.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))(typescript@5.7.3):
+  nitropack@2.10.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))(typescript@5.7.3):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@netlify/functions': 2.8.2
@@ -7745,7 +7745,7 @@ snapshots:
       cookie-es: 1.2.2
       croner: 9.0.0
       crossws: 0.3.4
-      db0: 0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))
+      db0: 0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 9.0.0
@@ -7788,7 +7788,7 @@ snapshots:
       unctx: 2.4.1
       unenv: 1.10.0
       unimport: 3.14.6(rollup@4.34.8)
-      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0)
+      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0)
       untyped: 1.5.2
       unwasm: 0.3.9
     transitivePeerDependencies:
@@ -7864,7 +7864,7 @@ snapshots:
       hookable: 5.5.3
       ofetch: 1.4.1
       ohash: 1.1.4
-      openid-client: 6.3.1
+      openid-client: 6.3.3
       pathe: 1.1.2
       scule: 1.3.0
       uncrypto: 0.1.3
@@ -7874,7 +7874,7 @@ snapshots:
       - magicast
       - supports-color
 
-  nuxt@3.15.4(@parcel/watcher@2.5.1)(@types/node@22.13.5)(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))(ioredis@5.5.0)(magicast@0.3.5)(rollup@4.34.8)(sass@1.83.1)(terser@5.39.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0):
+  nuxt@3.15.4(@parcel/watcher@2.5.1)(@types/node@22.13.5)(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))(ioredis@5.5.0)(magicast@0.3.5)(rollup@4.34.8)(sass@1.83.1)(terser@5.39.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(sass@1.83.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0):
     dependencies:
       '@nuxt/cli': 3.22.2(magicast@0.3.5)
       '@nuxt/devalue': 2.0.2
@@ -7912,7 +7912,7 @@ snapshots:
       magic-string: 0.30.17
       mlly: 1.7.4
       nanotar: 0.2.0
-      nitropack: 2.10.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))(typescript@5.7.3)
+      nitropack: 2.10.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))(typescript@5.7.3)
       nypm: 0.5.4
       ofetch: 1.4.1
       ohash: 1.1.4
@@ -7934,7 +7934,7 @@ snapshots:
       unimport: 4.1.2
       unplugin: 2.2.0
       unplugin-vue-router: 0.11.2(rollup@4.34.8)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
-      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0)
+      unstorage: 1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0)
       untyped: 1.5.2
       vue: 3.5.13(typescript@5.7.3)
       vue-bundle-renderer: 2.1.1
@@ -8072,9 +8072,9 @@ snapshots:
       typescript: 5.7.3
       yargs-parser: 21.1.1
 
-  openid-client@6.3.1:
+  openid-client@6.3.3:
     dependencies:
-      jose: 5.10.0
+      jose: 6.0.6
       oauth4webapi: 3.3.0
 
   package-json-from-dist@1.0.1: {}
@@ -9035,7 +9035,7 @@ snapshots:
       acorn: 8.14.0
       webpack-virtual-modules: 0.6.2
 
-  unstorage@1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0)))(ioredis@5.5.0):
+  unstorage@1.15.0(db0@0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0)))(ioredis@5.5.0):
     dependencies:
       anymatch: 3.1.3
       chokidar: 4.0.3
@@ -9046,7 +9046,7 @@ snapshots:
       ofetch: 1.4.1
       ufo: 1.5.4
     optionalDependencies:
-      db0: 0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250214.0))
+      db0: 0.2.4(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250224.0))
       ioredis: 5.5.0
 
   untun@0.1.3:
@@ -9257,7 +9257,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250214.0
       '@cloudflare/workerd-windows-64': 1.20250214.0
 
-  wrangler@3.109.2(@cloudflare/workers-types@4.20250214.0):
+  wrangler@3.109.3(@cloudflare/workers-types@4.20250224.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
@@ -9269,7 +9269,7 @@ snapshots:
       unenv: 2.0.0-rc.1
       workerd: 1.20250214.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250214.0
+      '@cloudflare/workers-types': 4.20250224.0
       fsevents: 2.3.3
       sharp: 0.33.5
     transitivePeerDependencies:

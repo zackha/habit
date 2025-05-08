@@ -4,6 +4,11 @@ A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLit
 
 ![habit](https://raw.githubusercontent.com/zackha/habit/refs/heads/master/public/social-card.png)
 
+## We Love Our Stars ⭐⭐⭐⭐⭐
+
+Thanks to the following people who have given us a star on our repo:
+[![Stargazers repo roster for @zackha/habit](https://reporoster.com/stars/zackha/habit)](https://github.com/zackha/habit/stargazers)
+
 ---
 
 ### Features

@@ -7,7 +7,7 @@ A habit-tracking application built with **Nuxt 3**, **Drizzle ORM**, and **SQLit
 ## We Love Our Stars ⭐⭐⭐⭐⭐
 
 Thanks to the following people who have given us a star on our repo:
-[![Stargazers repo roster for @zackha/habit](https://reporoster.com/stars/zackha/habit)](https://github.com/zackha/habit/stargazers)
+[![Stargazers repo roster for @zackha/habit](https://reporoster.com/stars/dark/zackha/habit#gh-dark-mode-only)](https://github.com/zackha/habit/stargazers)
 
 ---
 

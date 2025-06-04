@@ -48,17 +48,17 @@
     "drizzle-orm": "^0.38.4",
     "h3-zod": "^0.5.3",
     "marked": "^15.0.12",
-    "nuxt": "^3.17.4",
+    "nuxt": "^3.17.5",
     "nuxt-auth-utils": "0.5.7",
     "pinia": "^2.3.1",
     "vue": "latest",
     "vue-router": "latest",
-    "zod": "^3.25.42"
+    "zod": "^3.25.51"
   },
   "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a",
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.36",
+    "@iconify-json/simple-icons": "^1.2.37",
     "@types/canvas-confetti": "^1.9.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
